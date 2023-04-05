@@ -37,7 +37,10 @@
 ```
 
 ### Link tham khảo JWT 
-[SpringBoot + Angulart + JWT]{https://www.bezkoder.com/angular-14-spring-boot-jwt-auth/#Spring_Boot_for_Back-end}
+[SpringBoot + Angulart + JWT] {https://www.bezkoder.com/spring-boot-login-example-mysql/}
 
 ![Flow JWT](https://www.bezkoder.com/wp-content/uploads/angular-14-spring-boot-jwt-authentication-authorization-flow.png)
 ![Component Diagram with Router and HttpInterceptor](https://www.bezkoder.com/wp-content/uploads/angular-14-jwt-authentication-authorization-overview.png)
+
+#### Error 401 Full authentication is required to access this resource
+![Error 401](https://www.bezkoder.com/wp-content/uploads/spring-security-refresh-token-jwt-spring-boot-flow.png)
