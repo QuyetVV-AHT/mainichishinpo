@@ -1,0 +1,83 @@
+<div class="col-md-8 offset-md-3">
+  <h2>Cập nhật câu hỏi</h2>
+  <form [formGroup]="formGroup" (ngSubmit)="onSubmit(formGroup.value)" class="form">    <div class="row">
+      <div class="col-12">
+        <mat-form-field class="form-element" style="width: 70%;">
+          <input type="text" matInput placeholder="{{'Câu hỏi' }}" formControlName="question" id="question"
+            [(ngModel)]="questions.question" name="question">
+          <mat-error *ngIf="!formGroup.controls['question'].valid && formGroup.controls['question'].touched">
+            <span>Đây là trường bắt buộc</span>
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+    <div class="row">
+      <div class="col-12">
+        <mat-form-field class="form-element" style="width:  70%;">
+          <input type="text" matInput placeholder="{{'ans_A'}}" formControlName="ans_A" id="ans_A"
+            [(ngModel)]="questions.ans_A" name="ans_A">
+          <mat-error *ngIf="!formGroup.controls['ans_A'].valid && formGroup.controls['ans_A'].touched">
+            <span>Đây là trường bắt buộc</span>
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <mat-form-field class="form-element" style="width:  70%;">
+          <input type="text" matInput placeholder="{{'ans_B'}}" formControlName="ans_B" id="ans_B"
+            [(ngModel)]="questions.ans_B" name="ans_B">
+          <mat-error *ngIf="!formGroup.controls['ans_B'].valid && formGroup.controls['ans_B'].touched">
+            <span>Đây là trường bắt buộc</span>
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <mat-form-field class="form-element" style="width: 70%;">
+          <input type="text" matInput placeholder="{{'ans_C'}}" formControlName="ans_C" id="ans_C"
+            [(ngModel)]="questions.ans_C" name="ans_C">
+            <mat-error *ngIf="!formGroup.controls['ans_C'].valid && formGroup.controls['ans_C'].touched">
+              <span>Đây là trường bắt buộc</span>
+            </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <mat-form-field class="form-element" style="width: 70%;">
+          <input type="text" matInput placeholder="{{'ans_D'}}" formControlName="ans_D" id="ans_D"
+            [(ngModel)]="questions.ans_D" name="ans_D">
+            <mat-error *ngIf="!formGroup.controls['ans_D'].valid && formGroup.controls['ans_D'].touched">
+              <span>Đây là trường bắt buộc</span>
+            </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <mat-form-field class="form-element" style="width: 70%;">
+          <input type="text" matInput placeholder="{{'ans_Correct'}}" formControlName="ans_Correct" id="ans_Correct"
+            [(ngModel)]="questions.ans_Correct" name="ans_Correct">
+            <mat-error *ngIf="!formGroup.controls['ans_Correct'].valid && formGroup.controls['ans_Correct'].touched">
+              <span>Đây là trường bắt buộc</span>
+            </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <mat-form-field class="form-element" style="width: 70%;">
+          <input type="text" matInput placeholder="{{'note'}}" formControlName="note" id="note"
+            [(ngModel)]="questions.note" name="note">
+            <mat-error *ngIf="!formGroup.controls['note'].valid && formGroup.controls['note'].touched">
+              <span>Đây là trường bắt buộc</span>
+            </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+    <button class="btn btn-success" type="submit">Thêm mới </button>
+    </div>
+  </form>
+</div>
