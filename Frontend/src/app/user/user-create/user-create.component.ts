@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/_services/auth.service';
@@ -13,12 +14,23 @@ import { User } from '../user';
 })
 export class UserCreateComponent {
   user = new User();
+  formGroup!: FormGroup;
   constructor(private userService: UserService,
     private router: Router,
     private toastrService: ToastrService,
-    private httpClient: HttpClient) { }
+    private httpClient: HttpClient,
+    private formBuilder: FormBuilder,
+    ) { }
 
   ngOnInit(): void {
+
+    this.formGroup = this.formBuilder.group({
+      username: ['', Validators.required],
+      email: ['', Validators.required],
+      password:['',Validators.required],
+      address: [''],
+      note: [''],
+    });
   }
 
   goToListUsers(){

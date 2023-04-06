@@ -1,34 +1,55 @@
 <div class="col-md-8 offset-md-3">
   <h2>Thêm mới người dùng</h2>
-  <form (ngSubmit)="onSubmit()">
-      <div class="form-label">
-          <label><b>Username</b>: </label>
-          <input type="text" class="form-control" id="username"
-          [(ngModel)]="user.username" name="username">
+  <form [formGroup]="formGroup" (ngSubmit)="onSubmit()" class="form">    <div class="row">
+      <div class="col-12">
+        <mat-form-field class="form-element" style="width: 70%;">
+          <input type="text" matInput placeholder="{{'username' }}" formControlName="username" id="username"
+            [(ngModel)]="user.username" name="username">
+          <mat-error *ngIf="!formGroup.controls['username'].valid && formGroup.controls['username'].touched">
+            <span>Đây là trường bắt buộc. Độ dài từ 3-20 kí tự</span>
+          </mat-error>
+        </mat-form-field>
       </div>
-      <div class="form-label">
-          <label><b  >EMAIL</b>: </label>
-          <input type="text" class="form-control" id="email"
-          [(ngModel)]="user.email" name="email">
+
+    <div class="row">
+      <div class="col-12">
+        <mat-form-field class="form-element" style="width:  70%;">
+          <input type="email" matInput placeholder="{{'email'}}" formControlName="email" id="email"
+            [(ngModel)]="user.email" name="email">
+          <mat-error *ngIf="!formGroup.controls['email'].valid && formGroup.controls['email'].touched">
+            <span>Đây là trường bắt buộc.Tối đa 50 kí tự. Định dạng email: xxx@gmail.com</span>
+          </mat-error>
+        </mat-form-field>
       </div>
-      <div class="form-label">
-          <label><b  >Address</b>:</label>
-          <input type="text" class="form-control" id="address"
-          [(ngModel)]="user.address" name="address">
-      </div>
-      <div class="form-label">
-        <label><b  >Password</b>:</label>
-        <input type="text" class="form-control" id="password"
-        [(ngModel)]="user.password" name="password">
     </div>
-
-      <div class="form-label">
-          <label><b  >Note</b>:</label>
-          <input type="text" class="form-control" id="note"
-          [(ngModel)]="user.note" name="note">
+    <div class="row">
+      <div class="col-12">
+        <mat-form-field class="form-element" style="width:  70%;">
+          <input type="text" matInput placeholder="{{'password'}}" formControlName="password" id="password"
+            [(ngModel)]="user.email" name="epasswordail">
+          <mat-error *ngIf="!formGroup.controls['password'].valid && formGroup.controls['password'].touched">
+            <span>Đây là trường bắt buộc. Độ dài từ 6-40 kí tự</span>
+          </mat-error>
+        </mat-form-field>
       </div>
-
-      <button class="btn btn-success" type="submit"  >ADDUSER</button>
-
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <mat-form-field class="form-element" style="width: 70%;">
+          <input type="text" matInput placeholder="{{'address'}}" formControlName="address" id="address"
+            [(ngModel)]="user.address" name="address">
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <mat-form-field class="form-element" style="width: 70%;">
+          <input type="text" matInput placeholder="{{'note'}}" formControlName="note" id="employee_id"
+            [(ngModel)]="user.note" name="note">
+        </mat-form-field>
+      </div>
+    </div>
+    <button class="btn btn-success" type="submit">Thêm mới </button>
+    </div>
   </form>
-  </div>
+</div>
