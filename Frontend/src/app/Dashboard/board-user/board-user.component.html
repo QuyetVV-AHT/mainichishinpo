@@ -24,7 +24,7 @@
   <table class="table table-striped">
     <thead>
       <tr>
-        <th translate>ID</th>
+        <th translate>STT</th>
         <th translate>USERNAME</th>
         <th translate>EMAIL</th>
         <th translate>ADDRESS</th>
@@ -38,8 +38,8 @@
         itemsPerPage: pageSize,
         currentPage: page,
         totalItems: count
-        };">
-        <td>{{user.id}}</td>
+        }  let i = index;">
+        <td>{{i+1}}</td>
         <td>{{user.username}}</td>
         <td>{{user.email}}</td>
         <td>{{user.address}}</td>

@@ -21,7 +21,7 @@ export class UserService {
   }
 
   getModeratorBoard(): Observable<any> {
-    return this.httpClient.get(`${this.API_URL  + 'test/mod'}`, { responseType: 'text' });
+    return this.httpClient.get(`${this.API_URL  + 'test/question'}`, { responseType: 'text' });
   }
 
   getAdminBoard(): Observable<any> {
@@ -43,8 +43,6 @@ export class UserService {
   deleteUser(id: number): Observable<object> {
     return this.httpClient.delete(`${this.USER_URL + 'delete'}/${id}`);
   }
-
-
 
   getAllUserWithPagination(term: string ): Observable<any> {
 

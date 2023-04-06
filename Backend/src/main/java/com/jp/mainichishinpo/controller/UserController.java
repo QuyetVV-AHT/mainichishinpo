@@ -92,5 +92,5 @@ public class UserController {
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deleteUser(@PathVariable Long id) {
         userService.delete(id);
-        return ResponseEntity.ok(new MessageResponse("User create successfully!"));}
+        return ResponseEntity.ok(new MessageResponse("User delete successfully!"));}
 }

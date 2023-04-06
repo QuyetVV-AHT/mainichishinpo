@@ -22,6 +22,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import { ToastrModule } from 'ngx-toastr';
 import { UserCreateComponent } from './user/user-create/user-create.component';
+import { QuestionCreateComponent } from './question/question-create/question-create.component';
+import { QuestionUpdateComponent } from './question/question-update/question-update.component';
 
 
 
@@ -37,6 +39,8 @@ import { UserCreateComponent } from './user/user-create/user-create.component';
     BoardUserComponent,
     UserUpdateComponent,
     UserCreateComponent,
+    QuestionCreateComponent,
+    QuestionUpdateComponent,
 
   ],
   imports: [
@@ -53,7 +57,7 @@ import { UserCreateComponent } from './user/user-create/user-create.component';
     MatToolbarModule,
     ToastrModule.forRoot({
       closeButton: true,
-      timeOut: 3000, // 3 seconds
+      timeOut: 8000, // 3 seconds
       progressBar: true,
     }),
   ],
