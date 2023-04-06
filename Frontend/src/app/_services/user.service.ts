@@ -35,7 +35,7 @@ export class UserService {
     return this.httpClient.post<User>(`${this.USER_URL + 'create'}`, user);
   }
   getUserById(id: number): Observable<User> {
-    return this.httpClient.get<User>(`${this.USER_URL }/${id}`);
+    return this.httpClient.get<User>(`${this.USER_URL }${id}`);
   }
   updateUser(id: number, user: User): Observable<object> {
     return this.httpClient.put(`${this.USER_URL + 'update'}/${id}`, user);

@@ -8,6 +8,7 @@ import { LoginComponent } from './login/login.component';
 import { ProfileComponent } from './profile/profile.component';
 import { RegisterComponent } from './register/register.component';
 import { UserListComponent } from './user/user-list/user-list.component';
+import { UserUpdateComponent } from './user/user-update/user-update.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -17,7 +18,8 @@ const routes: Routes = [
   { path: 'user', component: BoardUserComponent },
   { path: 'mod', component: BoardModeratorComponent },
   { path: 'admin', component: BoardAdminComponent },
-  { path: 'admin/user-management', component: UserListComponent },
+  { path: 'update-user/:id', component: UserUpdateComponent },
+  { path: 'user-list', component: UserListComponent },
   { path: '', redirectTo: 'home', pathMatch: 'full' }
 ];
 

@@ -16,13 +16,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.sql.Timestamp;
+import java.util.*;
 
 import static com.jp.mainichishinpo.util.ParamKey.*;
 
-@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600, allowCredentials="true")
+@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600, allowCredentials = "true")
 @RestController
 @RequestMapping("/api/user")
 public class UserController {
@@ -43,7 +42,7 @@ public class UserController {
             @RequestParam(name = PAGE, required = true, defaultValue = "0") int page,
             @RequestParam(name = PAGE_SIZE, required = true, defaultValue = Integer.MAX_VALUE + "") int size,
             @RequestParam(name = TERM, required = true, defaultValue = "") String term
-    ){
+    ) {
         Pageable paging = null;
         paging = PageRequest.of(page, size);
 
@@ -52,6 +51,12 @@ public class UserController {
 
         Page<User> resdto = userService.searchByKeyword(term, paging);
         return resdto;
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Optional<User>> getUserById(@PathVariable Long id) {
+        Optional<User> result = userService.findById(id);
+        return ResponseEntity.ok(result);
     }
 
     @PostMapping("/create")
@@ -66,9 +71,26 @@ public class UserController {
         try {
             userService.create(userRequest);
             return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
-        }catch (Exception e){
+        } catch (Exception e) {
             return ResponseEntity.badRequest().body(new MessageResponse("Error: Create new User fail"));
         }
 
+    }
+
+    @PutMapping("/update/{id}")
+    public ResponseEntity<?> updateUser(@PathVariable Long id, @RequestBody User userDetails) {
+        User user = userService.findById(id).get();
+        user.setUsername(userDetails.getUsername());
+        user.setEmail(userDetails.getEmail());
+        user.setNote(userDetails.getNote());
+        user.setAddress(userDetails.getAddress());
+        userService.save(user);
+        return ResponseEntity.ok(user);
+    }
+
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Map<String, Boolean>> deleteUser(@PathVariable Long id) {
+        return null;
     }
 }

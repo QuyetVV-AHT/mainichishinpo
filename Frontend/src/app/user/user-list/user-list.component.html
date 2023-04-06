@@ -1,0 +1,62 @@
+<div style="padding-top:100px" class="t">
+  <h2 translate> USERLIST</h2>
+  <div class="dau">
+  <div class="co1">
+    <div class="input-group mb-3">
+      <input type="text" class="form-control" placeholder="{{'USERSEARCHMODEL'}}" [(ngModel)]="term" />
+      <div class="input-group-append">
+        <button class="btn btn-outline-secondary" type="button" (click)="searchByTerm()">
+          <mat-icon>search</mat-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col">
+      <button style="margin-left: 10px !important; margin-bottom: 10px !important;" class="btn btn-primary">
+        <a routerLink="../register" routerLinkActive="active" class="nav-link" translate>ADDUSER</a>
+      </button>
+    </div>
+  </div>
+</div>
+<div class="ten">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th translate>ID</th>
+        <th translate>USERNAME</th>
+        <th translate>EMAIL</th>
+        <th translate>ADDRESS</th>
+        <th translate>NOTE</th>
+        <th translate>UPDATE</th>
+        <th translate>DELETE</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor=" let user of listUsers">
+        <td>{{user.id}}</td>
+        <td>{{user.username}}</td>
+        <td>{{user.email}}</td>
+        <td>{{user.address}}</td>
+        <td>{{user.note}}</td>
+
+        <td style="text-align:center">
+          <button (click)="updateUser(user.id)" class="btn btn-info">
+            <mat-icon>edit</mat-icon>
+          </button>
+        </td>
+        <td style="text-align:center">
+          <button (click)="deleteUser(user.id)" class="btn btn-danger">
+            <mat-icon>delete_outline</mat-icon>
+          </button>
+        </td>
+      </tr>
+    </tbody>
+</table>
+<!-- <div class="col-md-12">
+  <pagination-controls previousLabel="{{'PREV' }}" nextLabel="{{'NEXT'}}" [responsive]="true"
+      (pageChange)="handlePageChange($event)"></pagination-controls>
+  </div>
+</div> -->
+</div>
