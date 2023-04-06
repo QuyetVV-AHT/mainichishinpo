@@ -13,6 +13,10 @@ import { httpInterceptorProviders } from './_helpers/http.interceptor';
 import { BoardAdminComponent } from './Dashboard/board-admin/board-admin.component';
 import { BoardModeratorComponent } from './Dashboard/board-moderator/board-moderator.component';
 import { BoardUserComponent } from './Dashboard/board-user/board-user.component';
+import { MatIconModule } from '@angular/material/icon';
+import { NgxPaginationModule } from 'ngx-pagination';
+import { UserListComponent } from './user/user-list/user-list.component';
+
 
 @NgModule({
   declarations: [
@@ -23,13 +27,16 @@ import { BoardUserComponent } from './Dashboard/board-user/board-user.component'
     ProfileComponent,
     BoardAdminComponent,
     BoardModeratorComponent,
-    BoardUserComponent
+    BoardUserComponent,
+    UserListComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    MatIconModule,
+    NgxPaginationModule
   ],
   providers: [httpInterceptorProviders],
   bootstrap: [AppComponent]
