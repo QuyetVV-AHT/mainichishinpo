@@ -70,7 +70,7 @@ public class UserController {
         }
         try {
             userService.create(userRequest);
-            return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
+            return ResponseEntity.ok(new MessageResponse("User create successfully!"));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(new MessageResponse("Error: Create new User fail"));
         }
@@ -90,7 +90,7 @@ public class UserController {
 
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Map<String, Boolean>> deleteUser(@PathVariable Long id) {
-        return null;
-    }
+    public ResponseEntity<?> deleteUser(@PathVariable Long id) {
+        userService.delete(id);
+        return ResponseEntity.ok(new MessageResponse("User create successfully!"));}
 }

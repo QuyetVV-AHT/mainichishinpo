@@ -15,13 +15,13 @@ import { BoardModeratorComponent } from './Dashboard/board-moderator/board-moder
 import { BoardUserComponent } from './Dashboard/board-user/board-user.component';
 import { MatIconModule } from '@angular/material/icon';
 import { NgxPaginationModule } from 'ngx-pagination';
-import { UserListComponent } from './user/user-list/user-list.component';
 import { UserUpdateComponent } from './user/user-update/user-update.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import { ToastrModule } from 'ngx-toastr';
+import { UserCreateComponent } from './user/user-create/user-create.component';
 
 
 
@@ -35,8 +35,8 @@ import { ToastrModule } from 'ngx-toastr';
     BoardAdminComponent,
     BoardModeratorComponent,
     BoardUserComponent,
-    UserListComponent,
     UserUpdateComponent,
+    UserCreateComponent,
 
   ],
   imports: [

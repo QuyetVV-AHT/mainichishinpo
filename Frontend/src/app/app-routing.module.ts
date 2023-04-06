@@ -7,7 +7,7 @@ import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
 import { ProfileComponent } from './profile/profile.component';
 import { RegisterComponent } from './register/register.component';
-import { UserListComponent } from './user/user-list/user-list.component';
+import { UserCreateComponent } from './user/user-create/user-create.component';
 import { UserUpdateComponent } from './user/user-update/user-update.component';
 
 const routes: Routes = [
@@ -19,7 +19,7 @@ const routes: Routes = [
   { path: 'mod', component: BoardModeratorComponent },
   { path: 'admin', component: BoardAdminComponent },
   { path: 'update-user/:id', component: UserUpdateComponent },
-  { path: 'user-list', component: UserListComponent },
+  { path: 'user-create', component: UserCreateComponent },
   { path: '', redirectTo: 'home', pathMatch: 'full' }
 ];
 

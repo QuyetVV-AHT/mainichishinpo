@@ -1,0 +1,34 @@
+<div class="col-md-8 offset-md-3">
+  <h2>Thêm mới người dùng</h2>
+  <form (ngSubmit)="onSubmit()">
+      <div class="form-label">
+          <label><b>Username</b>: </label>
+          <input type="text" class="form-control" id="username"
+          [(ngModel)]="user.username" name="username">
+      </div>
+      <div class="form-label">
+          <label><b  >EMAIL</b>: </label>
+          <input type="text" class="form-control" id="email"
+          [(ngModel)]="user.email" name="email">
+      </div>
+      <div class="form-label">
+          <label><b  >Address</b>:</label>
+          <input type="text" class="form-control" id="address"
+          [(ngModel)]="user.address" name="address">
+      </div>
+      <div class="form-label">
+        <label><b  >Password</b>:</label>
+        <input type="text" class="form-control" id="password"
+        [(ngModel)]="user.password" name="password">
+    </div>
+
+      <div class="form-label">
+          <label><b  >Note</b>:</label>
+          <input type="text" class="form-control" id="note"
+          [(ngModel)]="user.note" name="note">
+      </div>
+
+      <button class="btn btn-success" type="submit"  >ADDUSER</button>
+
+  </form>
+  </div>

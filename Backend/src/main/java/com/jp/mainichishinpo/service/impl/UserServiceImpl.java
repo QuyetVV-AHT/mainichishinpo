@@ -85,7 +85,8 @@ public class UserServiceImpl implements UserService {
                 }
             });
         }
-
+        user.setAddress(userRequest.getAddress());
+        user.setNote(userRequest.getNote());
         user.setRoles(roles);
         userRepository.save(user);
         return user;
