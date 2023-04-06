@@ -10,9 +10,9 @@ import { UserService } from 'src/app/_services/user.service';
   styleUrls: ['./board-user.component.css']
 })
 export class BoardUserComponent {
-  listUsers: User[] | undefined;
+  listUsers: any;
   user: User | undefined;
-  pageSize = 5;
+  pageSize = 10;
   page = 1;
   term = '';
   count: 0 | undefined;
