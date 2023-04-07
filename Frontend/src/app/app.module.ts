@@ -24,6 +24,9 @@ import { ToastrModule } from 'ngx-toastr';
 import { UserCreateComponent } from './user/user-create/user-create.component';
 import { QuestionCreateComponent } from './question/question-create/question-create.component';
 import { QuestionUpdateComponent } from './question/question-update/question-update.component';
+import { BoardExamComponent } from './Dashboard/board-exam/board-exam.component';
+import { ExamUpdateComponent } from './exam/exam-update/exam-update.component';
+import { ExamCreateComponent } from './exam/exam-create/exam-create.component';
 
 
 
@@ -41,6 +44,9 @@ import { QuestionUpdateComponent } from './question/question-update/question-upd
     UserCreateComponent,
     QuestionCreateComponent,
     QuestionUpdateComponent,
+    BoardExamComponent,
+    ExamUpdateComponent,
+    ExamCreateComponent,
 
   ],
   imports: [

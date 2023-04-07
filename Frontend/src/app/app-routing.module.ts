@@ -1,8 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { BoardAdminComponent } from './Dashboard/board-admin/board-admin.component';
+import { BoardExamComponent } from './Dashboard/board-exam/board-exam.component';
 import { BoardModeratorComponent } from './Dashboard/board-moderator/board-moderator.component';
 import { BoardUserComponent } from './Dashboard/board-user/board-user.component';
+import { ExamCreateComponent } from './exam/exam-create/exam-create.component';
+import { ExamUpdateComponent } from './exam/exam-update/exam-update.component';
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
 import { ProfileComponent } from './profile/profile.component';
@@ -28,6 +31,11 @@ const routes: Routes = [
   { path: 'question', component: BoardModeratorComponent },
   { path: 'question-create', component: QuestionCreateComponent },
   { path: 'update-question/:id', component: QuestionUpdateComponent },
+
+  // Exam
+  { path: 'exam', component: BoardExamComponent },
+  { path: 'exam-create', component: ExamCreateComponent },
+  { path: 'update-exam/:id', component: ExamUpdateComponent },
 
 
   { path: '', redirectTo: 'home', pathMatch: 'full' }

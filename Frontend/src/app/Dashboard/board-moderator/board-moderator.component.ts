@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { PAGESIZE, PAGE } from 'src/app/const';
 import { Question } from 'src/app/question/question';
 import { QuestionService } from 'src/app/_services/question.service';
 
@@ -12,8 +13,8 @@ import { QuestionService } from 'src/app/_services/question.service';
 export class BoardModeratorComponent {
   listQuestion: any;
   question: Question |undefined;
-  pageSize = 10;
-  page = 1;
+  pageSize = PAGESIZE;
+  page = PAGE;
   term = '';
   count: 0 | undefined;
   constructor(

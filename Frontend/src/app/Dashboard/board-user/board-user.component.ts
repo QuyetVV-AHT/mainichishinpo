@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { PAGE, PAGESIZE } from 'src/app/const';
 import { User } from 'src/app/user/user';
 import { UserService } from 'src/app/_services/user.service';
 
@@ -12,8 +13,8 @@ import { UserService } from 'src/app/_services/user.service';
 export class BoardUserComponent {
   listUsers: any;
   user: User | undefined;
-  pageSize = 10;
-  page = 1;
+  pageSize = PAGESIZE;
+  page = PAGE;
   term = '';
   count: 0 | undefined;
   constructor(
