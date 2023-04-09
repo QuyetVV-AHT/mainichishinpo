@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { PAGE, PAGESIZE } from 'src/app/const';
+import { COUNT, PAGE, PAGESIZE } from 'src/app/const';
 import { User } from 'src/app/user/user';
 import { UserService } from 'src/app/_services/user.service';
 
@@ -16,7 +16,7 @@ export class BoardUserComponent {
   pageSize = PAGESIZE;
   page = PAGE;
   term = '';
-  count: 0 | undefined;
+  count = COUNT;
   constructor(
     private userService: UserService,
     private toastrService: ToastrService,

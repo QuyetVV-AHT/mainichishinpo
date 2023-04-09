@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { PAGE, PAGESIZE } from 'src/app/const';
+import { COUNT, PAGE, PAGESIZE } from 'src/app/const';
 import { Exam } from 'src/app/exam/exam';
 import { ExamService } from 'src/app/_services/exam.service';
 
@@ -16,8 +16,8 @@ export class BoardExamComponent {
   pageSize = PAGESIZE;
   page = PAGE;
   term = '';
-  count: 0 | undefined;
-  constructor(
+  count = COUNT;
+    constructor(
     private examService: ExamService,
     private toastrService: ToastrService,
     private router: Router
@@ -34,6 +34,10 @@ export class BoardExamComponent {
     });
   }
 
+  viewExam(id:number){
+    this.router.navigate(['view-exam', id]);
+
+  }
 
   updateExam(id: number) {
     this.router.navigate(['update-exam', id]);

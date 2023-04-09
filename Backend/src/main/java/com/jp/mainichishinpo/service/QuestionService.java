@@ -26,4 +26,6 @@ public interface QuestionService {
     Question create(QuestionRequest questionRequest);
 
     boolean existsByQuestion(String question);
+
+    List<Question> getListByExamId(Long examId);
 }

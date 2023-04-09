@@ -27,6 +27,10 @@ import { QuestionUpdateComponent } from './question/question-update/question-upd
 import { BoardExamComponent } from './Dashboard/board-exam/board-exam.component';
 import { ExamUpdateComponent } from './exam/exam-update/exam-update.component';
 import { ExamCreateComponent } from './exam/exam-create/exam-create.component';
+import { QuestionListComponent } from './question/question-list/question-list.component';
+import { ExamViewComponent } from './exam/exam-view/exam-view.component';
+import { ExamUpdateQuestionComponent } from './exam/exam-update-question/exam-update-question.component';
+import {MatCheckboxModule} from '@angular/material/checkbox';
 
 
 
@@ -47,6 +51,9 @@ import { ExamCreateComponent } from './exam/exam-create/exam-create.component';
     BoardExamComponent,
     ExamUpdateComponent,
     ExamCreateComponent,
+    QuestionListComponent,
+    ExamViewComponent,
+    ExamUpdateQuestionComponent,
 
   ],
   imports: [
@@ -66,6 +73,7 @@ import { ExamCreateComponent } from './exam/exam-create/exam-create.component';
       timeOut: 8000, // 3 seconds
       progressBar: true,
     }),
+    MatCheckboxModule
   ],
   providers: [httpInterceptorProviders],
   bootstrap: [AppComponent]

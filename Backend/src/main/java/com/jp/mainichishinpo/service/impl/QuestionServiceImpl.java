@@ -62,4 +62,9 @@ public class QuestionServiceImpl implements QuestionService {
     public boolean existsByQuestion(String question) {
         return questionRepository.existsByQuestion(question);
     }
+
+    @Override
+    public List<Question> getListByExamId(Long examId) {
+        return questionRepository.getListByExamId(examId);
+    }
 }

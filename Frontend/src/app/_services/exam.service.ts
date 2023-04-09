@@ -2,11 +2,13 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Exam } from '../exam/exam';
+import { AddQuestionIntoExam, Question } from '../question/question';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ExamService {
+
 
   private Exam_URL = 'http://localhost:8080/api/exam/';
   constructor(private httpClient: HttpClient) { }
@@ -32,5 +34,9 @@ export class ExamService {
 
     let terms = new HttpParams().set('term', term);
     return this.httpClient.get<Exam[]>(`${this.Exam_URL + 'search'}`,{ params: terms } );
+  }
+
+  sendQuestionIntoExam(examId: number, value: any): Observable<any> {
+    return this.httpClient.post<any>(`${this.Exam_URL + 'send_question_into_exam'}/${examId}`, value);
   }
 }

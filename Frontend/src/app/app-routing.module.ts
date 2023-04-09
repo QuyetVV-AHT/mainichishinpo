@@ -5,7 +5,9 @@ import { BoardExamComponent } from './Dashboard/board-exam/board-exam.component'
 import { BoardModeratorComponent } from './Dashboard/board-moderator/board-moderator.component';
 import { BoardUserComponent } from './Dashboard/board-user/board-user.component';
 import { ExamCreateComponent } from './exam/exam-create/exam-create.component';
+import { ExamUpdateQuestionComponent } from './exam/exam-update-question/exam-update-question.component';
 import { ExamUpdateComponent } from './exam/exam-update/exam-update.component';
+import { ExamViewComponent } from './exam/exam-view/exam-view.component';
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
 import { ProfileComponent } from './profile/profile.component';
@@ -36,6 +38,8 @@ const routes: Routes = [
   { path: 'exam', component: BoardExamComponent },
   { path: 'exam-create', component: ExamCreateComponent },
   { path: 'update-exam/:id', component: ExamUpdateComponent },
+  { path: 'view-exam/:id', component: ExamViewComponent },
+  { path: 'update-question-by-examId/:id', component: ExamUpdateQuestionComponent },
 
 
   { path: '', redirectTo: 'home', pathMatch: 'full' }

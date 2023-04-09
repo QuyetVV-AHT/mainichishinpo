@@ -2,11 +2,10 @@ package com.jp.mainichishinpo.controller;
 
 import com.jp.mainichishinpo.entity.Exam;
 import com.jp.mainichishinpo.entity.Question;
-import com.jp.mainichishinpo.entity.User;
 import com.jp.mainichishinpo.payload.request.ExamRequest;
-import com.jp.mainichishinpo.payload.request.UserRequest;
 import com.jp.mainichishinpo.payload.response.MessageResponse;
 import com.jp.mainichishinpo.service.ExamService;
+import com.jp.mainichishinpo.service.QuestionService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -16,8 +15,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import static com.jp.mainichishinpo.util.ParamKey.*;
 
@@ -29,6 +30,9 @@ public class ExamController {
 
     @Autowired
     private ExamService examService;
+
+    @Autowired
+    private QuestionService questionService;
 
     @GetMapping("/list")
     public List<Exam> getAllExam() {
@@ -58,6 +62,7 @@ public class ExamController {
         return ResponseEntity.ok(result);
     }
 
+
     @PostMapping("/create")
     public ResponseEntity<?> createExam(@Valid @RequestBody ExamRequest examRequest) {
         if (examService.existsByExamName(examRequest.getExam_name())) {
@@ -85,5 +90,27 @@ public class ExamController {
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deleteExam(@PathVariable Long id) {
         examService.delete(id);
-        return ResponseEntity.ok(new MessageResponse("Exam delete successfully!"));}
+        return ResponseEntity.ok(new MessageResponse("Exam delete successfully!"));
+    }
+
+    @PostMapping("/send_question_into_exam/{examId}")
+    public ResponseEntity<?> sendQuestionIntoExam(@PathVariable Long examId, @Valid @RequestBody List<Long> rq) {
+        if (rq != null) {
+            Exam exam = examService.findById(examId).get();
+            Set<Question> questionSet = new HashSet<>();
+            for (Long questionId : rq
+            ) {
+                Question question = questionService.findById(questionId).get();
+                if (question != null) {
+                    questionSet.add(question);
+                }
+            }
+            exam.setQuestions(questionSet);
+            examService.save(exam);
+            return ResponseEntity.ok(new MessageResponse("Update question into Exam success"));
+        } else {
+            return ResponseEntity.badRequest().body(new MessageResponse("Error: Update question into Exam"));
+        }
+    }
 }
+

@@ -1,23 +1,24 @@
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { COUNT, PAGE, PAGESIZE } from 'src/app/const';
+import { PAGESIZE, PAGE, COUNT } from 'src/app/const';
+import { Question } from 'src/app/question/question';
 import { ExamService } from 'src/app/_services/exam.service';
 import { QuestionService } from 'src/app/_services/question.service';
 import { Exam } from '../exam';
 
 @Component({
-  selector: 'app-exam-update',
-  templateUrl: './exam-update.component.html',
-  styleUrls: ['./exam-update.component.css']
+  selector: 'app-exam-view',
+  templateUrl: './exam-view.component.html',
+  styleUrls: ['./exam-view.component.css']
 })
-export class ExamUpdateComponent {
-  exam: Exam = new Exam();
+export class ExamViewComponent {
   id!: number;
-  formGroup!: FormGroup;
   listQuestion: any;
+  exam: Exam |undefined;
+  formGroup!: FormGroup;
   pageSize = PAGESIZE;
   page = PAGE;
   count = COUNT;
@@ -37,22 +38,31 @@ export class ExamUpdateComponent {
     this.id = this.route.snapshot.params['id'];
 
     this.examService.getExamById(this.id).subscribe(data=>{
-      this.exam=data;
+      this.exam = data;
+      this.listQuestion = data.questions;
     },error => console.log(error));
 
-    this.formGroup = this.formBuilder.group({
-      exam_name: ['', Validators.required],
-      note: [''],
+  }
+
+  handlePageChange(event: number): void {
+    this.page = event;
+    this.retrieveQuestion(this.term);
+  }
+
+
+  retrieveQuestion(term: string){
+    this.questionService.getAllQuestionrWithPagination(term).subscribe(res =>{
+      this.listQuestion = res.content;
+      this.count = res.totalElements;
     });
+  };
 
+  searchByTerm(){
+    this.retrieveQuestion(this.term);
   }
 
-  onSubmit(value: any){
-
-    this.examService.updateExam(this.id, this.exam).subscribe(data =>{
-      this.toastrService.info('Thành công', 'Cập nhật bài thi');
-      this.router.navigate(['exam']);
-
-    },error => console.log(error));
+  UpdateQuestion(){
+    this.router.navigate(['update-question-by-examId', this.id]);
   }
+
 }
