@@ -18,3 +18,7 @@ export class QuestionRequest{
   ans_Correct:string |undefined
   note: string | undefined
 }
+
+export class AddQuestionIntoExam{
+  listId: number[] | undefined;
+}
