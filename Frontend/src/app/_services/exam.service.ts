@@ -39,4 +39,8 @@ export class ExamService {
   sendQuestionIntoExam(examId: number, value: any): Observable<any> {
     return this.httpClient.post<any>(`${this.Exam_URL + 'send_question_into_exam'}/${examId}`, value);
   }
+
+  sendResutl(examId: number, mark: string): Observable<any>{
+    return this.httpClient.post<any>(`${this.Exam_URL + 'send_result'}/${examId}`, mark);
+  }
 }

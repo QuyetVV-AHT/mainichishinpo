@@ -7,3 +7,4 @@ export class Exam{
   active: boolean | undefined;
   questions: Question[] | undefined;
 }
+
