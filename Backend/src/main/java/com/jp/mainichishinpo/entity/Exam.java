@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -37,4 +38,6 @@ public class Exam {
 
     private Boolean active;
 
+    @OneToMany(mappedBy = "id")
+    private List<Result> results;
 }

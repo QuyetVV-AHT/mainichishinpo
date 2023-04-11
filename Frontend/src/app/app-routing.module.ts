@@ -5,6 +5,8 @@ import { BoardExamComponent } from './Dashboard/board-exam/board-exam.component'
 import { BoardModeratorComponent } from './Dashboard/board-moderator/board-moderator.component';
 import { BoardUserComponent } from './Dashboard/board-user/board-user.component';
 import { ExamCreateComponent } from './exam/exam-create/exam-create.component';
+import { ExamPublicComponent } from './exam/exam-public/exam-public.component';
+import { ExamStartComponent } from './exam/exam-start/exam-start.component';
 import { ExamUpdateQuestionComponent } from './exam/exam-update-question/exam-update-question.component';
 import { ExamUpdateComponent } from './exam/exam-update/exam-update.component';
 import { ExamViewComponent } from './exam/exam-view/exam-view.component';
@@ -40,6 +42,8 @@ const routes: Routes = [
   { path: 'update-exam/:id', component: ExamUpdateComponent },
   { path: 'view-exam/:id', component: ExamViewComponent },
   { path: 'update-question-by-examId/:id', component: ExamUpdateQuestionComponent },
+  { path: 'exam-public', component: ExamPublicComponent },
+  { path: 'examStart/:id', component: ExamStartComponent },
 
 
   { path: '', redirectTo: 'home', pathMatch: 'full' }

@@ -31,7 +31,13 @@ import { QuestionListComponent } from './question/question-list/question-list.co
 import { ExamViewComponent } from './exam/exam-view/exam-view.component';
 import { ExamUpdateQuestionComponent } from './exam/exam-update-question/exam-update-question.component';
 import {MatCheckboxModule} from '@angular/material/checkbox';
-
+import { ExamPublicComponent } from './exam/exam-public/exam-public.component';
+import { ExamStartComponent } from './exam/exam-start/exam-start.component';
+import { MatCardModule } from '@angular/material/card';
+import { MatDividerModule } from '@angular/material/divider';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {MatButtonModule} from '@angular/material/button';
+import {MatTableModule} from '@angular/material/table';
 
 
 @NgModule({
@@ -54,6 +60,8 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
     QuestionListComponent,
     ExamViewComponent,
     ExamUpdateQuestionComponent,
+    ExamPublicComponent,
+    ExamStartComponent,
 
   ],
   imports: [
@@ -73,7 +81,12 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
       timeOut: 8000, // 3 seconds
       progressBar: true,
     }),
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatCardModule,
+    MatDividerModule,
+    MatProgressSpinnerModule,
+    MatButtonModule,
+    MatTableModule
   ],
   providers: [httpInterceptorProviders],
   bootstrap: [AppComponent]

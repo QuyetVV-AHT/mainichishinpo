@@ -26,4 +26,8 @@ public interface ExamService {
     Exam create(ExamRequest examRequest);
 
     boolean existsByExamName(String exam_name);
+
+    List<Exam> getAllExamActive();
+
+    Page<Exam> searchByKeywordWithActive(String term, Pageable paging);
 }

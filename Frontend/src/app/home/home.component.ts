@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { PublicService } from '../_services/public.service';
 import { UserService } from '../_services/user.service';
 
 @Component({
@@ -9,10 +10,11 @@ import { UserService } from '../_services/user.service';
 export class HomeComponent implements OnInit {
   content?: string;
 
-  constructor(private userService: UserService) { }
+  constructor(private userService: UserService,
+      private publicService: PublicService) { }
 
   ngOnInit(): void {
-    this.userService.getPublicContent().subscribe({
+    this.publicService.getPublicContent().subscribe({
       next: data => {
         this.content = data;
       },

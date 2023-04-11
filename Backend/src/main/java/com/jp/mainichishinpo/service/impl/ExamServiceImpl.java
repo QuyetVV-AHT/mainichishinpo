@@ -60,4 +60,16 @@ public class ExamServiceImpl implements ExamService {
     public boolean existsByExamName(String question) {
         return false;
     }
+
+    @Override
+    public List<Exam> getAllExamActive() {
+        List<Exam> list = examRepository.getListExamActive();
+        return list;
+    }
+
+    @Override
+    public Page<Exam> searchByKeywordWithActive(String term, Pageable paging) {
+        Page<Exam> res = examRepository.searchByKeywordWithActive(term, paging);
+        return res;
+    }
 }

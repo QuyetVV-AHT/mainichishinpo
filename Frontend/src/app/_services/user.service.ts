@@ -12,9 +12,6 @@ export class UserService {
   private USER_URL = 'http://localhost:8080/api/user/';
   constructor(private httpClient: HttpClient) { }
 
-  getPublicContent(): Observable<any> {
-    return this.httpClient.get(`${this.API_URL  + 'test/all'}`, { responseType: 'text' });
-  }
 
   getUserBoard(): Observable<any> {
     return this.httpClient.get(`${this.API_URL   + 'test/user'}`, { responseType: 'text' });

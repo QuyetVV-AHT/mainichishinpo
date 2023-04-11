@@ -4,9 +4,7 @@ import com.jp.mainichishinpo.entity.User;
 import com.jp.mainichishinpo.payload.request.UserRequest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -25,6 +23,8 @@ public interface UserService {
     User create(UserRequest userRequest);
 
     User findByEmail(String email);
+
+    Optional<User> findByUsername(String username);
 
     Boolean existsByUsername(String username);
 

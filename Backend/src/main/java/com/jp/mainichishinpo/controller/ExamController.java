@@ -2,10 +2,15 @@ package com.jp.mainichishinpo.controller;
 
 import com.jp.mainichishinpo.entity.Exam;
 import com.jp.mainichishinpo.entity.Question;
+import com.jp.mainichishinpo.entity.Result;
+import com.jp.mainichishinpo.entity.User;
 import com.jp.mainichishinpo.payload.request.ExamRequest;
 import com.jp.mainichishinpo.payload.response.MessageResponse;
+import com.jp.mainichishinpo.security.services.UserDetailsImpl;
 import com.jp.mainichishinpo.service.ExamService;
 import com.jp.mainichishinpo.service.QuestionService;
+import com.jp.mainichishinpo.service.ResultService;
+import com.jp.mainichishinpo.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -13,8 +18,11 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -30,9 +38,13 @@ public class ExamController {
 
     @Autowired
     private ExamService examService;
-
     @Autowired
     private QuestionService questionService;
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private ResultService resultService;
 
     @GetMapping("/list")
     public List<Exam> getAllExam() {
@@ -57,6 +69,7 @@ public class ExamController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<Optional<Exam>> getExamById(@PathVariable Long id) {
         Optional<Exam> result = examService.findById(id);
         return ResponseEntity.ok(result);
@@ -111,6 +124,16 @@ public class ExamController {
         } else {
             return ResponseEntity.badRequest().body(new MessageResponse("Error: Update question into Exam"));
         }
+    }
+
+    @PostMapping("/send_result/{examId}")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<?> sendResult(@PathVariable Long examId, @Valid @RequestBody String mark){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+        User user =  userService.findByUsername(currentPrincipalName).get();
+        resultService.save(examId, user, mark);
+        return null;
     }
 }
 
