@@ -1,17 +1,23 @@
 package com.jp.mainichishinpo.controller;
 
 import com.jp.mainichishinpo.entity.ERole;
+import com.jp.mainichishinpo.entity.RefreshToken;
 import com.jp.mainichishinpo.entity.Role;
 import com.jp.mainichishinpo.entity.User;
+import com.jp.mainichishinpo.exception.TokenRefreshException;
 import com.jp.mainichishinpo.payload.request.LoginRequest;
 import com.jp.mainichishinpo.payload.request.SignupRequest;
-import com.jp.mainichishinpo.payload.response.JwtResponse;
 import com.jp.mainichishinpo.payload.response.MessageResponse;
+import com.jp.mainichishinpo.payload.response.UserInfoResponse;
 import com.jp.mainichishinpo.repository.RoleRepository;
 import com.jp.mainichishinpo.repository.UserRepository;
 import com.jp.mainichishinpo.security.jwt.JwtUtils;
+import com.jp.mainichishinpo.security.services.RefreshTokenService;
 import com.jp.mainichishinpo.security.services.UserDetailsImpl;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
@@ -32,6 +38,8 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
+
+    private static final Logger logger = LoggerFactory.getLogger(AuthController.class);
     @Autowired
     AuthenticationManager authenticationManager;
 
@@ -47,39 +55,56 @@ public class AuthController {
     @Autowired
     JwtUtils jwtUtils;
 
+    @Autowired
+    RefreshTokenService refreshTokenService;
+
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
 
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
+        if (!userRepository.existsByUsername(loginRequest.getUsername())) {
+            return ResponseEntity.badRequest().body(new MessageResponse("Error: Tai khoan khong ton tai"));
+        }
+        try {
+            Authentication authentication = authenticationManager
+                    .authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
 
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        String jwt = jwtUtils.generateJwtToken(authentication);
+            SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-        List<String> roles = userDetails.getAuthorities().stream()
-                .map(item -> item.getAuthority())
-                .collect(Collectors.toList());
+            UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
 
-        return ResponseEntity.ok(new JwtResponse(jwt,
-                userDetails.getId(),
-                userDetails.getUsername(),
-                userDetails.getEmail(),
-                roles));
+            ResponseCookie jwtCookie = jwtUtils.generateJwtCookie(userDetails);
+
+            List<String> roles = userDetails.getAuthorities().stream()
+                    .map(item -> item.getAuthority())
+                    .collect(Collectors.toList());
+
+            RefreshToken refreshToken = refreshTokenService.createRefreshToken(userDetails.getId());
+
+            ResponseCookie jwtRefreshCookie = jwtUtils.generateRefreshJwtCookie(refreshToken.getToken());
+
+            return ResponseEntity.ok()
+                    .header(HttpHeaders.SET_COOKIE, jwtCookie.toString())
+                    .header(HttpHeaders.SET_COOKIE, jwtRefreshCookie.toString())
+                    .body(new UserInfoResponse(userDetails.getId(),
+                            userDetails.getUsername(),
+                            userDetails.getEmail(),
+                            roles));
+        }catch (Exception e){
+            logger.error("Cannot set user authentication: {}", e);
+            return ResponseEntity.badRequest().body(new MessageResponse("Error: Tai khoan khong xac thuc"));
+        }
+
     }
+
 
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
         if (userRepository.existsByUsername(signUpRequest.getUsername())) {
-            return ResponseEntity
-                    .badRequest()
-                    .body(new MessageResponse("Error: Username is already taken!"));
+            return ResponseEntity.badRequest().body(new MessageResponse("Error: Username is already taken!"));
         }
 
         if (userRepository.existsByEmail(signUpRequest.getEmail())) {
-            return ResponseEntity
-                    .badRequest()
-                    .body(new MessageResponse("Error: Email is already in use!"));
+            return ResponseEntity.badRequest().body(new MessageResponse("Error: Email is already in use!"));
         }
 
         // Create new user's account
@@ -125,8 +150,40 @@ public class AuthController {
 
     @PostMapping("/signout")
     public ResponseEntity<?> logoutUser() {
-        ResponseCookie cookie = jwtUtils.getCleanJwtCookie();
-        return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, cookie.toString())
+        Object principle = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principle.toString() != "anonymousUser") {
+            Long userId = ((UserDetailsImpl) principle).getId();
+            refreshTokenService.deleteByUserId(userId);
+        }
+
+        ResponseCookie jwtCookie = jwtUtils.getCleanJwtCookie();
+        ResponseCookie jwtRefreshCookie = jwtUtils.getCleanJwtRefreshCookie();
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.SET_COOKIE, jwtCookie.toString())
+                .header(HttpHeaders.SET_COOKIE, jwtRefreshCookie.toString())
                 .body(new MessageResponse("You've been signed out!"));
+    }
+
+    @PostMapping("/refreshtoken")
+    public ResponseEntity<?> refreshtoken(HttpServletRequest request) {
+        String refreshToken = jwtUtils.getJwtRefreshFromCookies(request);
+
+        if ((refreshToken != null) && (refreshToken.length() > 0)) {
+            return refreshTokenService.findByToken(refreshToken)
+                    .map(refreshTokenService::verifyExpiration)
+                    .map(RefreshToken::getUser)
+                    .map(user -> {
+                        ResponseCookie jwtCookie = jwtUtils.generateJwtCookie(user);
+
+                        return ResponseEntity.ok()
+                                .header(HttpHeaders.SET_COOKIE, jwtCookie.toString())
+                                .body(new MessageResponse("Token is refreshed successfully!"));
+                    })
+                    .orElseThrow(() -> new TokenRefreshException(refreshToken,
+                            "Refresh token is not in database!"));
+        }
+
+        return ResponseEntity.badRequest().body(new MessageResponse("Refresh Token is empty!"));
     }
 }

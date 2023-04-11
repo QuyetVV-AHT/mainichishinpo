@@ -1,0 +1,71 @@
+<div style="padding-top:100px" class="t">
+  <h2  > Danh sách câu hỏi</h2>
+  <div class="dau">
+  <div class="co1">
+    <div class="input-group mb-3">
+      <input type="text" class="form-control" placeholder="{{'Tìm kiếm '}}" [(ngModel)]="term" />
+      <div class="input-group-append">
+        <button class="btn btn-outline-secondary" type="button" (click)="searchByTerm()">
+          <mat-icon>search</mat-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col">
+      <button style="margin-left: 10px !important; margin-bottom: 10px !important;" class="btn btn-primary">
+        <a routerLink="/question-create" routerLinkActive="active" class="nav-link">Thêm mới câu hỏi</a>
+      </button>
+    </div>
+  </div>
+</div>
+<div class="ten">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th  >STT</th>
+        <th  >Question</th>
+        <th  >Đáp án A</th>
+        <th  >Đáp án B</th>
+        <th  >Đáp án C</th>
+        <th  >Đáp án D</th>
+        <th  >Đáp án đúng</th>
+        <th  >Chú thích</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor=" let question of listQuestion | paginate : {
+        itemsPerPage: pageSize,
+        currentPage: page,
+        totalItems: count
+        };  let i = index;">
+        <td>{{i+1}}</td>
+        <td>{{question.question}}</td>
+        <td>{{question.ans_A}}</td>
+        <td>{{question.ans_B}}</td>
+        <td>{{question.ans_C}}</td>
+        <td>{{question.ans_D}}</td>
+        <td>{{question.ans_Correct}}</td>
+        <td>{{question.note}}</td>
+
+        <td style="text-align:center">
+          <button (click)="updateQuestion(question.id)" class="btn btn-info">
+            <mat-icon>edit</mat-icon>
+          </button>
+        </td>
+        <td style="text-align:center">
+          <button (click)="deleteQuestion(question.id)" class="btn btn-danger">
+            <mat-icon>delete_outline</mat-icon>
+          </button>
+        </td>
+      </tr>
+    </tbody>
+</table>
+<div class="col-md-12">
+  <pagination-controls previousLabel="{{'PREV' }}" nextLabel="{{'NEXT'}}" [responsive]="true"
+      (pageChange)="handlePageChange($event)"></pagination-controls>
+  </div>
+</div>
+</div>
+

@@ -1,0 +1,67 @@
+
+<div *ngIf=" error; else prompt">
+  Lỗi không xác định, vui lòng kiểm tra tài khoản
+</div>
+
+<ng-template #prompt>
+  <div style="padding-top:100px" class="t">
+    <div>
+      <h2>Tổng hợp đề thi
+      </h2>
+    </div>
+
+    <div class="dau">
+      <div class="co1">
+        <div class="input-group mb-3">
+          <input type="text" class="form-control" placeholder="{{'Tìm kiếm '}}" [(ngModel)]="term" />
+          <div class="input-group-append">
+            <button class="btn btn-outline-secondary" type="button" (click)="searchByTerm()">
+              <mat-icon>search</mat-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="ten">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>STT</th>
+            <th>Tên bài thi</th>
+            <th>Số lượng câu hỏi</th>
+            <th>Chú thích</th>
+            <th></th>
+
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor=" let exam of listExamPublic | paginate : {
+          itemsPerPage: pageSize,
+          currentPage: page,
+          totalItems: count
+          };  let i = index;">
+            <td>{{i+1}}</td>
+            <td>{{exam.exam_name}}</td>
+            <td>{{exam.questions?.length}}</td>
+            <td>{{exam.note}}</td>
+            <td style="text-align:center">
+              <div class="container">
+                <button
+                class="btn btn-info"
+                  (click)="startExam(exam.id)"
+                >
+                  Start
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="col-md-12">
+        <pagination-controls previousLabel="{{'PREV' }}" nextLabel="{{'NEXT'}}" [responsive]="true"
+          (pageChange)="handlePageChange($event)"></pagination-controls>
+      </div>
+    </div>
+  </div>
+</ng-template>
+

@@ -1,0 +1,63 @@
+<div style="padding-top:100px" class="t">
+  <div>
+    <h2>Tên đề:
+      <span>{{exam?.exam_name}}</span>
+    </h2>
+    <h4>Chú thích:
+      <span>{{exam?.note}}</span>
+    </h4>
+  </div>
+
+  <h2> Bộ câu hỏi </h2>
+  <button class="btn btn-primary" type="button" (click)="UpdateQuestion()">
+      Cập nhật câu hỏi
+  </button>
+  <div class="dau">
+    <div class="co1">
+      <div class="input-group mb-3">
+        <input type="text" class="form-control" placeholder="{{'Tìm kiếm '}}" [(ngModel)]="term" />
+        <div class="input-group-append">
+          <button class="btn btn-outline-secondary" type="button" (click)="searchByTerm()">
+            <mat-icon>search</mat-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="ten">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>STT</th>
+          <th>Question</th>
+          <th>Đáp án A</th>
+          <th>Đáp án B</th>
+          <th>Đáp án C</th>
+          <th>Đáp án D</th>
+          <th>Đáp án đúng</th>
+          <th>Chú thích</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor=" let question of listQuestion | paginate : {
+        itemsPerPage: pageSize,
+        currentPage: page,
+        totalItems: count
+        };  let i = index;">
+          <td>{{i+1}}</td>
+          <td>{{question.question}}</td>
+          <td>{{question.ans_A}}</td>
+          <td>{{question.ans_B}}</td>
+          <td>{{question.ans_C}}</td>
+          <td>{{question.ans_D}}</td>
+          <td>{{question.ans_Correct}}</td>
+          <td>{{question.note}}</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="col-md-12">
+      <pagination-controls previousLabel="{{'PREV' }}" nextLabel="{{'NEXT'}}" [responsive]="true"
+        (pageChange)="handlePageChange($event)"></pagination-controls>
+    </div>
+  </div>
+</div>

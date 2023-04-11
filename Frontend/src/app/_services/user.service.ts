@@ -1,29 +1,50 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { User, UserRequest } from '../user/user';
 
-const API_URL = 'http://localhost:8080/api/test/';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
+  private API_URL = 'http://localhost:8080/api/';
+  private USER_URL = 'http://localhost:8080/api/user/';
+  constructor(private httpClient: HttpClient) { }
 
-  constructor(private http: HttpClient) { }
-
-  getPublicContent(): Observable<any> {
-    return this.http.get(API_URL + 'all', { responseType: 'text' });
-  }
 
   getUserBoard(): Observable<any> {
-    return this.http.get(API_URL + 'user', { responseType: 'text' });
+    return this.httpClient.get(`${this.API_URL   + 'test/user'}`, { responseType: 'text' });
   }
 
   getModeratorBoard(): Observable<any> {
-    return this.http.get(API_URL + 'mod', { responseType: 'text' });
+    return this.httpClient.get(`${this.API_URL  + 'test/question'}`, { responseType: 'text' });
   }
 
   getAdminBoard(): Observable<any> {
-    return this.http.get(API_URL + 'admin', { responseType: 'text' });
+    return this.httpClient.get(`${this.API_URL  + 'test/admin'}`, { responseType: 'text' });
   }
+
+  getAllUser(): Observable<User[]> {
+    return this.httpClient.get<User[]>(`${this.USER_URL + 'list'}`);
+  }
+  addUser(user: User): Observable<Object> {
+    return this.httpClient.post<User>(`${this.USER_URL + 'create'}`, user);
+  }
+  getUserById(id: number): Observable<User> {
+    return this.httpClient.get<User>(`${this.USER_URL }${id}`);
+  }
+  updateUser(id: number, user: User): Observable<object> {
+    return this.httpClient.put(`${this.USER_URL + 'update'}/${id}`, user);
+  }
+  deleteUser(id: number): Observable<object> {
+    return this.httpClient.delete(`${this.USER_URL + 'delete'}/${id}`);
+  }
+
+  getAllUserWithPagination(term: string ): Observable<any> {
+
+    let terms = new HttpParams().set('term', term);
+    return this.httpClient.get<User[]>(`${this.USER_URL + 'search'}`,{ params: terms } );
+  }
+
 }
