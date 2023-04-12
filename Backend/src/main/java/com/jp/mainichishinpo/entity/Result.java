@@ -7,6 +7,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.util.Date;
+
 @Entity
 @Table(name = "results")
 @Getter
@@ -21,13 +25,14 @@ public class Result {
 
     private String mark;
 
-    @ManyToOne
-    @JsonIgnore
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="user_id")
     private User user;
 
-    @ManyToOne
-    @JsonIgnore
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="exam_id")
     private Exam exam;
+
+    private LocalDateTime create_at;
+
 }

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { User } from 'src/app/user/user';
+import { ResutlsService } from 'src/app/_services/resutls.service';
 import { UserService } from 'src/app/_services/user.service';
 
 @Component({
@@ -9,23 +10,15 @@ import { UserService } from 'src/app/_services/user.service';
   styleUrls: ['./board-admin.component.css']
 })
 export class BoardAdminComponent implements OnInit {
-  content?: string;
+  listResult: any;
+  displayedColumns: string[] = ['STT', 'Exam', 'Username', 'mark'];
 
-  constructor(private userService: UserService,
+  constructor(private resultService: ResutlsService,
     private router: Router) { }
 
     ngOnInit(): void {
-      this.userService.getUserBoard().subscribe({
-        next: data => {
-          this.content = data;
-        },
-        error: err => {console.log(err)
-          if (err.error) {
-            this.content = JSON.parse(err.error).message;
-          } else {
-            this.content = "Error with status: " + err.status;
-          }
-        }
+      this.resultService.getAllResult().subscribe(data =>{
+        this.listResult = data;
       });
     }
 }
