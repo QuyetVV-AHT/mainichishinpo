@@ -14,6 +14,9 @@ import { Question } from '../question';
 export class QuestionCreateComponent {
   question = new Question();
   formGroup!: FormGroup;
+  file!: File;
+  message: string | undefined;
+
   constructor(private questionService: QuestionService,
     private router: Router,
     private toastrService: ToastrService,
@@ -46,4 +49,24 @@ export class QuestionCreateComponent {
 
    }
 
+    // On file Select
+  onChange(event: any) {
+    this.file = event.target.files[0];
+  }
+
+  // OnClick of button Upload
+  onUpload() {
+    if (this.file) {
+       // Create form data
+    const formData = new FormData();
+
+    // Store form name as "file" with file data
+    formData.append('file', this.file, this.file.name);
+    console.log(this.file.name);
+    this.questionService.upLoadFile(formData).subscribe(data =>{
+      this.message = data.message;
+    },
+    (error) => this.message = error.error.message)
+    }
+  }
 }

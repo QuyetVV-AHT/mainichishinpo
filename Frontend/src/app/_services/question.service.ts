@@ -33,4 +33,8 @@ export class QuestionService {
     let terms = new HttpParams().set('term', term);
     return this.httpClient.get<Question[]>(`${this.Question_URL + 'search'}`,{ params: terms } );
   }
+
+  upLoadFile(formData: FormData):Observable<any>{
+    return this.httpClient.post<any>(this.Question_URL + 'upload', formData);
+  }
 }
