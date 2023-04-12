@@ -43,4 +43,8 @@ export class ExamService {
   sendResutl(examId: number, mark: string): Observable<any>{
     return this.httpClient.post<any>(`${this.Exam_URL + 'send_result'}/${examId}`, mark);
   }
+
+  activeExam(examId: number, isActive: any):Observable<any>{
+    return this.httpClient.post<any>(`${this.Exam_URL + 'active'}/${examId}`, isActive);
+  }
 }

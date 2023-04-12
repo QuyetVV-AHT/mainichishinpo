@@ -12,6 +12,10 @@
   <button class="btn btn-primary" type="button" (click)="UpdateQuestion()">
       Cập nhật câu hỏi
   </button>
+  <div>
+    <button mat-button  *ngIf="!exam?.active" (click)="isActive(!exam?.active)" color="accent">Kích hoạt</button>
+    <button mat-button  *ngIf="exam?.active"  (click)="isActive(!exam?.active)" color="warn">Hủy kích hoạt</button>
+  </div>
   <div class="dau">
     <div class="co1">
       <div class="input-group mb-3">

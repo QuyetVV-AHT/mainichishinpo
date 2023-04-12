@@ -40,9 +40,9 @@
         <td>{{i+1}}</td>
         <td>{{exam?.exam_name}}</td>
         <td>{{exam?.note}}</td>
-        <td>{{exam?.countQuestion}}</td>
-        <td *ngIf="exam?.active == true"> UNAVAILABLE</td>
-        <td *ngIf="exam?.active == false"> AVAILABLE</td>
+        <td>{{exam?.questions.length}}</td>
+        <td *ngIf="exam?.active == true">Đang kích hoạt</td>
+        <td *ngIf="exam?.active == false">Chưa kích hoạt</td>
 
 
         <td style="text-align:center">
