@@ -25,6 +25,7 @@ public class QuestionServiceImpl implements QuestionService {
 
     @Override
     public void delete(Long id) {
+        // TODO kiem tra co question co nam trong exam nao khong
         questionRepository.deleteById(id);
     }
 

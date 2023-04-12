@@ -133,7 +133,15 @@ public class ExamController {
         String currentPrincipalName = authentication.getName();
         User user =  userService.findByUsername(currentPrincipalName).get();
         resultService.save(examId, user, mark);
-        return null;
+        return ResponseEntity.ok("success");
+    }
+
+    @PostMapping("/active/{examId}")
+    public ResponseEntity<?> activeExam(@PathVariable Long examId, @Valid @RequestBody Boolean isActive){
+        Exam exam = examService.findById(examId).get();
+        exam.setActive(isActive);
+        examService.save(exam);
+        return ResponseEntity.ok(new MessageResponse("Active/Deactive success"));
     }
 }
 
