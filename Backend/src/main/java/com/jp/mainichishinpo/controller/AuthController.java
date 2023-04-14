@@ -34,7 +34,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600, allowCredentials="true")
+@CrossOrigin(origins = {"http://localhost:4200","http://ec2-18-224-40-219.us-east-2.compute.amazonaws.com"}, maxAge = 3600, allowCredentials="true")
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
@@ -151,39 +151,50 @@ public class AuthController {
     @PostMapping("/logout")
     public ResponseEntity<?> logoutUser() {
         Object principle = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (principle.toString() != "anonymousUser") {
-            Long userId = ((UserDetailsImpl) principle).getId();
-            refreshTokenService.deleteByUserId(userId);
+        try {
+            if (principle.toString() != "anonymousUser") {
+                Long userId = ((UserDetailsImpl) principle).getId();
+                refreshTokenService.deleteByUserId(userId);
+            }
+
+            ResponseCookie jwtCookie = jwtUtils.getCleanJwtCookie();
+            ResponseCookie jwtRefreshCookie = jwtUtils.getCleanJwtRefreshCookie();
+
+            return ResponseEntity.ok()
+                    .header(HttpHeaders.SET_COOKIE, jwtCookie.toString())
+                    .header(HttpHeaders.SET_COOKIE, jwtRefreshCookie.toString())
+                    .body(new MessageResponse("You've been signed out!"));
+        }catch (Exception e){
+            logger.error("Error Logout: " + e);
+            return ResponseEntity.badRequest().body(new MessageResponse("Error: Logout!"));
         }
 
-        ResponseCookie jwtCookie = jwtUtils.getCleanJwtCookie();
-        ResponseCookie jwtRefreshCookie = jwtUtils.getCleanJwtRefreshCookie();
-
-        return ResponseEntity.ok()
-                .header(HttpHeaders.SET_COOKIE, jwtCookie.toString())
-                .header(HttpHeaders.SET_COOKIE, jwtRefreshCookie.toString())
-                .body(new MessageResponse("You've been signed out!"));
     }
 
     @PostMapping("/refreshtoken")
     public ResponseEntity<?> refreshtoken(HttpServletRequest request) {
         String refreshToken = jwtUtils.getJwtRefreshFromCookies(request);
+        try {
+            if ((refreshToken != null) && (refreshToken.length() > 0)) {
+                return refreshTokenService.findByToken(refreshToken)
+                        .map(refreshTokenService::verifyExpiration)
+                        .map(RefreshToken::getUser)
+                        .map(user -> {
+                            ResponseCookie jwtCookie = jwtUtils.generateJwtCookie(user);
 
-        if ((refreshToken != null) && (refreshToken.length() > 0)) {
-            return refreshTokenService.findByToken(refreshToken)
-                    .map(refreshTokenService::verifyExpiration)
-                    .map(RefreshToken::getUser)
-                    .map(user -> {
-                        ResponseCookie jwtCookie = jwtUtils.generateJwtCookie(user);
+                            return ResponseEntity.ok()
+                                    .header(HttpHeaders.SET_COOKIE, jwtCookie.toString())
+                                    .body(new MessageResponse("Token is refreshed successfully!"));
+                        })
+                        .orElseThrow(() -> new TokenRefreshException(refreshToken,
+                                "Refresh token is not in database!"));
+            }
 
-                        return ResponseEntity.ok()
-                                .header(HttpHeaders.SET_COOKIE, jwtCookie.toString())
-                                .body(new MessageResponse("Token is refreshed successfully!"));
-                    })
-                    .orElseThrow(() -> new TokenRefreshException(refreshToken,
-                            "Refresh token is not in database!"));
+            return ResponseEntity.badRequest().body(new MessageResponse("Refresh Token is empty!"));
+        }catch (Exception e){
+            logger.error("Error refreshtoken: " + e);
+            return ResponseEntity.badRequest().body(new MessageResponse("Error: RefreshToken!"));
         }
 
-        return ResponseEntity.badRequest().body(new MessageResponse("Refresh Token is empty!"));
     }
 }

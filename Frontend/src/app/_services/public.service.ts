@@ -1,6 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 import { Exam } from '../exam/exam';
 
 @Injectable({
@@ -8,7 +9,7 @@ import { Exam } from '../exam/exam';
 })
 export class PublicService {
 
-  private PUBLIC_URL = 'http://localhost:8080/api/public';
+  private PUBLIC_URL = environment.apiUrl +'/api/public';
 
   constructor(private httpClient: HttpClient) { }
   getPublicContent(): Observable<any> {

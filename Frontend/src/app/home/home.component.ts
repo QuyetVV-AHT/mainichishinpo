@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { PublicService } from '../_services/public.service';
+import { StorageService } from '../_services/storage.service';
 import { UserService } from '../_services/user.service';
 
 @Component({
@@ -9,8 +10,13 @@ import { UserService } from '../_services/user.service';
 })
 export class HomeComponent implements OnInit {
   content?: string;
+  isLoggedIn = false;
+  showAdminBoard = false;
+  showModeratorBoard = false;
+  username?: string;
 
   constructor(private userService: UserService,
+    private storageService: StorageService,
       private publicService: PublicService) { }
 
   ngOnInit(): void {

@@ -13,7 +13,7 @@ import java.util.List;
 
 import static com.jp.mainichishinpo.util.ParamKey.*;
 
-@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600, allowCredentials = "true")
+@CrossOrigin(origins = {"http://localhost:4200","http://ec2-18-224-40-219.us-east-2.compute.amazonaws.com"}, maxAge = 3600, allowCredentials="true")
 @RestController
 @RequestMapping("/api/public")
 public class PublicController {
@@ -23,7 +23,7 @@ public class PublicController {
 
     @GetMapping("/all")
     public String allAccess() {
-        return "Public Content.";
+        return "Noi dung tu phia serve";
     }
 
 

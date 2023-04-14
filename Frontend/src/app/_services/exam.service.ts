@@ -1,6 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 import { Exam } from '../exam/exam';
 import { AddQuestionIntoExam, Question } from '../question/question';
 
@@ -10,7 +11,7 @@ import { AddQuestionIntoExam, Question } from '../question/question';
 export class ExamService {
 
 
-  private Exam_URL = 'http://localhost:8080/api/exam/';
+  private Exam_URL =  environment.apiUrl + '/api/exam/';
   constructor(private httpClient: HttpClient) { }
 
 

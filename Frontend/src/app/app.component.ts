@@ -49,8 +49,11 @@ export class AppComponent {
   logout(): void {
     this.authService.logout().subscribe({
       next: res => {
+
         this.storageService.clean();
+
         window.location.reload();
+        location.href = "";
 
       },
       error: err => {
