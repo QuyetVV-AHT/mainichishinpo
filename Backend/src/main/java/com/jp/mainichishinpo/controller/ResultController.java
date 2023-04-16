@@ -4,6 +4,7 @@ import com.jp.mainichishinpo.entity.Exam;
 import com.jp.mainichishinpo.entity.Result;
 import com.jp.mainichishinpo.service.ResultService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,8 +22,8 @@ public class ResultController {
     @Autowired
     private ResultService resultService;
     @GetMapping("/list")
-    public List<Result> getAllResult() {
+    public ResponseEntity<List<Result>>  getAllResult() {
         List<Result> resultList = resultService.getAllResult();
-        return resultList;
+        return ResponseEntity.ok(resultList);
     }
 }

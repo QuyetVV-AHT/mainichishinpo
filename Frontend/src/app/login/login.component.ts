@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../_services/auth.service';
 import { StorageService } from '../_services/storage.service';
+import { NGXLogger } from "ngx-logger";
+
 
 @Component({
   selector: 'app-login',
@@ -19,6 +21,7 @@ export class LoginComponent implements OnInit {
   roles: string[] = [];
 
   constructor(private authService: AuthService,
+    private logger: NGXLogger,
     private router: Router,
      private storageService: StorageService) { }
 
@@ -40,8 +43,6 @@ export class LoginComponent implements OnInit {
         this.roles = this.storageService.getUser().roles;
         window.location.reload();
         location.href = "";
-
-
       },
       error: err => {
         this.errorMessage = err.error.message;
@@ -50,7 +51,4 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  reloadPage(): void {
-    window.location.reload();
-  }
 }

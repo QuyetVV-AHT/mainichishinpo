@@ -47,13 +47,11 @@ public class JwtUtils {
 
     public String getJwtFromCookies(HttpServletRequest request) {
         String cookie = getCookieValueByName(request, jwtCookie);
-        logger.info("getJwtFromCookies: cookie " + cookie);
         return cookie;
     }
 
     public String getJwtRefreshFromCookies(HttpServletRequest request) {
         String cookie = getCookieValueByName(request, jwtRefreshCookie);
-        logger.info("getJwtRefreshFromCookies: cookie " + cookie);
         return cookie;
     }
 

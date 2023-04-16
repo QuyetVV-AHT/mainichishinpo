@@ -81,7 +81,6 @@ public class AuthController {
             RefreshToken refreshToken = refreshTokenService.createRefreshToken(userDetails.getId());
 
             ResponseCookie jwtRefreshCookie = jwtUtils.generateRefreshJwtCookie(refreshToken.getToken());
-
             return ResponseEntity.ok()
                     .header(HttpHeaders.SET_COOKIE, jwtCookie.toString())
                     .header(HttpHeaders.SET_COOKIE, jwtRefreshCookie.toString())
@@ -91,7 +90,7 @@ public class AuthController {
                             roles));
         }catch (Exception e){
             logger.error("Cannot set user authentication: {}", e);
-            return ResponseEntity.badRequest().body(new MessageResponse("Error: Tai khoan khong xac thuc"));
+            return ResponseEntity.badRequest().body(new MessageResponse("Error: Tai khoan khong xac thuc" + "Error " + e));
         }
 
     }

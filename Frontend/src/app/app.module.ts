@@ -38,6 +38,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatButtonModule} from '@angular/material/button';
 import {MatTableModule} from '@angular/material/table';
+import { LoggerModule, NgxLoggerLevel } from "ngx-logger";
 
 
 @NgModule({
@@ -86,7 +87,12 @@ import {MatTableModule} from '@angular/material/table';
     MatDividerModule,
     MatProgressSpinnerModule,
     MatButtonModule,
-    MatTableModule
+    MatTableModule,
+    LoggerModule.forRoot({
+      serverLoggingUrl: '/api/logs',
+      level: NgxLoggerLevel.DEBUG,
+      serverLogLevel: NgxLoggerLevel.ERROR
+    }),
   ],
   providers: [httpInterceptorProviders],
   bootstrap: [AppComponent]
