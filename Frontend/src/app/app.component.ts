@@ -4,6 +4,7 @@ import { AuthService } from './_services/auth.service';
 import { StorageService } from './_services/storage.service';
 import { EventBusService } from '../app/_shared/event-bus.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { TokenStorageService } from './_services/token-storage.service';
 
 @Component({
   selector: 'app-root',
@@ -18,21 +19,13 @@ export class AppComponent {
   showModeratorBoard = false;
   username?: string;
 
-  eventBusSub?: Subscription;
+  constructor(private tokenStorageService: TokenStorageService) { }
 
-  constructor(
-    private storageService: StorageService,
-    private authService: AuthService,
-    private eventBusService: EventBusService,
-    private route: ActivatedRoute,
-    private router:Router,
-  ) {}
-
-  ngOnInit(): void {
-    this.isLoggedIn = this.storageService.isLoggedIn();
+  ngOnInit() {
+    this.isLoggedIn = !!this.tokenStorageService.getToken();
 
     if (this.isLoggedIn) {
-      const user = this.storageService.getUser();
+      const user = this.tokenStorageService.getUser();
       this.roles = user.roles;
 
       this.showAdminBoard = this.roles.includes('ROLE_ADMIN');
@@ -40,25 +33,10 @@ export class AppComponent {
 
       this.username = user.username;
     }
-
-    this.eventBusSub = this.eventBusService.on('logout', () => {
-      this.logout();
-    });
   }
 
-  logout(): void {
-    this.authService.logout().subscribe({
-      next: res => {
-
-        this.storageService.clean();
-
-        window.location.reload();
-        location.href = "";
-
-      },
-      error: err => {
-        console.log(err);
-      }
-    });
+  logout() {
+    this.tokenStorageService.signOut();
+    window.location.reload();
   }
 }

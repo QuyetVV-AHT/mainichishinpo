@@ -18,8 +18,8 @@ export class ExamService {
   getAllExam(): Observable<Exam[]> {
     return this.httpClient.get<Exam[]>(`${this.Exam_URL + 'list'}`);
   }
-  addExam(Exam: Exam): Observable<Object> {
-    return this.httpClient.post<Exam>(`${this.Exam_URL + 'create'}`, Exam);
+  addExam(Exam: Exam, formData: FormData): Observable<Object> {
+    return this.httpClient.post<Exam>(`${this.Exam_URL + 'create'}`, {Exam,formData} );
   }
   getExamById(id: number): Observable<Exam> {
     return this.httpClient.get<Exam>(`${this.Exam_URL }${id}`);

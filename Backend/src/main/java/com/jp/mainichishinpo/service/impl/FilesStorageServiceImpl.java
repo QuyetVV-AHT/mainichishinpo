@@ -1,10 +1,13 @@
 package com.jp.mainichishinpo.service.impl;
 
+import com.jp.mainichishinpo.controller.FilesController;
 import com.jp.mainichishinpo.entity.Question;
 import com.jp.mainichishinpo.repository.QuestionRepository;
 import com.jp.mainichishinpo.service.FilesStorageService;
 import org.apache.poi.EncryptedDocumentException;
 import org.apache.poi.ss.usermodel.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -26,6 +29,7 @@ import java.util.stream.Stream;
 @Component
 public class FilesStorageServiceImpl implements FilesStorageService {
     private final Path root = Paths.get("uploads/");
+    Logger logger = LoggerFactory.getLogger(FilesStorageServiceImpl.class);
     Workbook workbook;
     @Autowired
     private QuestionRepository questionRepository;
@@ -127,7 +131,7 @@ public class FilesStorageServiceImpl implements FilesStorageService {
     private List<Question> createList(List<String> excelData, int noOfColumns) {
 
         ArrayList<Question> questionArrayList = new ArrayList<Question>();
-
+        logger.info("size +" + excelData.size());
         int i = noOfColumns;
         do {
             Question ques = new Question();

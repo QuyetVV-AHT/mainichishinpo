@@ -19,9 +19,9 @@ import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBui
 import java.util.List;
 import java.util.stream.Collectors;
 
-@CrossOrigin(origins = {"http://localhost:4200","http://ec2-18-224-40-219.us-east-2.compute.amazonaws.com"}, maxAge = 3600, allowCredentials="true")
+@CrossOrigin(origins="http://localhost:4200", maxAge = 3600, allowCredentials="true")
 @RestController
-@RequestMapping("/api/question")
+@RequestMapping("/api/file")
 @PreAuthorize("hasRole('MODERATOR') or hasRole('ADMIN')")
 public class FilesController {
     Logger logger = LoggerFactory.getLogger(FilesController.class);
@@ -32,6 +32,7 @@ public class FilesController {
     public ResponseEntity<MessageResponse> uploadFile(@RequestParam("file") MultipartFile file) {
         String message = "";
         try {
+            // TODO check file is exist
 //            Luu file vao folder
             logger.info("Saving file in folder upload");
             storageService.save(file);

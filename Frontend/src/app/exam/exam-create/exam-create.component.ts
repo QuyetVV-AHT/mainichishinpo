@@ -14,6 +14,7 @@ import { Exam } from '../exam';
 export class ExamCreateComponent {
   exam = new Exam();
   formGroup!: FormGroup;
+  file!: File;
   constructor(private examService: ExamService,
     private router: Router,
     private toastrService: ToastrService,
@@ -34,9 +35,34 @@ export class ExamCreateComponent {
     this.router.navigate(['exam']);
   }
    onSubmit(){
-    this.examService.addExam(this.exam).subscribe(data =>{
+    const formData = new FormData();
+    // Store form name as "file" with file data
+    formData.append('file', this.file, this.file.name);
+
+    this.examService.addExam(this.exam, formData).subscribe(data =>{
       this.goToListExam();
   },
   error => console.log(error));
    }
+
+
+
+    // On file Select
+  onChange(event: any) {
+    this.file = event.target.files[0];
+
+  }
+
+  // OnClick of button Upload
+  onUpload() {
+    if (this.file) {
+       // Create form data
+    const formData = new FormData();
+
+    // Store form name as "file" with file data
+    formData.append('file', this.file, this.file.name);
+    console.log(this.file.name);
+
+    }
+  }
 }

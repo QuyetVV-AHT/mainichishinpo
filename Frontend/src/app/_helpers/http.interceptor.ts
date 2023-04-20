@@ -1,70 +1,24 @@
-import { Injectable } from '@angular/core';
-import { HttpEvent, HttpInterceptor, HttpHandler, HttpRequest, HTTP_INTERCEPTORS, HttpErrorResponse } from '@angular/common/http';
-import { catchError, Observable, switchMap, throwError } from 'rxjs';
-import { StorageService } from '../_services/storage.service';
-import { AuthService } from '../_services/auth.service';
-import { EventBusService } from '../_shared/event-bus.service';
-import { EventData } from '../_shared/event.class';
+import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HTTP_INTERCEPTORS } from "@angular/common/http";
+import { Injectable } from "@angular/core";
+import { Observable } from "rxjs";
+import { TokenStorageService } from "../_services/token-storage.service";
 
-
+const TOKEN_HEADER_KEY = 'Authorization';
 @Injectable()
-export class HttpRequestInterceptor implements HttpInterceptor {
-  private isRefreshing = false;
+export class AuthInterceptor implements HttpInterceptor {
+  constructor(private token: TokenStorageService) { }
 
-  constructor(
-    private storageService: StorageService,
-    private authService: AuthService,
-    private eventBusService: EventBusService
-  ) {}
-
-  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    req = req.clone({
-      withCredentials: true,
-    });
-
-    return next.handle(req).pipe(
-      catchError((error) => {
-        if (
-          error instanceof HttpErrorResponse &&
-          !req.url.includes('auth/login') &&
-          error.status === 401
-        ) {
-          return this.handle401Error(req, next);
-        }
-
-        return throwError(() => error);
-      })
-    );
-  }
-
-  private handle401Error(request: HttpRequest<any>, next: HttpHandler) {
-    if (!this.isRefreshing) {
-      this.isRefreshing = true;
-
-      if (this.storageService.isLoggedIn()) {
-        return this.authService.refreshToken().pipe(
-          switchMap(() => {
-            this.isRefreshing = false;
-
-            return next.handle(request);
-          }),
-          catchError((error) => {
-            this.isRefreshing = false;
-
-            if (error.status == '403') {
-              this.eventBusService.emit(new EventData('logout', null));
-            }
-
-            return throwError(() => error);
-          })
-        );
-      }
+  intercept(req: HttpRequest<any>, next: HttpHandler) {
+    let authReq = req;
+    const token = this.token.getToken();
+    if (token != null) {
+      // for Spring Boot back-end
+      authReq = req.clone({ headers: req.headers.set(TOKEN_HEADER_KEY, 'Bearer ' + token) });
     }
-
-    return next.handle(request);
+    return next.handle(authReq);
   }
 }
-
-export const httpInterceptorProviders = [
-  { provide: HTTP_INTERCEPTORS, useClass: HttpRequestInterceptor, multi: true },
+export const authInterceptorProviders = [
+  { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
 ];
+

@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { FileService } from 'src/app/_services/file.service';
 import { QuestionService } from 'src/app/_services/question.service';
 import { Question } from '../question';
 
@@ -21,6 +22,7 @@ export class QuestionCreateComponent {
     private router: Router,
     private toastrService: ToastrService,
     private httpClient: HttpClient,
+    private fileService: FileService,
     private formBuilder: FormBuilder,
     ) { }
 
@@ -63,7 +65,7 @@ export class QuestionCreateComponent {
     // Store form name as "file" with file data
     formData.append('file', this.file, this.file.name);
     console.log(this.file.name);
-    this.questionService.upLoadFile(formData).subscribe(data =>{
+    this.fileService.upLoadFile(formData).subscribe(data =>{
       this.message = data.message;
     },
     (error) => this.message = error.error.message)

@@ -4,6 +4,8 @@ import { ToastrService } from 'ngx-toastr';
 import { COUNT, PAGE, PAGESIZE } from 'src/app/const';
 import { User } from 'src/app/user/user';
 import { UserService } from 'src/app/_services/user.service';
+import { EventBusService } from 'src/app/_shared/event-bus.service';
+import { EventData } from 'src/app/_shared/event.class';
 
 @Component({
   selector: 'app-board-user',
@@ -20,7 +22,8 @@ export class BoardUserComponent {
   constructor(
     private userService: UserService,
     private toastrService: ToastrService,
-    private router: Router
+    private router: Router,
+    private eventBusService: EventBusService
   ) { }
 
   ngOnInit(): void {
@@ -31,7 +34,12 @@ export class BoardUserComponent {
   private getAllUser() {
     this.userService.getAllUser().subscribe(data => {
       this.listUsers = data;
-    });
+    },
+    err => {
+
+      if (err.status === 403)
+        this.eventBusService.emit(new EventData('logout', null));
+    })
   }
 
 

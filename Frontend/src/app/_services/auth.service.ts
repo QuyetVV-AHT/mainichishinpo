@@ -43,7 +43,9 @@ export class AuthService {
     return this.http.post(AUTH_API + 'logout', { }, httpOptions);
   }
 
-  refreshToken() {
-    return this.http.post(AUTH_API + 'refreshtoken', { }, httpOptions);
+  refreshToken(token: string) {
+    return this.http.post(AUTH_API + 'refreshtoken', {
+      refreshToken: token
+    }, httpOptions);
   }
 }

@@ -8,8 +8,7 @@ import { RegisterComponent } from './register/register.component';
 import { HomeComponent } from './home/home.component';
 import { ProfileComponent } from './profile/profile.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
-import { httpInterceptorProviders } from './_helpers/http.interceptor';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BoardAdminComponent } from './Dashboard/board-admin/board-admin.component';
 import { BoardModeratorComponent } from './Dashboard/board-moderator/board-moderator.component';
 import { BoardUserComponent } from './Dashboard/board-user/board-user.component';
@@ -39,6 +38,7 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatButtonModule} from '@angular/material/button';
 import {MatTableModule} from '@angular/material/table';
 import { LoggerModule, NgxLoggerLevel } from "ngx-logger";
+import { authInterceptorProviders } from './_helpers/http.interceptor';
 
 
 @NgModule({
@@ -94,7 +94,7 @@ import { LoggerModule, NgxLoggerLevel } from "ngx-logger";
       serverLogLevel: NgxLoggerLevel.ERROR
     }),
   ],
-  providers: [httpInterceptorProviders],
+  providers: [authInterceptorProviders],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
