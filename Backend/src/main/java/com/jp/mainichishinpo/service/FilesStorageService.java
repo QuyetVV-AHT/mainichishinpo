@@ -7,6 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.nio.file.Path;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Stream;
 
 @Service
@@ -23,5 +24,5 @@ public interface FilesStorageService {
 
     List<Question> getExcelDataAsList(String filename);
 
-    int saveExcelData(List<Question> questionList);
+    Set<Question> saveExcelData(List<Question> questionList);
 }

@@ -1,5 +1,6 @@
 package com.jp.mainichishinpo.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -39,5 +40,6 @@ public class Exam {
     private Boolean active;
 
     @OneToMany(mappedBy = "id")
+    @JsonIgnore
     private List<Result> results;
 }

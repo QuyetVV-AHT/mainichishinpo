@@ -18,8 +18,8 @@ export class ExamService {
   getAllExam(): Observable<Exam[]> {
     return this.httpClient.get<Exam[]>(`${this.Exam_URL + 'list'}`);
   }
-  addExam(Exam: Exam, formData: FormData): Observable<Object> {
-    return this.httpClient.post<Exam>(`${this.Exam_URL + 'create'}`, {Exam,formData} );
+  addExam(Exam: Exam): Observable<Object> {
+    return this.httpClient.post<Exam>(`${this.Exam_URL + 'create'}`, Exam );
   }
   getExamById(id: number): Observable<Exam> {
     return this.httpClient.get<Exam>(`${this.Exam_URL }${id}`);
@@ -47,5 +47,9 @@ export class ExamService {
 
   activeExam(examId: number, isActive: any):Observable<any>{
     return this.httpClient.post<any>(`${this.Exam_URL + 'active'}/${examId}`, isActive);
+  }
+
+  createExamByExcel(formData: FormData):Observable<any>{
+    return this.httpClient.post<any>(this.Exam_URL + 'create-exam-by-excel', formData);
   }
 }

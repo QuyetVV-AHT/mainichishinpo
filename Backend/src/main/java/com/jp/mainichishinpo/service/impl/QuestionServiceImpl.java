@@ -31,6 +31,7 @@ public class QuestionServiceImpl implements QuestionService {
 
     @Override
     public Question save(Question question) {
+        question.setQuestion(question.getQuestion().toLowerCase());
         return questionRepository.save(question);
     }
 
@@ -46,17 +47,17 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
-    public Question create(QuestionRequest questionRequest) {
+    public Long create(QuestionRequest questionRequest) {
         Question question = new Question();
-        question.setQuestion(questionRequest.getQuestion());
+        question.setQuestion(questionRequest.getQuestion().toLowerCase());
         question.setAns_A(questionRequest.getAns_A());
         question.setAns_B(questionRequest.getAns_B());
         question.setAns_C(questionRequest.getAns_C());
         question.setAns_D(questionRequest.getAns_D());
         question.setAns_Correct(questionRequest.getAns_Correct());
         question.setNote(questionRequest.getNote());
-        questionRepository.save(question);
-        return question;
+        Long ques_Id = questionRepository.saveAndFlush(question).getId();
+        return ques_Id;
     }
 
     @Override

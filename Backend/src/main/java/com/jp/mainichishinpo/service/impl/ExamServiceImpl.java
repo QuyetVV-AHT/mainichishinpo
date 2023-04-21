@@ -31,7 +31,7 @@ public class ExamServiceImpl implements ExamService {
 
     @Override
     public Exam save(Exam exam) {
-
+        exam.setExam_name(exam.getExam_name().toLowerCase());
         return examRepository.save(exam);
     }
 
@@ -49,7 +49,7 @@ public class ExamServiceImpl implements ExamService {
     @Override
     public Exam create(ExamRequest rq) {
         Exam exam = new Exam();
-        exam.setExam_name(rq.getExam_name());
+        exam.setExam_name(rq.getExam_name().toLowerCase());
         exam.setNote(rq.getNote());
         exam.setActive(false);
         examRepository.save(exam);

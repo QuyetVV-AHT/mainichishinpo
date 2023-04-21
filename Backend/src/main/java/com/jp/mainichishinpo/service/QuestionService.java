@@ -23,7 +23,7 @@ public interface QuestionService {
 
     Page<Question> searchByKeyword(String term, Pageable paging);
 
-    Question create(QuestionRequest questionRequest);
+    Long create(QuestionRequest questionRequest);
 
     boolean existsByQuestion(String question);
 

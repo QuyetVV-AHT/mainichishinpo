@@ -35,11 +35,7 @@ export class ExamCreateComponent {
     this.router.navigate(['exam']);
   }
    onSubmit(){
-    const formData = new FormData();
-    // Store form name as "file" with file data
-    formData.append('file', this.file, this.file.name);
-
-    this.examService.addExam(this.exam, formData).subscribe(data =>{
+    this.examService.addExam(this.exam).subscribe(data =>{
       this.goToListExam();
   },
   error => console.log(error));
@@ -61,8 +57,9 @@ export class ExamCreateComponent {
 
     // Store form name as "file" with file data
     formData.append('file', this.file, this.file.name);
-    console.log(this.file.name);
-
+    this.examService.createExamByExcel(formData).subscribe(data =>{
+      this.goToListExam();
+    })
     }
   }
 }

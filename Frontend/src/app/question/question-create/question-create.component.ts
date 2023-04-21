@@ -67,6 +67,7 @@ export class QuestionCreateComponent {
     console.log(this.file.name);
     this.fileService.upLoadFile(formData).subscribe(data =>{
       this.message = data.message;
+      this.goToListQuestion();
     },
     (error) => this.message = error.error.message)
     }

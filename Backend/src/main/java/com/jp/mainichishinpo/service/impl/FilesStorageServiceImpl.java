@@ -23,12 +23,15 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Stream;
+import static com.jp.mainichishinpo.util.ParamKey.*;
+
 
 @Component
 public class FilesStorageServiceImpl implements FilesStorageService {
-    private final Path root = Paths.get("uploads/");
     Logger logger = LoggerFactory.getLogger(FilesStorageServiceImpl.class);
     Workbook workbook;
     @Autowired
@@ -37,7 +40,7 @@ public class FilesStorageServiceImpl implements FilesStorageService {
     @Override
     public void init() {
         try {
-            Files.createDirectories(root);
+            Files.createDirectories(PATH_EXCEL);
         } catch (IOException e) {
             throw new RuntimeException("Could not initialize folder for upload!");
         }
@@ -46,7 +49,7 @@ public class FilesStorageServiceImpl implements FilesStorageService {
     @Override
     public void save(MultipartFile file) {
         try {
-            Files.copy(file.getInputStream(), this.root.resolve(file.getOriginalFilename()));
+            Files.copy(file.getInputStream(), PATH_EXCEL.resolve(file.getOriginalFilename()));
         } catch (Exception e) {
             if (e instanceof FileAlreadyExistsException) {
                 throw new RuntimeException("A file of that name already exists.");
@@ -59,7 +62,7 @@ public class FilesStorageServiceImpl implements FilesStorageService {
     @Override
     public Resource load(String filename) {
         try {
-            Path file = root.resolve(filename);
+            Path file = PATH_EXCEL.resolve(filename);
             Resource resource = new UrlResource(file.toUri());
 
             if (resource.exists() || resource.isReadable()) {
@@ -74,13 +77,13 @@ public class FilesStorageServiceImpl implements FilesStorageService {
 
     @Override
     public void deleteAll() {
-        FileSystemUtils.deleteRecursively(root.toFile());
+        FileSystemUtils.deleteRecursively(PATH_EXCEL.toFile());
     }
 
     @Override
     public Stream<Path> loadAll() {
         try {
-            return Files.walk(this.root, 1).filter(path -> !path.equals(this.root)).map(this.root::relativize);
+            return Files.walk(PATH_EXCEL, 1).filter(path -> !path.equals(PATH_EXCEL)).map(PATH_EXCEL::relativize);
         } catch (IOException e) {
             throw new RuntimeException("Could not load the files!");
         }
@@ -88,7 +91,7 @@ public class FilesStorageServiceImpl implements FilesStorageService {
 
     public List<Question> getExcelDataAsList(String filename) {
 
-        String FILE_PATH = root +"/"+ filename;
+        String FILE_PATH = PATH_EXCEL +"/"+ filename;
         List<String> list = new ArrayList<String>();
 
         // Create a DataFormatter to format and get each cell's value as String
@@ -97,6 +100,7 @@ public class FilesStorageServiceImpl implements FilesStorageService {
         // Create the Workbook
         try {
             workbook = WorkbookFactory.create(new File(FILE_PATH));
+            workbook.setMissingCellPolicy(Row.MissingCellPolicy.CREATE_NULL_AS_BLANK);
         } catch (EncryptedDocumentException | IOException e) {
             e.printStackTrace();
         }
@@ -131,12 +135,11 @@ public class FilesStorageServiceImpl implements FilesStorageService {
     private List<Question> createList(List<String> excelData, int noOfColumns) {
 
         ArrayList<Question> questionArrayList = new ArrayList<Question>();
-        logger.info("size +" + excelData.size());
         int i = noOfColumns;
         do {
             Question ques = new Question();
 
-            ques.setQuestion(excelData.get(i));
+            ques.setQuestion(excelData.get(i).toLowerCase());
             ques.setAns_A(excelData.get(i + 1));
             ques.setAns_B(excelData.get(i + 2));
             ques.setAns_C(excelData.get(i + 3));
@@ -152,9 +155,14 @@ public class FilesStorageServiceImpl implements FilesStorageService {
     }
 
     @Override
-    public int saveExcelData(List<Question> questionList) {
+    public Set<Question> saveExcelData(List<Question> questionList) {
         // TODO kiem tra xem question co trong database chua?
-        questionList = questionRepository.saveAll(questionList);
-        return questionList.size();
+        Set<Question> questionListForExam = new HashSet<>();
+        for (Question question: questionList
+             ) {
+            Question ques= questionRepository.saveAndFlush(question);
+            questionListForExam.add(ques);
+        }
+        return questionListForExam;
     }
 }

@@ -16,10 +16,14 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
-@CrossOrigin(origins={"http://localhost:4200","http://ec2-18-224-40-219.us-east-2.compute.amazonaws.com"}, maxAge = 3600, allowCredentials="true")
+@CrossOrigin(origins={"http://localhost:4200","http://ec2-18-224-40-219.us-east-2.compute.amazonaws.com"}, maxAge = 86400, allowCredentials="true")
 @RestController
 @RequestMapping("/api/file")
 @PreAuthorize("hasRole('MODERATOR') or hasRole('ADMIN')")
@@ -32,13 +36,17 @@ public class FilesController {
     public ResponseEntity<MessageResponse> uploadFile(@RequestParam("file") MultipartFile file) {
         String message = "";
         try {
-            // TODO check file is exist
+
+            if(Files.exists(Paths.get("uploads/" + file.getOriginalFilename()))){
+                Files.delete(Paths.get("uploads/" + file.getOriginalFilename()));
+            }
 //            Luu file vao folder
             logger.info("Saving file in folder upload");
             storageService.save(file);
             List<Question> questionList = storageService.getExcelDataAsList(file.getOriginalFilename());
-            int size = storageService.saveExcelData(questionList);
-            message = "Uploaded the file successfully: " + file.getOriginalFilename() + " and save " + size + " data";
+            // sau khi da luu cau hoi vao DB
+            Set<Question> questionsIdList = storageService.saveExcelData(questionList);
+            message = "Uploaded the file successfully: " + file.getOriginalFilename() + " and save " + questionsIdList.size() + " data";
             logger.info(message);
 
             return ResponseEntity.status(HttpStatus.OK).body(new MessageResponse(message));
