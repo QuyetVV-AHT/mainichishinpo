@@ -2,16 +2,16 @@
   <div class="row">
     <div class="col-lg-2 col-sm-12 mt-5">
       <mat-card>
-        <h2 class="text-center">Instructions</h2>
+        <h2 class="text-center">Hướng dẫn</h2>
         <ul>
-          <li>Do not refresh the page</li>
-          <li>You can not go back</li>
-          <li>Careful of the time</li>
+          <li>Không refresh lại trang</li>
+          <li>Không back lại trang trước</li>
+          <li>Chú ý thời gian làm bài</li>
         </ul>
       </mat-card>
     </div>
     <div class="col-lg-8 col-sm-12 mt-1">
-      <h1 class="title">Tieu Quiz</h1>
+      <h1 class="title">{{title_exam}}</h1>
       <mat-card *ngFor="let ques of questions; let i = index" class="mb-2">
         <mat-card-content>
           <p>
@@ -84,11 +84,8 @@
     </div>
     <div class="col-lg-2 col-sm-12 mt-5 text-center">
       <mat-card>
-        <mat-card-title>Progress</mat-card-title>
-        <mat-card-subtitle
-          >Quiz will be submitted automatically after the time has
-          finished</mat-card-subtitle
-        >
+        <mat-card-title>Thời gian</mat-card-title>
+        <mat-card-subtitle>Bài thi sẽ tự động đóng khi hết thời gian</mat-card-subtitle>
         <mat-card-content>
           <h1>{{ getFormattedTime() }}</h1>
           <mat-spinner
@@ -112,19 +109,19 @@
         </mat-card-content>
         <div class="container mt-3">
           <button mat-raised-button color="warn"  (click)="toHome()">
-            Home
+            Trang chủ
           </button>
         </div>
       </mat-card>
 
       <mat-card *ngFor="let ques of questions; let i = index" class="mb-2">
-          <div> {{i+1}}: {{ques.question}}</div>
-          <div>A: {{ques.ans_A}}</div>
-          <div>B: {{ques.ans_B}}</div>
-          <div>C: {{ques.ans_C}}</div>
-          <div>D: {{ques.ans_D}}</div>
-          <div>解答: {{ques.ans_Correct}}</div>
-          <div>Note: {{ques.note}}</div>
+          <div class="content"> {{i+1}}: {{ques.question}}</div>
+          <div class="content" [ngStyle]="{'color': getColor(ques.ans_A, ques.givenAnswer, ques.ans_Correct)}">A: {{ques.ans_A}}</div>
+          <div class="content" [ngStyle]="{'color': getColor(ques.ans_B, ques.givenAnswer, ques.ans_Correct)}">B: {{ques.ans_B}}</div>
+          <div class="content" [ngStyle]="{'color': getColor(ques.ans_C, ques.givenAnswer, ques.ans_Correct)}">C: {{ques.ans_C}}</div>
+          <div class="content" [ngStyle]="{'color': getColor(ques.ans_D, ques.givenAnswer, ques.ans_Correct)}">D: {{ques.ans_D}}</div>
+          <div class="content" style="color: tomato;">解答: {{ques.ans_Correct}}</div>
+          <div class="content">Note: {{ques.note}}</div>
       </mat-card>
 
 </div>
