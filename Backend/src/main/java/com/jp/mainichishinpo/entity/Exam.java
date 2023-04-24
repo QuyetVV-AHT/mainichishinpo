@@ -29,7 +29,7 @@ public class Exam {
     @Size(max = 50)
     private String exam_name;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(	name = "exam_question",
             joinColumns = @JoinColumn(name = "exam_id"),
             inverseJoinColumns = @JoinColumn(name = "question_id"))
@@ -39,7 +39,7 @@ public class Exam {
 
     private Boolean active;
 
-    @OneToMany(mappedBy = "id")
+    @OneToMany(mappedBy = "id", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Result> results;
 }
