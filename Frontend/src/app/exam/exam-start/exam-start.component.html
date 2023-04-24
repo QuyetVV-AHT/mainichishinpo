@@ -89,7 +89,6 @@
           >Quiz will be submitted automatically after the time has
           finished</mat-card-subtitle
         >
-
         <mat-card-content>
           <h1>{{ getFormattedTime() }}</h1>
           <mat-spinner
@@ -105,8 +104,6 @@
 </div>
 
 <div class="container text-center mt-4" *ngIf="isSubmit">
-  <div class="row">
-    <div class="col-md-6 offset-md-3">
       <mat-card>
         <div class="mat-headline">Kết quả</div>
         <mat-card-content class="mt-4">
@@ -119,58 +116,15 @@
           </button>
         </div>
       </mat-card>
-    </div>
-    <mat-card>
-      <mat-card-content>
-        Đáp án và giải thích
-        <table mat-table [dataSource]="this.questions" class="mat-elevation-z8">
 
-          <!--- Note that these columns can be defined in any order.
-                The actual rendered columns are set as a property on the row definition" -->
+      <mat-card *ngFor="let ques of questions; let i = index" class="mb-2">
+          <div> {{i+1}}: {{ques.question}}</div>
+          <div>A: {{ques.ans_A}}</div>
+          <div>B: {{ques.ans_B}}</div>
+          <div>C: {{ques.ans_C}}</div>
+          <div>D: {{ques.ans_D}}</div>
+          <div>解答: {{ques.ans_Correct}}</div>
+          <div>Note: {{ques.note}}</div>
+      </mat-card>
 
-          <!-- Question Column -->
-          <ng-container matColumnDef="question">
-            <th mat-header-cell *matHeaderCellDef> Câu hỏi </th>
-            <td mat-cell *matCellDef="let element"> {{element.question}} </td>
-          </ng-container>
-
-          <!-- Ans_A Column -->
-          <ng-container matColumnDef="ans_A">
-            <th mat-header-cell *matHeaderCellDef> Đáp án A </th>
-            <td mat-cell *matCellDef="let element"> {{element.ans_A}} </td>
-          </ng-container>
-
-          <!-- Ans_B Column -->
-          <ng-container matColumnDef="ans_B">
-            <th mat-header-cell *matHeaderCellDef> Đáp án B </th>
-            <td mat-cell *matCellDef="let element"> {{element.ans_B}} </td>
-          </ng-container>
-
-          <!-- Ans_C Column -->
-          <ng-container matColumnDef="ans_C">
-            <th mat-header-cell *matHeaderCellDef> Đáp án C </th>
-            <td mat-cell *matCellDef="let element"> {{element.ans_C}} </td>
-          </ng-container>
-           <!-- Ans_D Column -->
-           <ng-container matColumnDef="ans_D">
-            <th mat-header-cell *matHeaderCellDef> Đáp án D</th>
-            <td mat-cell *matCellDef="let element"> {{element.ans_D}} </td>
-          </ng-container>
-           <!-- Ans_Correct Column -->
-           <ng-container matColumnDef="ans_Correct">
-            <th mat-header-cell *matHeaderCellDef> Đáp án đúng </th>
-            <td mat-cell *matCellDef="let element"> {{element.ans_Correct}} </td>
-          </ng-container>
-           <!-- note Column -->
-           <ng-container matColumnDef="note">
-            <th mat-header-cell *matHeaderCellDef> chú thích </th>
-            <td mat-cell *matCellDef="let element"> {{element.note}} </td>
-          </ng-container>
-
-          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-        </table>
-      </mat-card-content>
-    </mat-card>
-  </div>
 </div>

@@ -68,7 +68,7 @@ export class ExamViewComponent {
   isActive(isActive: any){
     this.examService.activeExam(this.id, isActive).subscribe(data =>{
 
-      window.location.reload();
+      this.router.navigate(['exam']);
     })
   }
 

@@ -44,9 +44,8 @@ export class BoardExamComponent {
   }
   deleteExam(id: number) {
     this.examService.deleteExam(id).subscribe(data => {
-      this.router.navigate(['exam']);
       window.location.reload();
-      this.toastrService.success('Thành công', 'Xóa bài thi');
+
     })
   }
 
