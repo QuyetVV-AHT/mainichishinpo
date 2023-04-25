@@ -2,6 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { Post } from '../entity/Post';
 import { Exam } from '../exam/exam';
 
 @Injectable({
@@ -12,8 +13,8 @@ export class PublicService {
   private PUBLIC_URL = environment.apiUrl +'/api/public';
 
   constructor(private httpClient: HttpClient) { }
-  getPublicContent(): Observable<any> {
-    return this.httpClient.get(`${this.PUBLIC_URL  + '/all'}`, { responseType: 'text' });
+  getAllPostIsActive(): Observable<Post[]> {
+    return this.httpClient.get<Post[]>(`${this.PUBLIC_URL  + '/all'}`);
   }
 
   getExamPublic(): Observable<Exam[]> {

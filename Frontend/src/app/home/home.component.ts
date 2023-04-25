@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { PAGESIZE, PAGE, COUNT } from '../const';
+import { Post } from '../entity/Post';
+import { PostsService } from '../_services/posts.service';
 import { PublicService } from '../_services/public.service';
 import { StorageService } from '../_services/storage.service';
 import { UserService } from '../_services/user.service';
@@ -14,15 +18,21 @@ export class HomeComponent implements OnInit {
   showAdminBoard = false;
   showModeratorBoard = false;
   username?: string;
+  listPost!: Post[]
+  pageSize = PAGESIZE;
+  page = PAGE;
+  term = '';
+  count = COUNT;
 
-  constructor(private userService: UserService,
+  constructor(private postService: PostsService,
     private storageService: StorageService,
+    private router: Router,
       private publicService: PublicService) { }
 
   ngOnInit(): void {
-    this.publicService.getPublicContent().subscribe({
+    this.publicService.getAllPostIsActive().subscribe({
       next: data => {
-        this.content = data;
+        this.listPost = data;
       },
       error: err => {console.log(err)
         if (err.error) {
@@ -32,5 +42,25 @@ export class HomeComponent implements OnInit {
         }
       }
     });
+  }
+
+  viewPost(id: number){
+    this.router.navigate(['view-post', id]);
+  }
+
+  handlePageChange(event: number): void {
+    this.page = event;
+    this.retrievePosts(this.term);
+  }
+
+  retrievePosts(term: string){
+    this.postService.getAllPostsWithPagination(term).subscribe(res =>{
+      this.listPost = res.content;
+      this.count = res.totalElements
+    })
+  }
+
+  searchByTerm(){
+    this.retrievePosts(this.term);
   }
 }

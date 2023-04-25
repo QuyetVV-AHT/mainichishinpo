@@ -11,6 +11,14 @@
       </div>
     </div>
   </div>
+
+  <div class="row">
+    <div class="col">
+      <button style="margin-left: 10px !important; margin-bottom: 10px !important;" class="btn btn-primary">
+        <a routerLink="/post-create" routerLinkActive="active" class="nav-link">Thêm mới bài viết</a>
+      </button>
+    </div>
+  </div>
 </div>
 <div class="ten">
   <table class="table table-striped">
@@ -20,10 +28,11 @@
         <th  >Bài viết</th>
         <th  >Tác giả</th>
         <th  >Nội dung</th>
+        <th  >Trạng thái</th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor=" let post of listPost | paginate : {
+      <tr *ngFor=" let post of listPosts | paginate : {
         itemsPerPage: pageSize,
         currentPage: page,
         totalItems: count
@@ -31,11 +40,20 @@
         <td>{{i+1}}</td>
         <td>{{post.post_name}}</td>
         <td>{{post.user.username}}</td>
-        <td>{{ post.contents | slice:0:150 }}{{ post.contents.length > 150 ? '...' : ''}}</td>
+        <td>{{ post.contents | slice:0:50 }}{{ post.contents.length > 50 ? '...' : ''}}</td>
+        <td *ngIf="post?.active == true">Công khai</td>
+        <td *ngIf="post?.active == false">Đang chỉnh sửa</td>
+
+
 
         <td style="text-align:center">
-          <button (click)="viewPost(post.id)" class="btn btn-info">
-            <mat-icon>remove_red_eye</mat-icon>
+          <button (click)="updatePost(post.id)" class="btn btn-info">
+            <mat-icon>edit</mat-icon>
+          </button>
+        </td>
+        <td style="text-align:center">
+          <button (click)="deletePost(post.id)" class="btn btn-danger">
+            <mat-icon>delete_outline</mat-icon>
           </button>
         </td>
       </tr>

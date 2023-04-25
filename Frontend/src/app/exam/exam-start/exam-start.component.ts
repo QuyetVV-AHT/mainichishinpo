@@ -23,6 +23,7 @@ export class ExamStartComponent {
   interval: any;
   value: any;
   test: number = 0;
+  title_exam: string | undefined;
   displayedColumns: string[] = ['question', 'ans_A', 'ans_B','ans_C','ans_D','ans_Correct','note'];
   constructor(
     private locationStrategy: LocationStrategy,
@@ -42,7 +43,7 @@ export class ExamStartComponent {
     this.examService.getExamById(this.examId).subscribe(
       (data) => {
         this.questions = data.questions;
-
+        this.title_exam = data.exam_name;
         this.questions.forEach((ques: any) => {
           ques['givenAnswer'] = '';
         });
@@ -88,6 +89,16 @@ export class ExamStartComponent {
     let mark= this.correctAnswer+"/"+this.questions.length;
     this.examService.sendResutl(this.examId, mark).subscribe(data=>{
     })
+  }
+  getColor(ans: string, givenAnswer: string, correctAnswer: string){
+    if(ans === givenAnswer){
+      return 'blue';
+    }else if (ans === correctAnswer){
+      return 'red';
+    }else{
+      return 'black';
+    }
+
   }
   startTimer() {
     this.timer = 901;

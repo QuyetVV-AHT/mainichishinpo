@@ -10,6 +10,8 @@ import com.jp.mainichishinpo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -116,5 +118,13 @@ public class UserServiceImpl implements UserService {
     public Page<User> searchByKeyword(String term, Pageable paging) {
         Page<User> res = userRepository.searchByKeyword(term, paging);
         return res;
+    }
+
+    @Override
+    public User currentUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+        User user =  findByUsername(currentPrincipalName).get();
+        return user;
     }
 }

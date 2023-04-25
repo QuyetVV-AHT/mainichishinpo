@@ -26,6 +26,9 @@
       <li class="nav-item">
         <a href="/user-list" class="nav-link" *ngIf="showAdminBoard" routerLink="user">Quản lý user</a>
       </li>
+      <li class="nav-item">
+        <a href="/post-list" class="nav-link" *ngIf="showAdminBoard" routerLink="post">Quản lý bài viết</a>
+      </li>
     </ul>
 
     <ul class="navbar-nav ml-auto" *ngIf="!isLoggedIn">
@@ -50,4 +53,9 @@
   <div class="container">
     <router-outlet></router-outlet>
   </div>
+  <footer>
+    <p>
+      Mainichishinpo
+    </p>
+  </footer>
 </div>

@@ -1,0 +1,36 @@
+<div style="padding-top:100px" class="cn">
+  <h2>Cập nhật bài viêt</h2>
+  <div>
+    <button mat-button  *ngIf="!post?.active" (click)="isActive(!post?.active)" color="accent">Chế độ công khai</button>
+    <button mat-button  *ngIf="post?.active"  (click)="isActive(!post?.active)" color="warn">Chế độ chỉnh sửa</button>
+  </div>
+  <form [formGroup]="formGroup" (ngSubmit)="onSubmit(formGroup.value)" class="form">
+      <div class="container">
+
+        <div class="col-12">
+          <mat-form-field class="form-element" style="width: 70%;">
+            <input type="text" matInput placeholder="{{'Tên bài viết' }}" formControlName="post_name" id="post_name"
+              [(ngModel)]="post.post_name" name="post_name">
+            <mat-error *ngIf="!formGroup.controls['post_name'].valid && formGroup.controls['post_name'].touched">
+              <span>Đây là trường bắt buộc</span>
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+      <div class="row">
+        <div class="col-12">
+          <mat-form-field class="form-element" style="width:  70%;">
+            <textarea style="min-height: 500px;" matInput placeholder="{{'Nội dung'}}" formControlName="contents" id="contents"
+              [(ngModel)]="post.contents" name="contents"></textarea>
+            <mat-error *ngIf="!formGroup.controls['contents'].valid && formGroup.controls['contents'].touched">
+              <span>Đây là trường bắt buộc</span>
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+
+              <button class="btn btn-success" type="submit">Cập nhật</button>
+
+      </div>
+  </form>
+</div>

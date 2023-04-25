@@ -12,6 +12,10 @@ import { ExamUpdateComponent } from './exam/exam-update/exam-update.component';
 import { ExamViewComponent } from './exam/exam-view/exam-view.component';
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
+import { PostCreateComponent } from './post/post-create/post-create.component';
+import { PostListComponent } from './post/post-list/post-list.component';
+import { PostUpdateComponent } from './post/post-update/post-update.component';
+import { PostViewComponent } from './post/post-view/post-view.component';
 import { ProfileComponent } from './profile/profile.component';
 import { QuestionCreateComponent } from './question/question-create/question-create.component';
 import { QuestionUpdateComponent } from './question/question-update/question-update.component';
@@ -45,6 +49,13 @@ const routes: Routes = [
   { path: 'update-question-by-examId/:id', component: ExamUpdateQuestionComponent },
   { path: 'exam-public', component: ExamPublicComponent },
   { path: 'examStart/:id', component: ExamStartComponent },
+
+  // Post
+  { path: 'post', component: PostListComponent },
+  { path: 'post-create', component: PostCreateComponent },
+  { path: 'update-post/:id', component: PostUpdateComponent },
+  { path: 'view-post/:id', component: PostViewComponent },
+
 
 
   { path: '', redirectTo: 'home', pathMatch: 'full' }

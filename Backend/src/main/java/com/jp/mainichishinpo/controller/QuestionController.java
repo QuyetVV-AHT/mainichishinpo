@@ -87,6 +87,6 @@ public class QuestionController {
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deleteQuestion(@PathVariable Long id) {
         questionService.delete(id);
-        return ResponseEntity.ok(new MessageResponse("Question create successfully!"));}
+        return ResponseEntity.ok(new MessageResponse("Post delete successfully!"));}
 
 }

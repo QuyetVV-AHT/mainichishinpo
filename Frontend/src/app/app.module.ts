@@ -39,6 +39,10 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatTableModule} from '@angular/material/table';
 import { LoggerModule, NgxLoggerLevel } from "ngx-logger";
 import { authInterceptorProviders } from './_helpers/http.interceptor';
+import { PostListComponent } from './post/post-list/post-list.component';
+import { PostCreateComponent } from './post/post-create/post-create.component';
+import { PostUpdateComponent } from './post/post-update/post-update.component';
+import { PostViewComponent } from './post/post-view/post-view.component';
 
 
 @NgModule({
@@ -63,6 +67,10 @@ import { authInterceptorProviders } from './_helpers/http.interceptor';
     ExamUpdateQuestionComponent,
     ExamPublicComponent,
     ExamStartComponent,
+    PostListComponent,
+    PostCreateComponent,
+    PostUpdateComponent,
+    PostViewComponent
 
   ],
   imports: [

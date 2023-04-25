@@ -135,9 +135,7 @@ public class ExamController {
     @PostMapping("/send_result/{examId}")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> sendResult(@PathVariable Long examId, @Valid @RequestBody String mark){
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String currentPrincipalName = authentication.getName();
-        User user =  userService.findByUsername(currentPrincipalName).get();
+        User user =  userService.currentUser();
         resultService.save(examId, user, mark);
         return ResponseEntity.ok(new MessageResponse("return result"));
     }

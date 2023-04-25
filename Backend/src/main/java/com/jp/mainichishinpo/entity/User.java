@@ -1,6 +1,7 @@
 package com.jp.mainichishinpo.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -24,6 +25,7 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
 public class User {
 
     @Id
@@ -64,4 +66,8 @@ public class User {
     @OneToMany(mappedBy = "id")
     @JsonIgnore
     private List<Result> results;
+
+    @OneToMany(mappedBy = "id", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<Post> posts;
 }

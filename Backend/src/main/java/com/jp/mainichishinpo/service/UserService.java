@@ -32,4 +32,6 @@ public interface UserService {
 
     Page<User> searchByKeyword(String term, Pageable paging);
 
+    User currentUser();
+
 }

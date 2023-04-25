@@ -17,6 +17,8 @@ export class LoginComponent implements OnInit {
   isLoginFailed = false;
   errorMessage = '';
   roles: string[] = [];
+  show: boolean = false;
+  typePassword = 'password';
 
   constructor(private authService: AuthService, private tokenStorage: TokenStorageService) { }
 
@@ -24,6 +26,16 @@ export class LoginComponent implements OnInit {
     if (this.tokenStorage.getToken()) {
       this.isLoggedIn = true;
       this.roles = this.tokenStorage.getUser().roles;
+    }
+  }
+
+  onClick() {
+    if (this.typePassword === 'password') {
+      this.typePassword = 'text';
+      this.show = true;
+    } else {
+      this.typePassword = 'password';
+      this.show = false;
     }
   }
 
