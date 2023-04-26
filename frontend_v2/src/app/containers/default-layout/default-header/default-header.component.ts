@@ -24,6 +24,7 @@ export class DefaultHeaderComponent extends HeaderComponent implements OnInit {
     super();
   }
   ngOnInit(): void {
+    this.isLoggedIn = !!this.tokenStorageService.getToken();
     if (this.isLoggedIn) {
       const user = this.tokenStorageService.getUser();
       this.username = user.username;

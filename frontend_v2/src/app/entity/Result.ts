@@ -1,6 +1,5 @@
-import { Exam } from "../exam/exam";
-import { User } from "../user/user";
-
+import {Exam} from "../entity/Exam";
+import {User} from "../entity/User";
 export class Result{
   id!: number;
   mark!: string;

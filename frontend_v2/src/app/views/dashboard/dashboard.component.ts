@@ -22,9 +22,6 @@ interface IUser {
   styleUrls: ['dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
-
-  isLoggedIn = false;
-  username?: string;
   constructor(private chartsData: DashboardChartsData) {
   }
 
@@ -115,7 +112,7 @@ export class DashboardComponent implements OnInit {
   });
 
   ngOnInit(): void {
-    this.initCharts();
+    // this.initCharts();
   }
 
   initCharts(): void {

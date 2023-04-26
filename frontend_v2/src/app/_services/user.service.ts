@@ -2,7 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { User, UserRequest } from '../user/user';
+import { User, UserRequest } from '../entity/User';
 
 
 @Injectable({
@@ -29,8 +29,8 @@ export class UserService {
   getAllUser(): Observable<User[]> {
     return this.httpClient.get<User[]>(`${this.USER_URL + 'list'}`);
   }
-  addUser(user: User): Observable<Object> {
-    return this.httpClient.post<User>(`${this.USER_URL + 'create'}`, user);
+  addUser(user: UserRequest): Observable<Object> {
+    return this.httpClient.post<UserRequest>(`${this.USER_URL + 'create'}`, user);
   }
   getUserById(id: number): Observable<User> {
     return this.httpClient.get<User>(`${this.USER_URL }${id}`);

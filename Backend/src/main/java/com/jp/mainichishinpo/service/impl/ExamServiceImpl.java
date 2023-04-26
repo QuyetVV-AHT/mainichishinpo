@@ -21,7 +21,7 @@ public class ExamServiceImpl implements ExamService {
 
     @Override
     public List<Exam> getAllExam() {
-        return null;
+        return examRepository.findAll();
     }
 
     @Override

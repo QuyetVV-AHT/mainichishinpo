@@ -25,46 +25,37 @@ const routes: Routes = [
         loadChildren: () =>
           import('./views/dashboard/dashboard.module').then((m) => m.DashboardModule)
       },
-      {
-        path: 'theme',
-        loadChildren: () =>
-          import('./views/theme/theme.module').then((m) => m.ThemeModule)
-      },
+
       {
         path: 'base',
         loadChildren: () =>
           import('./views/base/base.module').then((m) => m.BaseModule)
       },
+      // USER
       {
-        path: 'buttons',
+        path: 'user',
         loadChildren: () =>
-          import('./views/buttons/buttons.module').then((m) => m.ButtonsModule)
+          import('./views/user/user.module').then((m) => m.UserModule)
       },
+      //POST
       {
-        path: 'forms',
+        path: 'post',
         loadChildren: () =>
-          import('./views/forms/forms.module').then((m) => m.CoreUIFormsModule)
+          import('./views/post/post.module').then((m) => m.PostModule)
       },
+      // QUESTION
       {
-        path: 'charts',
+        path: 'question',
         loadChildren: () =>
-          import('./views/charts/charts.module').then((m) => m.ChartsModule)
+          import('./views/question/question.module').then((m) => m.QuestionModule)
       },
+      // EXAM
       {
-        path: 'icons',
+        path: 'exam',
         loadChildren: () =>
-          import('./views/icons/icons.module').then((m) => m.IconsModule)
+          import('./views/exam/exam.module').then((m) => m.ExamModule)
       },
-      {
-        path: 'notifications',
-        loadChildren: () =>
-          import('./views/notifications/notifications.module').then((m) => m.NotificationsModule)
-      },
-      {
-        path: 'widgets',
-        loadChildren: () =>
-          import('./views/widgets/widgets.module').then((m) => m.WidgetsModule)
-      },
+
       {
         path: 'pages',
         loadChildren: () =>

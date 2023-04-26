@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { HashLocationStrategy, LocationStrategy, PathLocationStrategy } from '@angular/common';
+import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { BrowserModule, Title } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -47,6 +47,13 @@ import {
 
 import { IconModule, IconSetService } from '@coreui/icons-angular';
 import { HttpClientModule } from '@angular/common/http';
+import { QCreateComponent } from './views/question/q-create/q-create.component';
+import { QListComponent } from './views/question/q-list/q-list.component';
+import { QUpdateComponent } from './views/question/q-update/q-update.component';
+import { EListComponent } from './views/exam/e-list/e-list.component';
+import { ECreateComponent } from './views/exam/e-create/e-create.component';
+import { EUpdateComponent } from './views/exam/e-update/e-update.component';
+
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true,
