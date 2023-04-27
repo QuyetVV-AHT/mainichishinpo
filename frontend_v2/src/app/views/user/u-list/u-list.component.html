@@ -1,0 +1,42 @@
+<div>
+  <table cTable hover class="table table-striped">
+    <thead>
+      <tr>
+        <th  >STT</th>
+        <th  >USERNAME</th>
+        <th  >EMAIL</th>
+        <th  >ADDRESS</th>
+        <th  >NOTE</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor=" let user of listUsers | paginate : {
+        itemsPerPage: pageSize,
+        currentPage: page,
+        totalItems: count
+        }  let i = index;">
+        <td>{{i+1}}</td>
+        <td>{{user.username}}</td>
+        <td>{{user.email}}</td>
+        <td>{{user.address}}</td>
+        <td>{{user.note}}</td>
+
+        <td style="text-align:center">
+
+          <button cButton  (click)="updateUser(user.id)" color="primary" variant="outline">
+            <svg cIcon name="cilPencil"></svg>
+          </button>
+        </td>
+        <td style="text-align:center">
+          <button cButton (click)="deleteUser(user.id)" color="danger" variant="outline">
+            <svg cIcon name="cilTrash"></svg>
+          </button>
+        </td>
+      </tr>
+    </tbody>
+</table>
+<div class="col-md-12">
+  <pagination-controls previousLabel="{{'PREV' }}" nextLabel="{{'NEXT'}}" [responsive]="true"
+      (pageChange)="handlePageChange($event)"></pagination-controls>
+  </div>
+</div>

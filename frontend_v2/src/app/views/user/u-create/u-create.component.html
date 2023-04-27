@@ -1,0 +1,50 @@
+<div class="bg-light min-vh-100 flex-row align-items-center">
+  <c-container>
+    <c-row class="justify-content-center">
+      <c-col lg="7" md="9" xl="6">
+        <c-card class="mx-4">
+          <c-card-body class="p-4">
+            <form cForm  [formGroup]="formGroup">
+              <h1>Tạo tài khoản</h1>
+              <p class="text-medium-emphasis">Create your account</p>
+              <c-input-group class="mb-3">
+                <span cInputGroupText>
+                  <svg cIcon name="cilUser"></svg>
+                </span>
+                <input autoComplete="name" formControlName="username" cFormControl placeholder="Username" />
+              </c-input-group>
+              <c-input-group class="mb-3">
+                <span cInputGroupText>
+                  <svg cIcon name="cilInbox"></svg>
+                </span>
+                <input autoComplete="email" formControlName="email" cFormControl placeholder="Email" />
+              </c-input-group>
+              <c-input-group class="mb-3">
+                <span cInputGroupText>
+                  <svg cIcon name="cilLockLocked"></svg>
+                </span>
+                <input autoComplete="new-password" formControlName="password" cFormControl placeholder="Password" type="password" />
+              </c-input-group>
+              <c-input-group class="mb-4">
+                <span cInputGroupText>
+                  <svg cIcon name="cilHome"></svg>
+                </span>
+                <input autoComplete="address" formControlName="address" cFormControl placeholder="address" type="text" />
+              </c-input-group>
+              <c-input-group class="mb-4">
+                <span cInputGroupText>
+                  <svg cIcon name="cilNotes"></svg>
+                </span>
+                <input autoComplete="note" formControlName="note" cFormControl placeholder="note" type="text" />
+              </c-input-group>
+              <div class="d-grid">
+                <button cButton color="success" (click)="createUser()">Create Account</button>
+              </div>
+            </form>
+          </c-card-body>
+        </c-card>
+      </c-col>
+    </c-row>
+  </c-container>
+</div>
+
