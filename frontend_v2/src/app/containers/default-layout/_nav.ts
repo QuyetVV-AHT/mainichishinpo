@@ -45,10 +45,10 @@ export const navItems: INavData[] = [
         name: 'Tạo mới',
         url: '/post/create'
       },
-      {
-        name: 'Chỉnh sửa',
-        url: '/post/update'
-      },
+      // {
+      //   name: 'Chỉnh sửa',
+      //   url: '/post/update'
+      // },
     ]
   },
 

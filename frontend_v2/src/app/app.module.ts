@@ -47,12 +47,7 @@ import {
 
 import { IconModule, IconSetService } from '@coreui/icons-angular';
 import { HttpClientModule } from '@angular/common/http';
-import { QCreateComponent } from './views/question/q-create/q-create.component';
-import { QListComponent } from './views/question/q-list/q-list.component';
-import { QUpdateComponent } from './views/question/q-update/q-update.component';
-import { EListComponent } from './views/exam/e-list/e-list.component';
-import { ECreateComponent } from './views/exam/e-create/e-create.component';
-import { EUpdateComponent } from './views/exam/e-update/e-update.component';
+import { ToastrModule } from 'ngx-toastr';
 
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
@@ -94,7 +89,13 @@ const APP_CONTAINERS = [
     BadgeModule,
     ListGroupModule,
     CardModule,
-    HttpClientModule
+    HttpClientModule,
+    ToastrModule.forRoot({
+      timeOut: 3000,
+      positionClass: 'toast-bottom-right',
+      preventDuplicates: true,
+      closeButton: true
+   }),
   ],
   providers: [
     {
