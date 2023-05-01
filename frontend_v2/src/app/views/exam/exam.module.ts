@@ -9,12 +9,14 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { CardModule, ButtonModule, GridModule, FormModule } from '@coreui/angular';
 import { IconModule } from '@coreui/icons-angular';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { ImportExcelComponent } from './import-excel/import-excel.component';
 
 @NgModule({
   declarations: [
     ECreateComponent,
     EListComponent,
-    EUpdateComponent
+    EUpdateComponent,
+    ImportExcelComponent
   ],
   imports: [
     CommonModule,

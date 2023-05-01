@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { ECreateComponent } from './e-create/e-create.component';
 import { EListComponent } from './e-list/e-list.component';
 import { EUpdateComponent } from './e-update/e-update.component';
+import { ImportExcelComponent } from './import-excel/import-excel.component';
 
 const routes: Routes = [
   {
@@ -30,6 +31,13 @@ const routes: Routes = [
         component: EUpdateComponent,
         data: {
           title: 'Chỉnh sửa đề thi',
+        },
+      },
+      {
+        path: 'import-excel',
+        component: ImportExcelComponent,
+        data: {
+          title: 'Thêm đề thi từ file excel',
         },
       },
     ],

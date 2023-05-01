@@ -1,0 +1,31 @@
+<div class="bg-light min-vh-100 flex-row align-items-center">
+  <c-container>
+    <c-row class="justify-content-center">
+      <c-col >
+        <c-card class="mx-4">
+          <c-card-body class="p-4">
+            <c-input-group>
+              <input aria-describedby="inputGroupFileAddon04"
+                     aria-label="Upload"
+                     cFormControl
+                     id="inputGroupFile04"
+                     (change)="onChange($event)"
+                     type="file">
+              <button cButton
+                      color="info"
+                      id="inputGroupFileAddon04"
+                      type="button"
+                      (click)="onUpload()"
+                      >
+                Tải lên
+              </button>
+            </c-input-group>
+
+
+          </c-card-body>
+        </c-card>
+      </c-col>
+    </c-row>
+  </c-container>
+</div>
+

@@ -87,10 +87,10 @@ export const navItems: INavData[] = [
           name: 'Tạo mới',
           url: '/exam/create'
         },
-        // {
-        //   name: 'Chỉnh sửa',
-        //   url: '/exam/update'
-        // },
+        {
+          name: 'Import Excel',
+          url: '/exam/import-excel'
+        },
       ]
     },
 
