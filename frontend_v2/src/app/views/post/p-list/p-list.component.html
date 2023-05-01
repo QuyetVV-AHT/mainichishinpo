@@ -2,11 +2,11 @@
 <table cTable hover class="table table-striped">
   <thead>
   <tr>
-    <th scope="col">#</th>
+    <th scope="col">STT</th>
+    <th scope="col" style="min-width: 100px;">Tác giả</th>
     <th scope="col">Tiêu đề</th>
-    <th scope="col">Tác giả</th>
     <th scope="col" class="contents">Nội dung</th>
-    <th scope="col">Trạng thái</th>
+    <th scope="col" style="min-width: 150px;">Trạng thái</th>
     <th scope="col"></th>
     <th scope="col"></th>
   </tr>
@@ -18,8 +18,8 @@
       totalItems: count
       };  let i = index;">
       <td >{{i+1}}</td>
-      <td>{{post.post_name}}</td>
       <td>{{post.user.username}}</td>
+      <td>{{post.post_name}}</td>
       <td>{{ post.contents | slice:0:150 }}{{ post.contents.length > 150 ? '...' : ''}}</td>
       <td *ngIf="post?.active == true">Công khai</td>
       <td *ngIf="post?.active == false">Đang chỉnh sửa</td>

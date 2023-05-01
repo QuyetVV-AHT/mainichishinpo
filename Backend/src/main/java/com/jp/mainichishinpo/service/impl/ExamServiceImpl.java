@@ -5,19 +5,24 @@ import com.jp.mainichishinpo.entity.Question;
 import com.jp.mainichishinpo.payload.request.ExamRequest;
 import com.jp.mainichishinpo.repository.ExamRepository;
 import com.jp.mainichishinpo.service.ExamService;
+import com.jp.mainichishinpo.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Component
 public class ExamServiceImpl implements ExamService {
 
     @Autowired
     private ExamRepository examRepository;
+    @Autowired
+    private QuestionService questionService;
 
     @Override
     public List<Exam> getAllExam() {
@@ -51,6 +56,13 @@ public class ExamServiceImpl implements ExamService {
         Exam exam = new Exam();
         exam.setExam_name(rq.getExam_name().toLowerCase());
         exam.setNote(rq.getNote());
+        Set<Question> questionSet = new HashSet<>();
+        for (Long id: rq.getListQuestionId()
+             ) {
+            Question ques = questionService.findById(id).get();
+            questionSet.add(ques);
+        }
+        exam.setQuestions(questionSet);
         exam.setActive(false);
         examRepository.save(exam);
         return exam;

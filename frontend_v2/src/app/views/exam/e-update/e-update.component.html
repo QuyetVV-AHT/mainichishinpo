@@ -1,1 +1,102 @@
-<p>e-update works!</p>
+<div class="bg-light min-vh-100 flex-row align-items-center">
+  <c-container>
+    <c-row class="justify-content-center">
+      <c-col>
+        <c-card class="mx-4">
+          <c-card-body class="p-4">
+            <form cForm  [formGroup]="formGroup">
+              <h1>Cập nhật bài thi</h1>
+              <!-- <p class="text-medium-emphasis">Create your account</p> -->
+              <c-input-group class="mb-3">
+                <span cInputGroupText>
+                  <svg cIcon name="cilUser"></svg>
+                </span>
+                <input autoComplete="exam_name" formControlName="exam_name" cFormControl placeholder="exam_name" />
+              </c-input-group>
+              <c-input-group class="mb-3">
+                <span cInputGroupText>
+                  <svg cIcon name="cilInbox"></svg>
+                </span>
+                <input autoComplete="note" formControlName="note" cFormControl placeholder="note" />
+              </c-input-group>
+
+              <!-- Question List Added-->
+
+                <table cTable hover class="table table-striped">
+                  <thead>
+                    <tr>
+                      <th></th>
+                      <th class="question">Câu hỏi đã thêm vào bài thi</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor=" let question of questionAdded | paginate : {
+                        itemsPerPage: pageSize,
+                        currentPage: page,
+                        totalItems: count
+                        }  let i = index;">
+
+                      <td>
+                        {{question.id}}
+                      </td>
+                      <td>
+                        {{question.question}}
+                      </td>
+
+                    </tr>
+                  </tbody>
+                </table>
+
+                <!-- <div class="col-md-12">
+                  <pagination-controls previousLabel="{{'PREV' }}" nextLabel="{{'NEXT'}}" [responsive]="true"
+                      (pageChange)="handlePageChange($event)"></pagination-controls>
+                  </div>
+                </div> -->
+
+                <!-- Question List-->
+                <div>
+                  <table cTable hover class="table table-striped">
+                    <thead>
+                      <tr>
+                        <th></th>
+                        <th class="question">Danh sách câu hỏi</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor=" let question of listQuestion | paginate : {
+                        itemsPerPage: pageSize,
+                        currentPage: page,
+                        totalItems: count
+                        }  let i = index;">
+
+                        <td>
+                          <c-form-check>
+                            <input cFormCheckInput id="{{question.id}}" type="checkbox" [value]="question.id"
+                              [checked]="findIndexID(question.id)" (change)="onChange($event)" />
+                            <label cFormCheckLabel for="{{question.id}}">{{question.id}}</label>
+                          </c-form-check>
+                        </td>
+                        <td>
+                          {{question.question}}
+                        </td>
+
+                      </tr>
+                    </tbody>
+                  </table>
+
+                  <div class="col-md-12">
+                    <pagination-controls previousLabel="{{'PREV' }}" nextLabel="{{'NEXT'}}" [responsive]="true"
+                      (pageChange)="handlePageChange($event)"></pagination-controls>
+                  </div>
+                </div>
+
+                <div class="d-grid">
+                  <button cButton color="success" (click)="updateExam()">Update Exam</button>
+                </div>
+              </form>
+          </c-card-body>
+        </c-card>
+      </c-col>
+    </c-row>
+  </c-container>
+</div>

@@ -1,1 +1,47 @@
-<p>q-update works!</p>
+<div class="bg-light min-vh-100 flex-row align-items-center">
+  <c-container>
+    <c-row class="justify-content-center">
+      <c-col lg="7" md="9" xl="6">
+        <c-card class="mx-4">
+          <c-card-body class="p-4">
+            <form cForm  [formGroup]="formGroup">
+              <h1>Cập nhật câu hỏi</h1>
+              <!-- <p class="text-medium-emphasis">Create your account</p> -->
+              <c-input-group class="mb-3">
+
+                <textarea class="question" autoComplete="question" formControlName="question" cFormControl placeholder="Nội dung..." ></textarea>
+              </c-input-group>
+              <c-input-group class="mb-3">
+
+                <input autoComplete="ans_A" formControlName="ans_A" cFormControl placeholder="Đáp án A" />
+                <span cInputGroupText></span>
+                <input autoComplete="ans_B" formControlName="ans_B" cFormControl placeholder="Đáp án B" type="text" />
+              </c-input-group>
+
+              <c-input-group class="mb-4">
+
+                <input autoComplete="ans_C" formControlName="ans_C" cFormControl placeholder="Đáp án C" type="text" />
+                <span cInputGroupText></span>
+                <input autoComplete="ans_D" formControlName="ans_D" cFormControl placeholder="Đáp án D" type="text" />
+              </c-input-group>
+
+              <c-input-group class="mb-4">
+
+                <input autoComplete="ans_Correct" formControlName="ans_Correct" cFormControl placeholder="Đáp án đúng" type="text" />
+              </c-input-group>
+              <c-input-group class="mb-4">
+
+                <input autoComplete="note" formControlName="note" cFormControl placeholder="Chú thích" type="text" />
+              </c-input-group>
+              <div class="d-grid">
+                <button cButton color="success" (click)="createQuestion()">Cập nhật</button>
+              </div>
+            </form>
+          </c-card-body>
+        </c-card>
+      </c-col>
+    </c-row>
+  </c-container>
+</div>
+
+

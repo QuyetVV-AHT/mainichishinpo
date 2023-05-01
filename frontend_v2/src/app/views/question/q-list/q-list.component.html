@@ -1,1 +1,48 @@
-<p>q-list works!</p>
+<div>
+  <table cTable hover class="table table-striped">
+    <thead>
+      <tr>
+        <th  >STT</th>
+        <th class="question"  >Question</th>
+        <th  >Đáp án A</th>
+        <th  >Đáp án B</th>
+        <th  >Đáp án C</th>
+        <th  >Đáp án D</th>
+        <th  >Đáp án đúng</th>
+        <th  >Chú thích</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor=" let question of listQuestion | paginate : {
+        itemsPerPage: pageSize,
+        currentPage: page,
+        totalItems: count
+        }  let i = index;">
+        <td>{{i+1}}</td>
+        <td>{{question.question}}</td>
+        <td>{{question.ans_A}}</td>
+        <td>{{question.ans_B}}</td>
+        <td>{{question.ans_C}}</td>
+        <td>{{question.ans_D}}</td>
+        <td>{{question.ans_Correct}}</td>
+        <td>{{question.note}}</td>
+
+        <td style="text-align:center">
+          <button cButton  (click)="updateQuestion(question.id)" color="primary" variant="outline">
+            <svg cIcon name="cilPencil"></svg>
+          </button>
+        </td>
+        <td style="text-align:center">
+          <button cButton (click)="deleteQuestion(question.id)" color="danger" variant="outline">
+            <svg cIcon name="cilTrash"></svg>
+          </button>
+        </td>
+      </tr>
+    </tbody>
+</table>
+
+<div class="col-md-12">
+  <pagination-controls previousLabel="{{'PREV' }}" nextLabel="{{'NEXT'}}" [responsive]="true"
+      (pageChange)="handlePageChange($event)"></pagination-controls>
+  </div>
+</div>

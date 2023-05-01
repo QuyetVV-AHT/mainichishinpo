@@ -26,7 +26,7 @@ const routes: Routes = [
         },
       },
       {
-        path: 'update',
+        path: 'update/:id',
         component: EUpdateComponent,
         data: {
           title: 'Chỉnh sửa đề thi',

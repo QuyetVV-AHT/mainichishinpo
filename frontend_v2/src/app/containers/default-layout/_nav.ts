@@ -66,10 +66,10 @@ export const navItems: INavData[] = [
         name: 'Tạo mới',
         url: '/question/create'
       },
-      {
-        name: 'Chỉnh sửa',
-        url: '/question/update'
-      },
+      // {
+      //   name: 'Chỉnh sửa',
+      //   url: '/question/update'
+      // },
     ]
   },
 
@@ -87,10 +87,10 @@ export const navItems: INavData[] = [
           name: 'Tạo mới',
           url: '/exam/create'
         },
-        {
-          name: 'Chỉnh sửa',
-          url: '/exam/update'
-        },
+        // {
+        //   name: 'Chỉnh sửa',
+        //   url: '/exam/update'
+        // },
       ]
     },
 

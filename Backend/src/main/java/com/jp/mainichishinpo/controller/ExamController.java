@@ -98,10 +98,17 @@ public class ExamController {
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<?> updatExam(@PathVariable Long id, @RequestBody ExamRequest rq) {
+    public ResponseEntity<?> updateExam(@PathVariable Long id, @RequestBody ExamRequest rq) {
         Exam exam = examService.findById(id).get();
         exam.setExam_name(rq.getExam_name());
         exam.setNote(rq.getNote());
+        Set<Question> questionSet = new HashSet<>();
+        for (Long questionId: rq.getListQuestionId()
+        ) {
+            Question ques = questionService.findById(questionId).get();
+            questionSet.add(ques);
+        }
+        exam.setQuestions(questionSet);
         examService.save(exam);
         return ResponseEntity.ok(exam);
     }

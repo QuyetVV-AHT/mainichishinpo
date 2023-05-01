@@ -26,7 +26,7 @@ const routes: Routes = [
         },
       },
       {
-        path: 'update',
+        path: 'update/:id',
         component: QUpdateComponent,
         data: {
           title: 'Chỉnh sửa câu hỏi',

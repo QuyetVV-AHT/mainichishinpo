@@ -91,8 +91,8 @@ const APP_CONTAINERS = [
     CardModule,
     HttpClientModule,
     ToastrModule.forRoot({
-      timeOut: 3000,
-      positionClass: 'toast-bottom-right',
+      timeOut: 5000,
+      positionClass: 'toast-top-right',
       preventDuplicates: true,
       closeButton: true
    }),

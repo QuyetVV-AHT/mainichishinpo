@@ -1,1 +1,42 @@
-<p>e-list works!</p>
+<div class="">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th  >STT</th>
+        <th  >Tên bài thi</th>
+        <th  >Chú thích</th>
+        <th  >Số lượng câu hỏi</th>
+        <th  >Trạng thái</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor=" let exam of listExam | paginate : {
+        itemsPerPage: pageSize,
+        currentPage: page,
+        totalItems: count
+        };  let i = index;">
+        <td>{{i+1}}</td>
+        <td>{{exam?.exam_name}}</td>
+        <td>{{exam?.note}}</td>
+        <td>{{exam?.questions.length}}</td>
+        <td *ngIf="exam?.active == true">Đang kích hoạt</td>
+        <td *ngIf="exam?.active == false">Chưa kích hoạt</td>
+
+        <td style="text-align:center">
+          <button cButton  (click)="updateExam(exam.id)" color="primary" variant="outline">
+            <svg cIcon name="cilPencil"></svg>
+          </button>
+        </td>
+        <td style="text-align:center">
+          <button cButton (click)="deleteExam(exam.id)" color="danger" variant="outline">
+            <svg cIcon name="cilTrash"></svg>
+          </button>
+        </td>
+      </tr>
+    </tbody>
+</table>
+<div class="col-md-12">
+  <pagination-controls previousLabel="{{'PREV' }}" nextLabel="{{'NEXT'}}" [responsive]="true"
+      (pageChange)="handlePageChange($event)"></pagination-controls>
+  </div>
+</div>

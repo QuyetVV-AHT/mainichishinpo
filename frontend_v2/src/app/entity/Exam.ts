@@ -4,5 +4,6 @@ export class Exam{
   exam_name: string | undefined;
   note: string |  undefined;
   active: boolean | undefined;
-  questions: Question[] | undefined;
+  listQuestionId: number[] | undefined;
+  questions!: Question[] | undefined;
 }

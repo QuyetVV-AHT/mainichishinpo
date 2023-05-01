@@ -5,6 +5,10 @@ import { ExamRoutingModule } from './exam-routing.module';
 import { ECreateComponent } from './e-create/e-create.component';
 import { EListComponent } from './e-list/e-list.component';
 import { EUpdateComponent } from './e-update/e-update.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { CardModule, ButtonModule, GridModule, FormModule } from '@coreui/angular';
+import { IconModule } from '@coreui/icons-angular';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @NgModule({
   declarations: [
@@ -14,7 +18,14 @@ import { EUpdateComponent } from './e-update/e-update.component';
   ],
   imports: [
     CommonModule,
-    ExamRoutingModule
+    ExamRoutingModule,
+    CardModule,
+    ButtonModule,
+    GridModule,
+    IconModule,
+    FormModule,
+    ReactiveFormsModule,
+    NgxPaginationModule,
   ]
 })
 export class ExamModule { }
