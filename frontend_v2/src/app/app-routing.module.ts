@@ -6,6 +6,7 @@ import { Page404Component } from './views/pages/page404/page404.component';
 import { Page500Component } from './views/pages/page500/page500.component';
 import { LoginComponent } from './views/pages/login/login.component';
 import { RegisterComponent } from './views/pages/register/register.component';
+import { LogoutComponent } from './views/pages/logout/logout.component';
 
 const routes: Routes = [
   {
@@ -17,7 +18,7 @@ const routes: Routes = [
     path: '',
     component: DefaultLayoutComponent,
     data: {
-      title: 'Home'
+      title: 'ホーム'
     },
     children: [
       {
@@ -26,11 +27,7 @@ const routes: Routes = [
           import('./views/dashboard/dashboard.module').then((m) => m.DashboardModule)
       },
 
-      {
-        path: 'base',
-        loadChildren: () =>
-          import('./views/base/base.module').then((m) => m.BaseModule)
-      },
+
       // USER
       {
         path: 'user',
@@ -70,6 +67,7 @@ const routes: Routes = [
       title: 'Page 404'
     }
   },
+
   {
     path: '500',
     component: Page500Component,
@@ -84,6 +82,14 @@ const routes: Routes = [
       title: 'Login Page'
     }
   },
+  {
+    path: 'logout',
+    component: LogoutComponent,
+    data: {
+      title: 'Logout Page'
+    }
+  },
+
   {
     path: 'register',
     component: RegisterComponent,

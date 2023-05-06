@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ECreateComponent } from './e-create/e-create.component';
 import { EListComponent } from './e-list/e-list.component';
+import { EStartComponent } from './e-start/e-start.component';
 import { EUpdateComponent } from './e-update/e-update.component';
 import { ImportExcelComponent } from './import-excel/import-excel.component';
 
@@ -9,7 +10,7 @@ const routes: Routes = [
   {
     path: '',
     data: {
-      title: 'Đề thi',
+      title: '試験',
     },
     children: [
       {
@@ -38,6 +39,13 @@ const routes: Routes = [
         component: ImportExcelComponent,
         data: {
           title: 'Thêm đề thi từ file excel',
+        },
+      },
+      {
+        path: 'start-exam/:id',
+        component: EStartComponent,
+        data: {
+          title: '始めて',
         },
       },
     ],

@@ -1,0 +1,127 @@
+<div class="container-fluid dashboard" *ngIf="!isSubmit">
+  <div class="row">
+    <!-- <div class="col-lg-2 col-sm-12 mt-5">
+      <c-card>
+        <h2 class="text-center">Hướng dẫn</h2>
+        <ul>
+          <li>Không refresh lại trang</li>
+          <li>Không back lại trang trước</li>
+          <li>Chú ý thời gian làm bài</li>
+        </ul>
+      </c-card>
+    </div> -->
+    <div class="col-lg-8 col-sm-12 mt-1">
+      <h1 class="title">{{title_exam}}</h1>
+      <c-card *ngFor="let ques of questions; let i = index" class="mb-2">
+        <c-card-body>
+          <p>
+            <b>{{ i + 1 }} </b>
+            <span class="d-inline-block" [innerHTML]="ques.question"></span>
+          </p>
+
+          <div class="vr"></div>
+          <br />
+          <div class="row">
+            <div class="col-md-6">
+              <c-input-group>
+                <input
+                  type="radio"
+                  [value]="ques.ans_A"
+                  [(ngModel)]="ques.givenAnswer"
+                  name="{{ i }}"
+                />
+                {{ ques.ans_A }}
+              </c-input-group>
+            </div>
+            <div class="col-md-6">
+              <p>
+                <input
+                  type="radio"
+                  [value]="ques.ans_B"
+                  [(ngModel)]="ques.givenAnswer"
+                  name="{{ i }}"
+                />
+                {{ ques.ans_B }}
+              </p>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-6">
+              <p>
+                <input
+                  type="radio"
+                  [value]="ques.ans_C"
+                  [(ngModel)]="ques.givenAnswer"
+                  name="{{ i }}"
+                />
+                {{ ques.ans_C }}
+              </p>
+            </div>
+            <div class="col-md-6">
+              <p>
+                <input
+                  type="radio"
+                  [value]="ques.ans_D"
+                  [(ngModel)]="ques.givenAnswer"
+                  name="{{ i }}"
+                />
+                {{ ques.ans_D }}
+              </p>
+            </div>
+          </div>
+        </c-card-body>
+      </c-card>
+
+      <button cButton
+        mat-raised-button
+        color="primary"
+        class="my-3 full-width"
+        (click)="submitQuiz()"
+      >
+        送信
+      </button>
+    </div>
+    <div class="col-lg-3 col-sm-12 mt-5 text-center">
+      <c-card>
+        <h4 cCardTitle>時間</h4>
+        <c-card-body>
+          <h1>{{ getFormattedTime() }}</h1>
+          <c-spinner
+            class="mx-auto"
+            mode="determinate"
+            [value]="(value / 300) * 100"
+          >
+          </c-spinner>
+        </c-card-body>
+      </c-card>
+    </div>
+  </div>
+</div>
+
+<div class="container text-center mt-4" *ngIf="isSubmit">
+      <c-card>
+        <c-card-content class="mt-4">
+          <h2>正解数 :{{ correctAnswer }}</h2>
+          <h2>回答した質問の数: {{ attempted }}/{{questions.length}}</h2>
+        </c-card-content>
+
+      </c-card>
+      <c-card *ngFor="let ques of questions; let i = index">
+        <c-card-header style="text-align: left;">{{i+1}}: {{ques.question}}</c-card-header>
+        <ul cListGroup style="list-style-type:none; text-align: left;">
+          <li  [ngStyle]="{'color': getColor(ques.ans_A, ques.givenAnswer, ques.ans_Correct)}">A: {{ques.ans_A}}</li>
+          <li  [ngStyle]="{'color': getColor(ques.ans_B, ques.givenAnswer, ques.ans_Correct)}">B: {{ques.ans_B}}</li>
+          <li  [ngStyle]="{'color': getColor(ques.ans_C, ques.givenAnswer, ques.ans_Correct)}">C: {{ques.ans_C}}</li>
+          <li  [ngStyle]="{'color': getColor(ques.ans_D, ques.givenAnswer, ques.ans_Correct)}">D: {{ques.ans_D}}</li>
+          <li  style="color: tomato;">解答: {{ques.ans_Correct}}</li>
+          <li >Note: {{ques.note}}</li>
+        </ul>
+      </c-card>
+      <div class="container mt-3">
+        <button cButton mat-raised-button color="success"  (click)="toHome()">
+          ホーム
+        </button>
+      </div>
+</div>
+

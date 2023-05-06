@@ -6,13 +6,13 @@
           <c-card class="p-4">
             <c-card-body>
               <form cForm [formGroup]="formGroup">
-                <h1>Login</h1>
-                <p class="text-medium-emphasis">Sign In to your account</p>
+                <h1>ログイン</h1>
+                <!-- <p class="text-medium-emphasis">Sign In to your account</p> -->
                 <c-input-group class="mb-3">
                   <span cInputGroupText>
                     <svg cIcon name="cilUser"></svg>
                   </span>
-                  <input autoComplete="username"  formControlName="username" cFormControl placeholder="Username" />
+                  <input autoComplete="username"  formControlName="username" cFormControl placeholder="ユーザー名" />
                 </c-input-group>
                 <c-input-group class="mb-4">
                   <span cInputGroupText>
@@ -22,26 +22,35 @@
                     autoComplete="current-password"
                     formControlName="password"
                     cFormControl
-                    placeholder="Password"
+                    placeholder="パスワード"
                     type="password"
                   />
                 </c-input-group>
+                <c-card *ngIf="isLoginFailed">
+                  <c-card-body>
+                    <h6 cCardSubtitle style="color: red;">ユーザー名、またはパスワードが一致しません。</h6>
+                  </c-card-body>
+                </c-card>
                 <c-row>
                   <c-col xs="6">
                     <button cButton class="px-4" color="primary" (click)="login()">
-                      Login
+                      ログイン
                     </button>
                   </c-col>
+
                   <c-col class="text-right" xs="6">
-                    <button cButton class="px-0" color="link">
+                    <!-- <button cButton class="px-0" color="link">
                       Forgot password?
+                    </button> -->
+                    <button [active]="true" cButton color="info" routerLink="/register">
+                      新規登録
                     </button>
                   </c-col>
                 </c-row>
               </form>
             </c-card-body>
           </c-card>
-          <c-card [ngStyle]="{'width.%': 44}" class="text-white bg-primary py-5">
+          <!-- <c-card [ngStyle]="{'width.%': 44}" class="text-white bg-primary py-5">
             <c-card-body class="text-center">
               <div>
                 <h2>Sign up</h2>
@@ -54,7 +63,7 @@
                 </button>
               </div>
             </c-card-body>
-          </c-card>
+          </c-card> -->
         </c-card-group>
       </c-col>
     </c-row>

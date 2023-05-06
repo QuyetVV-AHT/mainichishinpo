@@ -6,6 +6,11 @@
           <c-card-body class="p-4">
             <form cForm  [formGroup]="formGroup">
               <h1>Cập nhật bài thi</h1>
+              <div class="col-2 mx-2" style="margin-bottom: 10px;">
+                <button cButton *ngIf="isActive" color="danger" (click)="active(!isActive)" >Hủy kích hoạt</button>
+              <button cButton *ngIf="!isActive" (click)="active(!isActive)">Kích hoạt</button>
+              </div>
+
               <!-- <p class="text-medium-emphasis">Create your account</p> -->
               <c-input-group class="mb-3">
                 <span cInputGroupText>
@@ -25,7 +30,7 @@
                 <table cTable hover class="table table-striped">
                   <thead>
                     <tr>
-                      <th></th>
+                      <th>ID</th>
                       <th class="question">Câu hỏi đã thêm vào bài thi</th>
                     </tr>
                   </thead>
@@ -58,7 +63,7 @@
                   <table cTable hover class="table table-striped">
                     <thead>
                       <tr>
-                        <th></th>
+                        <th>ID</th>
                         <th class="question">Danh sách câu hỏi</th>
                       </tr>
                     </thead>

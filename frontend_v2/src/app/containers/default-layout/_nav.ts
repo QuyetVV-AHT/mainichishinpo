@@ -2,27 +2,27 @@ import { INavData } from '@coreui/angular';
 
 export const navItems: INavData[] = [
   {
-    name: 'Dashboard',
+    name: 'ダッシュボード',
     url: '/dashboard',
     iconComponent: { name: 'cil-speedometer' },
   },
 
   {
-    name: 'Quản lý',
+    name: '管理',
     title: true
   },
   // User
   {
-    name: 'Người dùng',
+    name: 'ユーザー',
     url: '/user',
     iconComponent: { name: 'cil-cursor' },
     children: [
       {
-        name: 'Danh sách',
+        name: '一覧',
         url: '/user/list'
       },
       {
-        name: 'Tạo mới',
+        name: '新規',
         url: '/user/create'
       },
       // {
@@ -33,16 +33,16 @@ export const navItems: INavData[] = [
   },
   // Post
   {
-    name: 'Bài viết',
+    name: 'ブログ',
     url: '/post',
     iconComponent: { name: 'cil-cursor' },
     children: [
       {
-        name: 'Danh sách',
+        name: '一覧',
         url: '/post/list'
       },
       {
-        name: 'Tạo mới',
+        name: '新規',
         url: '/post/create'
       },
       // {
@@ -54,16 +54,16 @@ export const navItems: INavData[] = [
 
   // Question
   {
-    name: 'Câu hỏi',
+    name: '質問',
     url: '/question',
     iconComponent: { name: 'cil-cursor' },
     children: [
       {
-        name: 'Danh sách',
+        name: '一覧',
         url: '/question/list'
       },
       {
-        name: 'Tạo mới',
+        name: '新規',
         url: '/question/create'
       },
       // {
@@ -75,21 +75,25 @@ export const navItems: INavData[] = [
 
     // Exam
     {
-      name: 'Đề thi',
+      name: '試験',
       url: '/exam',
       iconComponent: { name: 'cil-cursor' },
       children: [
         {
-          name: 'Danh sách',
+          name: '一覧',
           url: '/exam/list'
         },
         {
-          name: 'Tạo mới',
+          name: '新規',
           url: '/exam/create'
         },
         {
           name: 'Import Excel',
           url: '/exam/import-excel'
+        },
+        {
+          name: '試験を開始',
+          url: '/exam/start-exam/:id'
         },
       ]
     },
@@ -99,24 +103,28 @@ export const navItems: INavData[] = [
     name: 'Extras'
   },
   {
-    name: 'Pages',
+    name: 'ページ',
     url: '/login',
     iconComponent: { name: 'cil-star' },
     children: [
       {
-        name: 'Login',
+        name: 'ログイン',
         url: '/login'
       },
       {
-        name: 'Register',
+        name: '新規登録',
         url: '/register'
       },
       {
-        name: 'Error 404',
+        name: 'ログアウト',
+        url: '/logout'
+      },
+      {
+        name: 'エラー 404',
         url: '/404'
       },
       {
-        name: 'Error 500',
+        name: 'エラー 500',
         url: '/500'
       }
     ]

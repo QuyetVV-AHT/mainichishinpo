@@ -4,7 +4,7 @@ import { BrowserModule, Title } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule } from '@angular/forms';
 import { authInterceptorProviders } from './_helpers/http.interceptor';
-
+import { CommonModule } from '@angular/common';
 import {
   PERFECT_SCROLLBAR_CONFIG,
   PerfectScrollbarConfigInterface,
@@ -96,6 +96,7 @@ const APP_CONTAINERS = [
       preventDuplicates: true,
       closeButton: true
    }),
+   CommonModule
   ],
   providers: [
     {

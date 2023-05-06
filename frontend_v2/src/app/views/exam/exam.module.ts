@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA  } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { ExamRoutingModule } from './exam-routing.module';
@@ -10,13 +10,15 @@ import { CardModule, ButtonModule, GridModule, FormModule } from '@coreui/angula
 import { IconModule } from '@coreui/icons-angular';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { ImportExcelComponent } from './import-excel/import-excel.component';
-
+import { EStartComponent } from './e-start/e-start.component';
+import { FormsModule } from '@angular/forms';
 @NgModule({
   declarations: [
     ECreateComponent,
     EListComponent,
     EUpdateComponent,
-    ImportExcelComponent
+    ImportExcelComponent,
+    EStartComponent,
   ],
   imports: [
     CommonModule,
@@ -28,6 +30,8 @@ import { ImportExcelComponent } from './import-excel/import-excel.component';
     FormModule,
     ReactiveFormsModule,
     NgxPaginationModule,
-  ]
+    FormsModule
+  ],
+  schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 })
 export class ExamModule { }

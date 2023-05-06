@@ -1,12 +1,33 @@
 <app-widgets-dropdown></app-widgets-dropdown>
-<c-card class="mb-4">
+<c-card class="mb-4" *ngIf="isAdmin">
   <c-card-body>
     <c-row>
       <c-col sm="5">
-        <h4 class="card-title mb-0" id="traffic">Số lượng bài viết, người dùng, đề thi</h4>
+        <h4 class="card-title mb-0" id="traffic">Bảng kết quả kiểm tra</h4>
         <!-- <div class="small text-medium-emphasis">January - December 2021</div> -->
       </c-col>
-      <c-col class="d-none d-md-block" sm="7">
+      <table cTable>
+        <thead cTableColor="dark">
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Bài thi</th>
+          <th scope="col">Học viên</th>
+          <th scope="col">Điểm số</th>
+          <th scope="col">Ngày làm</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let res of listResult; let i = index">
+          <th scope="row">{{i+1}}</th>
+          <td>{{res.exam.exam_name}}</td>
+          <td>{{res.user.username}}</td>
+          <td>{{res.mark}}</td>
+          <td>{{res.create_at.substr(0,10)}}</td>
+        </tr>
+
+        </tbody>
+      </table>
+      <!-- <c-col class="d-none d-md-block" sm="7">
         <button cButton class="float-end" color="primary">
           <svg cIcon name="cilCloudDownload"></svg>
         </button>
@@ -55,7 +76,7 @@
             >Year</label>
           </c-button-group>
         </form>
-      </c-col>
+      </c-col> -->
     </c-row>
     <c-chart
       [data]="mainChart.data"
@@ -362,7 +383,7 @@
     </c-card>
   </c-col>
 </c-row> -->
-<c-row>
+<c-row *ngIf="isAdmin">
   <c-col xs>
     <c-card class="mb-4">
       <c-card-header>Lịch sử truy cập</c-card-header>
@@ -424,4 +445,44 @@
       </c-card-body>
     </c-card>
   </c-col>
+</c-row>
+
+<c-row *ngIf="!isAdmin">
+  <div class="">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th  >#</th>
+          <th  >試験名</th>
+          <th  >ノート</th>
+          <th  >問題数</th>
+          <th  >スタート</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor=" let exam of listExamPublic | paginate : {
+          itemsPerPage: pageSize,
+          currentPage: page,
+          totalItems: count
+          };  let i = index;">
+          <td>{{i+1}}</td>
+          <td>{{exam?.exam_name}}</td>
+          <td>{{exam?.note}}</td>
+          <td>{{exam?.questions?.length}}</td>
+
+          <td style="text-align:left">
+            <button cButton  (click)="startExam(exam.id)" color="primary" variant="outline">
+              <svg cIcon name="cilArrowRight"></svg>
+            </button>
+          </td>
+
+        </tr>
+      </tbody>
+  </table>
+  <div class="col-md-12">
+    <pagination-controls previousLabel="{{'PREV' }}" nextLabel="{{'NEXT'}}" [responsive]="true"
+        (pageChange)="handlePageChange($event)"></pagination-controls>
+    </div>
+  </div>
+
 </c-row>

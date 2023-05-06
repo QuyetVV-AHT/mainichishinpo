@@ -11,6 +11,7 @@ import { getStyle } from '@coreui/utils';
 import { ChartjsComponent } from '@coreui/angular-chartjs';
 import {AdminService} from "../../../_services/admin.service"
 import { Totaldto } from 'src/app/entity/Totaldto';
+import { TokenStorageService } from 'src/app/_services/token-storage.service';
 
 @Component({
   selector: 'app-widgets-dropdown',
@@ -21,10 +22,15 @@ import { Totaldto } from 'src/app/entity/Totaldto';
 export class WidgetsDropdownComponent implements OnInit, AfterContentInit {
 
   totalDto!: Totaldto;
+  isLoggedIn = false;
+  username?: string;
+  isAdmin!: boolean;
   constructor(
     private changeDetectorRef: ChangeDetectorRef,
-    private adminService: AdminService
+    private adminService: AdminService,
+    private tokenStorageService: TokenStorageService
   ) {}
+
 
   // data: any[] = [];
   // options: any[] = [];
@@ -122,7 +128,16 @@ export class WidgetsDropdownComponent implements OnInit, AfterContentInit {
   ngOnInit(): void {
     this.adminService.getAllTotal().subscribe(data =>{
       this.totalDto =data;
-    })
+    });
+    this.isAdmin = false;
+    this.isLoggedIn = !!this.tokenStorageService.getToken();
+    if (this.isLoggedIn) {
+      const user = this.tokenStorageService.getUser();
+      this.username = user.username;
+      if(user.roles.includes('ROLE_ADMIN')){
+        this.isAdmin = true;
+      }
+    }
   }
 
   ngAfterContentInit(): void {

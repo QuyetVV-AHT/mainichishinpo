@@ -1,7 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import { PAGESIZE, PAGE, COUNT } from 'src/app/const';
+import { Exam } from 'src/app/entity/Exam';
+import { TokenStorageService } from 'src/app/_services/token-storage.service';
 
 import { DashboardChartsData, IChartProps } from './dashboard-charts-data';
+import { PublicService} from '../../_services/public.service';
+import { ResutlsService } from "../../_services/resutls.service";
+import { Router } from '@angular/router';
 
 interface IUser {
   name: string;
@@ -22,7 +28,11 @@ interface IUser {
   styleUrls: ['dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
-  constructor(private chartsData: DashboardChartsData) {
+  constructor(private chartsData: DashboardChartsData,
+    private tokenStorageService: TokenStorageService,
+    private router:Router,
+    private resultService: ResutlsService,
+    private publicService : PublicService,) {
   }
 
   public users: IUser[] = [
@@ -110,18 +120,64 @@ export class DashboardComponent implements OnInit {
   public trafficRadioGroup = new UntypedFormGroup({
     trafficRadio: new UntypedFormControl('Month')
   });
+  isLoggedIn = false;
+  username?: string;
+  isAdmin!: boolean;
+  listExamPublic!: Exam[];
+  pageSize = PAGESIZE;
+  page = PAGE;
+  count = COUNT;
+   term = '';
+   error = false;
+   listResult: any;
 
   ngOnInit(): void {
     // this.initCharts();
+    this.isAdmin = false;
+    this.isLoggedIn = !!this.tokenStorageService.getToken();
+    if (this.isLoggedIn) {
+      const user = this.tokenStorageService.getUser();
+      this.username = user.username;
+      if(user.roles.includes('ROLE_ADMIN')){
+        this.isAdmin = true;
+        this.resultService.getAllResult().subscribe(data =>{
+          this.listResult = data;
+          console.log(data)
+        });
+      }
+    }
+
+    this.publicService.getExamPublic().subscribe(data=>{
+      this.listExamPublic = data;
+    },error => this.error = true);
+
+
   }
 
-  initCharts(): void {
-    this.mainChart = this.chartsData.mainChart;
+  // initCharts(): void {
+  //   this.mainChart = this.chartsData.mainChart;
+  // }
+
+  // setTrafficPeriod(value: string): void {
+  //   this.trafficRadioGroup.setValue({ trafficRadio: value });
+  //   this.chartsData.initMainChart(value);
+  //   this.initCharts();
+  // }
+
+  handlePageChange(event: number): void {
+    this.page = event;
+    this.retrievePublicExam(this.term);
   }
 
-  setTrafficPeriod(value: string): void {
-    this.trafficRadioGroup.setValue({ trafficRadio: value });
-    this.chartsData.initMainChart(value);
-    this.initCharts();
+
+  retrievePublicExam(term: string){
+    this.publicService.getAllExamPublicWithPagination(term).subscribe(res =>{
+      this.listExamPublic = res.content;
+      this.count = res.totalElements;
+    });
+  };
+
+  startExam(id: number){
+    this.router.navigate(['exam/start-exam/' + id]);
   }
 }

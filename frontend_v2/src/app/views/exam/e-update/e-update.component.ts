@@ -27,6 +27,7 @@ export class EUpdateComponent {
   examId!: number;
   questionAdded: any;
   questionsAddExam: any;
+  isActive: boolean | undefined;
   constructor(
     public fb: FormBuilder,
     private userService: UserService,
@@ -53,6 +54,7 @@ export class EUpdateComponent {
     this.examId = this.route.snapshot.params['id'];
     this.examService.getExamById(this.examId).subscribe(data=>{
       this.questionAdded = data.questions;
+      this.isActive = data.active;
       this.formGroup.get('exam_name')?.setValue(data.exam_name);
       this.formGroup.get('note')?.setValue(data.note);
       this.questionAdded.forEach((item: Question)  => {
@@ -108,4 +110,12 @@ export class EUpdateComponent {
       this.count = res.totalElements;
     });
   };
+
+  active(value: boolean){
+    this.examService.activeExam(this.examId, value).subscribe(data =>{
+
+      this.toastrService.info('Thành công', 'Cập nhật bài thi');
+      this.router.navigate(['exam/list']);
+    })
+  }
 }
