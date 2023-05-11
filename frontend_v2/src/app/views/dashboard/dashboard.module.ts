@@ -22,7 +22,12 @@ import { DashboardComponent } from './dashboard.component';
 
 import { WidgetsModule } from '../widgets/widgets.module';
 import { NgxPaginationModule } from 'ngx-pagination';
-
+import { DashboardUserComponent } from '../dashboard-user/dashboard-user.component';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatIconModule } from '@angular/material/icon'
+import { FormsModule } from '@angular/forms';
+import {MatButtonModule} from '@angular/material/button';
 @NgModule({
   imports: [
     DashboardRoutingModule,
@@ -42,9 +47,14 @@ import { NgxPaginationModule } from 'ngx-pagination';
     AvatarModule,
     TableModule,
     WidgetsModule,
-    NgxPaginationModule
+    NgxPaginationModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatIconModule,
+    FormsModule,
+    MatButtonModule
   ],
-  declarations: [DashboardComponent]
+  declarations: [DashboardComponent, DashboardUserComponent]
 })
 export class DashboardModule {
 }
