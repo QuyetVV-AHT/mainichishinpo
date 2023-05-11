@@ -5,6 +5,7 @@ import { EListComponent } from './e-list/e-list.component';
 import { EStartComponent } from './e-start/e-start.component';
 import { EUpdateComponent } from './e-update/e-update.component';
 import { ImportExcelComponent } from './import-excel/import-excel.component';
+import { ResutlUserComponent } from './resutl-user/resutl-user.component';
 
 const routes: Routes = [
   {
@@ -46,6 +47,13 @@ const routes: Routes = [
         component: EStartComponent,
         data: {
           title: '始めて',
+        },
+      },
+      {
+        path: 'result-user',
+        component: ResutlUserComponent,
+        data: {
+          title: '試験結果',
         },
       },
     ],

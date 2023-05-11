@@ -10,4 +10,6 @@ import java.util.List;
 public interface ResultService {
     void save(Long examId, User user, String mark);
     List<Result> getAllResult();
+
+    List<Result> getAllResultByUserId(Long id);
 }

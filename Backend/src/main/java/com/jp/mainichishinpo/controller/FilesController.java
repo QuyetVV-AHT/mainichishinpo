@@ -40,14 +40,16 @@ public class FilesController {
             if(Files.exists(Paths.get("uploads/" + file.getOriginalFilename()))){
                 Files.delete(Paths.get("uploads/" + file.getOriginalFilename()));
             }
-//            Luu file vao folder
-            logger.info("Saving file in folder upload");
+
             storageService.save(file);
             List<Question> questionList = storageService.getExcelDataAsList(file.getOriginalFilename());
             // sau khi da luu cau hoi vao DB
             Set<Question> questionsIdList = storageService.saveExcelData(questionList);
             message = "Uploaded the file successfully: " + file.getOriginalFilename() + " and save " + questionsIdList.size() + " data";
             logger.info(message);
+            //            delete file vao folder
+            logger.info("delete file in folder upload");
+            Files.delete(Paths.get("uploads/" + file.getOriginalFilename()));
 
             return ResponseEntity.status(HttpStatus.OK).body(new MessageResponse(message));
         } catch (Exception e) {

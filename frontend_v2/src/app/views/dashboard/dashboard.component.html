@@ -3,7 +3,7 @@
   <c-card-body>
     <c-row>
       <c-col sm="5">
-        <h4 class="card-title mb-0" id="traffic">Bảng kết quả kiểm tra</h4>
+        <h4 class="card-title mb-0" >Bảng kết quả kiểm tra</h4>
         <!-- <div class="small text-medium-emphasis">January - December 2021</div> -->
       </c-col>
       <table cTable>
@@ -447,42 +447,5 @@
   </c-col>
 </c-row>
 
-<c-row *ngIf="!isAdmin">
-  <div class="">
-    <table class="table table-striped">
-      <thead>
-        <tr>
-          <th  >#</th>
-          <th  >試験名</th>
-          <th  >ノート</th>
-          <th  >問題数</th>
-          <th  >スタート</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor=" let exam of listExamPublic | paginate : {
-          itemsPerPage: pageSize,
-          currentPage: page,
-          totalItems: count
-          };  let i = index;">
-          <td>{{i+1}}</td>
-          <td>{{exam?.exam_name}}</td>
-          <td>{{exam?.note}}</td>
-          <td>{{exam?.questions?.length}}</td>
-
-          <td style="text-align:left">
-            <button cButton  (click)="startExam(exam.id)" color="primary" variant="outline">
-              <svg cIcon name="cilArrowRight"></svg>
-            </button>
-          </td>
-
-        </tr>
-      </tbody>
-  </table>
-  <div class="col-md-12">
-    <pagination-controls previousLabel="{{'PREV' }}" nextLabel="{{'NEXT'}}" [responsive]="true"
-        (pageChange)="handlePageChange($event)"></pagination-controls>
-    </div>
-  </div>
-
-</c-row>
+<!-- User -->
+<app-dashboard-user></app-dashboard-user>

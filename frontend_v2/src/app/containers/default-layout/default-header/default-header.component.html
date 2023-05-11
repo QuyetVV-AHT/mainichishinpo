@@ -1,6 +1,6 @@
 <!--<c-header class="mb-4 d-print-none" position="sticky">-->
 <ng-container>
-  <c-container [fluid]="true">
+  <c-container [fluid]="true" class="bg-black">
     <button *ngIf="isAdmin"
       toggle="visible"
       cHeaderToggler
@@ -12,28 +12,31 @@
         size="lg"
       ></svg>
     </button>
+
+    <!-- Admin -->
     <c-header-nav class="d-none d-lg-flex me-auto" *ngIfElse="isAdmin; else dashboarUser">
       <c-nav-item>
-        <a cNavLink routerLink="/dashboard" routerLinkActive="active">
+        <a cNavLink style="color: white;" routerLink="/dashboard" routerLinkActive="active">
           ダッシュボード
         </a>
       </c-nav-item>
       <c-nav-item>
-        <a cNavLink routerLink="/exam/list-exam" routerLinkActive="active">試験一覧</a>
+        <a cNavLink style="color: white;" routerLink="/exam/list-exam" routerLinkActive="active">試験一覧</a>
       </c-nav-item>
-      <!-- <c-nav-item>
-        <a cNavLink routerLink="/settings" routerLinkActive="active">
-          Settings
-        </a>
-      </c-nav-item> -->
+
     </c-header-nav>
-    <c-header-nav class="d-none d-lg-flex me-auto" #dashboarUser>
+
+    <!-- User  -->
+    <c-header-nav  class="d-none d-lg-flex me-auto" #dashboarUser>
       <c-nav-item>
-        <a cNavLink routerLink="/exam/list-exam" routerLinkActive="active">試験一覧</a>
+        <a cNavLink style="color: white;" routerLink="/exam/list-exam" routerLinkActive="active">試験一覧</a>
+      </c-nav-item>
+      <c-nav-item>
+        <a cNavLink style="color: white;" routerLink="/exam/result-user" routerLinkActive="active">結果</a>
       </c-nav-item>
     </c-header-nav>
 
-    <c-header-nav>
+    <c-header-nav style="color: white;">
       ようこそ {{username}}
     </c-header-nav>
     <!-- <c-header-nav class="d-none d-lg-flex">

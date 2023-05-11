@@ -1,0 +1,29 @@
+<c-card class="mb-4">
+  <c-card-body>
+    <c-row>
+      <c-col sm="5">
+        <h4 class="card-title mb-0" id="traffic">結果一覧</h4>
+        <!-- <div class="small text-medium-emphasis">January - December 2021</div> -->
+      </c-col>
+      <table cTable>
+        <thead cTableColor="dark">
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">試験名</th>
+          <th scope="col">得点</th>
+          <th scope="col">日付</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let res of listResult; let i = index">
+          <th scope="row">{{i+1}}</th>
+          <td>{{res.exam.exam_name}}</td>
+          <td>{{res.mark}}</td>
+          <td>{{res.create_at.substr(0,10)}}</td>
+        </tr>
+
+        </tbody>
+      </table>
+    </c-row>
+  </c-card-body>
+</c-card>

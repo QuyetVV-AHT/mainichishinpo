@@ -91,10 +91,14 @@ export const navItems: INavData[] = [
           name: 'Import Excel',
           url: '/exam/import-excel'
         },
-        {
-          name: '試験を開始',
-          url: '/exam/start-exam/:id'
-        },
+        // {
+        //   name: '試験を開始',
+        //   url: '/exam/start-exam/:id'
+        // },
+        // {
+        //   name: '試験結果',
+        //   url: '/exam/result-user'
+        // },
       ]
     },
 

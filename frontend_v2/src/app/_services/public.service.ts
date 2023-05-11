@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Post } from '../entity/Post';
 import { Exam } from '../entity/Exam';
+import { Result } from '../entity/Result';
 
 @Injectable({
   providedIn: 'root'
@@ -24,5 +25,9 @@ export class PublicService {
   getAllExamPublicWithPagination(term: string ): Observable<any> {
     let terms = new HttpParams().set('term', term);
     return this.httpClient.get<Exam[]>(`${this.PUBLIC_URL + '/search'}`,{ params: terms } );
+  }
+
+  getAllResultByUserId(id:number):Observable<Result[]>{
+    return this.httpClient.get<Result[]>(`${this.PUBLIC_URL + '/result-by-user-id'}/${id}`);
   }
 }

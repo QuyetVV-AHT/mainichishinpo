@@ -50,8 +50,17 @@ export class LoginComponent {
       },
       err => {
         this.errorMessage = err.error.message;
+
         this.isLoginFailed = true;
       }
     );
+  }
+
+  displayPassword() {
+    if (this.typePassword === 'password') {
+      this.typePassword = 'text';
+    } else {
+      this.typePassword = 'password';
+    }
   }
 }

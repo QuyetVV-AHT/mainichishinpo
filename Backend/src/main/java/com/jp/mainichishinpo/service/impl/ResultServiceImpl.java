@@ -52,4 +52,9 @@ public class ResultServiceImpl implements ResultService {
     public List<Result> getAllResult() {
         return resultRepository.findAll();
     }
+
+    public List<Result> getAllResultByUserId(Long id){
+        List<Result> list =  resultRepository.getAllResultByUserId(id);
+        return list;
+    }
 }

@@ -12,6 +12,8 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { ImportExcelComponent } from './import-excel/import-excel.component';
 import { EStartComponent } from './e-start/e-start.component';
 import { FormsModule } from '@angular/forms';
+import { ResutlUserComponent } from './resutl-user/resutl-user.component';
+import { TableModule, UtilitiesModule } from '@coreui/angular';
 @NgModule({
   declarations: [
     ECreateComponent,
@@ -19,6 +21,7 @@ import { FormsModule } from '@angular/forms';
     EUpdateComponent,
     ImportExcelComponent,
     EStartComponent,
+    ResutlUserComponent,
   ],
   imports: [
     CommonModule,
@@ -30,7 +33,9 @@ import { FormsModule } from '@angular/forms';
     FormModule,
     ReactiveFormsModule,
     NgxPaginationModule,
-    FormsModule
+    FormsModule,
+    TableModule,
+    UtilitiesModule
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 })

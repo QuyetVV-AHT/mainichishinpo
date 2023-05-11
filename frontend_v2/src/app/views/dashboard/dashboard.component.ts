@@ -142,7 +142,6 @@ export class DashboardComponent implements OnInit {
         this.isAdmin = true;
         this.resultService.getAllResult().subscribe(data =>{
           this.listResult = data;
-          console.log(data)
         });
       }
     }
@@ -164,20 +163,5 @@ export class DashboardComponent implements OnInit {
   //   this.initCharts();
   // }
 
-  handlePageChange(event: number): void {
-    this.page = event;
-    this.retrievePublicExam(this.term);
-  }
 
-
-  retrievePublicExam(term: string){
-    this.publicService.getAllExamPublicWithPagination(term).subscribe(res =>{
-      this.listExamPublic = res.content;
-      this.count = res.totalElements;
-    });
-  };
-
-  startExam(id: number){
-    this.router.navigate(['exam/start-exam/' + id]);
-  }
 }

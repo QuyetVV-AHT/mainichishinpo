@@ -1,41 +1,42 @@
-<div class="bg-light min-vh-100 d-flex flex-row align-items-center">
-  <c-container>
-    <c-row class="justify-content-center">
-      <c-col lg="7" md="9" xl="6">
-        <c-card class="mx-4">
-          <c-card-body class="p-4">
-            <form cForm [formGroup]="formGroup">
-              <h1>Register</h1>
-              <p class="text-medium-emphasis">Create your account</p>
-              <c-input-group class="mb-3">
-                <span cInputGroupText>
-                  <svg cIcon name="cilUser"></svg>
-                </span>
-                <input autoComplete="username"  formControlName="username" cFormControl placeholder="username" />
-              </c-input-group>
-              <c-input-group class="mb-3">
-                <span cInputGroupText>@</span>
-                <input autoComplete="email"  formControlName="email" cFormControl placeholder="Email" />
-              </c-input-group>
-              <c-input-group class="mb-3">
-                <span cInputGroupText>
-                  <svg cIcon name="cilLockLocked"></svg>
-                </span>
-                <input autoComplete="password" cFormControl  formControlName="password" placeholder="Password" type="password" />
-              </c-input-group>
-              <c-input-group class="mb-4">
-                <span cInputGroupText>
-                  <svg cIcon name="cilLockLocked"></svg>
-                </span>
-                <input autoComplete="password" cFormControl  formControlName="password" placeholder="Repeat password" type="password" />
-              </c-input-group>
-              <div class="d-grid">
-                <button cButton color="success" (click)="onSubmit()">Create Account</button>
-              </div>
-            </form>
-          </c-card-body>
-        </c-card>
-      </c-col>
-    </c-row>
-  </c-container>
+<div class="login-container" >
+
+		<mat-card>
+      <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+        <div fxLayout="column" fxLayoutAlign="center center">
+          <div fxFlex="100%">
+            <mat-form-field appearance="outline" class="form-field">
+              <mat-icon matPrefix>person_outline</mat-icon>
+              <input matInput formControlName="username" name="username"  placeholder="ユーザー名 *">
+              <mat-error *ngIf="f.username.errors?.required">これは必要項目です</mat-error>
+            </mat-form-field>
+          </div>
+          <div fxFlex="100%">
+            <mat-form-field appearance="outline" class="form-field">
+              <mat-icon matPrefix>email</mat-icon>
+              <input matInput formControlName="email" placeholder="メール *" name="email">
+              <mat-error *ngIf="f.username.errors?.required">これは必要項目です </mat-error>
+            </mat-form-field>
+          </div>
+          <div fxFlex="100%">
+            <mat-form-field appearance="outline" class="form-field">
+              <mat-icon matPrefix>lock_outline</mat-icon>
+              <input matInput formControlName="password" name="password" placeholder="パスワード *" type="password">
+              <mat-error *ngIf="f.username.errors?.required">これは必要項目です.パスワードのサイズは６から４０の間になければなりません</mat-error>
+            </mat-form-field>
+          </div>
+          <div fxFlex="100%">
+            <mat-form-field appearance="outline" class="form-field">
+              <mat-icon matPrefix>lock_outline</mat-icon>
+              <input matInput formControlName="confirmPassword" name="confirmPassword" placeholder="パスワード *" type="password">
+              <mat-error *ngIf="f.username.errors?.required">これは必要項目です。パスワードのサイズは６から４０の間になければなりません</mat-error>
+            </mat-form-field>
+          </div>
+          <div fxFlex="100%" >
+              <button mat-stroked-button style="margin: 10px;" color="primary" type="submit" [disabled]="!formGroup.valid">Register</button>
+          </div>
+        </div>
+      </form>
+
+</mat-card>
+
 </div>

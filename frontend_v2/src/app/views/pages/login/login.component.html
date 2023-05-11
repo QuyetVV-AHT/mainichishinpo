@@ -23,14 +23,16 @@
                     formControlName="password"
                     cFormControl
                     placeholder="パスワード"
-                    type="password"
+                    [type]="typePassword"
                   />
+                  <button cButton color="light" (click)="displayPassword()">表示</button>
                 </c-input-group>
-                <c-card *ngIf="isLoginFailed">
-                  <c-card-body>
-                    <h6 cCardSubtitle style="color: red;">ユーザー名、またはパスワードが一致しません。</h6>
-                  </c-card-body>
-                </c-card>
+
+                <mat-card *ngIf="isLoginFailed" style="color: red;">
+                  <mat-card-header>
+                    ユーザー名、またはパスワードが一致しません。
+                  </mat-card-header>
+                  </mat-card>
                 <c-row>
                   <c-col xs="6">
                     <button cButton class="px-4" color="primary" (click)="login()">

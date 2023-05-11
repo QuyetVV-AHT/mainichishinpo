@@ -1,6 +1,7 @@
 package com.jp.mainichishinpo.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -31,6 +32,7 @@ public class Result {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="exam_id")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Exam exam;
 
     private LocalDateTime create_at;

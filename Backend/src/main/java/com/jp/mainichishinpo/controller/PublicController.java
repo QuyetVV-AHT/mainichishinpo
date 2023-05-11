@@ -2,8 +2,10 @@ package com.jp.mainichishinpo.controller;
 
 import com.jp.mainichishinpo.entity.Exam;
 import com.jp.mainichishinpo.entity.Post;
+import com.jp.mainichishinpo.entity.Result;
 import com.jp.mainichishinpo.service.ExamService;
 import com.jp.mainichishinpo.service.PostsService;
+import com.jp.mainichishinpo.service.ResultService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -25,6 +27,8 @@ public class PublicController {
     private ExamService examService;
     @Autowired
     private PostsService postsService;
+    @Autowired
+    private ResultService resultService;
 
     @GetMapping("/all")
     public ResponseEntity<List<Post>> allPostIsActive() {
@@ -54,5 +58,11 @@ public class PublicController {
 
         Page<Exam> resdto = examService.searchByKeywordWithActive(term, paging);
         return resdto;
+    }
+
+    @GetMapping("/result-by-user-id/{id}")
+    public ResponseEntity<List<Result>> getAllResultByUserId(@PathVariable Long id){
+        List<Result> list = resultService.getAllResultByUserId(id);
+        return ResponseEntity.ok(list);
     }
 }

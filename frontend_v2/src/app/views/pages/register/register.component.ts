@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/_services/auth.service';
@@ -11,6 +11,7 @@ import { AuthService } from 'src/app/_services/auth.service';
 })
 export class RegisterComponent implements OnInit {
   formGroup!: FormGroup;
+  error!: boolean;
   constructor(
     public fb: FormBuilder,
     private authService: AuthService,
@@ -19,9 +20,10 @@ export class RegisterComponent implements OnInit {
   ) { }
   ngOnInit(): void {
     this.formGroup = this.fb.group({
-      username: ['', Validators.required],
-      password: ['', Validators.required],
-      email: ['', Validators.required],
+      username:  ['', Validators.required],
+    email:  ['', Validators.required],
+    password:  ['', [Validators.required, Validators.minLength(6)]],
+    confirmPassword: ['', Validators.required],
     })
   }
 
@@ -30,11 +32,15 @@ export class RegisterComponent implements OnInit {
     let username = value.username;
     let email = value.email;
     let password = value.password;
-    console.log(value)
     this.authService.register(username, email, password).subscribe(data =>{
       this.toastrService.success('Thành công', 'Tạo tài khoản mới');
       this.router.navigate(['login']);
+    },
+    (error) => {
     });
   }
+
+  // convenience getter for easy access to form fields
+  get f() { return this.formGroup.controls; }
 
 }

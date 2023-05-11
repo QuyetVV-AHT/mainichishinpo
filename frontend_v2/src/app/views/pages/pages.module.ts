@@ -10,8 +10,12 @@ import { ButtonModule, CardModule, FormModule, GridModule } from '@coreui/angula
 import { IconModule } from '@coreui/icons-angular';
 import { ReactiveFormsModule } from '@angular/forms';
 import { LogoutComponent } from './logout/logout.component';
-
-
+import {MatButtonModule} from '@angular/material/button';
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatIconModule } from '@angular/material/icon'
+import { MatInputModule } from '@angular/material/input';
+import {MatToolbarModule} from '@angular/material/toolbar';
+import { MatCardModule } from '@angular/material/card';
 @NgModule({
   declarations: [
     LoginComponent,
@@ -28,7 +32,13 @@ import { LogoutComponent } from './logout/logout.component';
     GridModule,
     IconModule,
     FormModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatButtonModule,
+    MatFormFieldModule,
+    MatIconModule,
+    MatInputModule,
+    MatToolbarModule,
+    MatCardModule
   ]
 })
 export class PagesModule {

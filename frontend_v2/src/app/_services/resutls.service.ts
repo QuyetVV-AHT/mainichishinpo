@@ -14,4 +14,5 @@ export class ResutlsService {
   getAllResult(): Observable<Result[]> {
     return this.httpClient.get<Result[]>(`${this.RESULT_URL + 'list'}`);
   }
+
 }
