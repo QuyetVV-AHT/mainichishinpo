@@ -59,7 +59,7 @@
                 </div> -->
 
                 <!-- Question List-->
-                <div>
+                <div *ngIf="type === 'normal'">
                   <table cTable hover class="table table-striped">
                     <thead>
                       <tr>
@@ -95,8 +95,45 @@
                   </div>
                 </div>
 
+                <div *ngIf="type === 'fillword'">
+                  <table cTable hover class="table table-striped">
+                    <thead>
+                      <tr>
+                        <th>ID</th>
+                        <th class="question">Danh sách câu hỏi</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor=" let question of listQuestionFillWord | paginate : {
+                        itemsPerPage: pageSize,
+                        currentPage: page,
+                        totalItems: count
+                        }  let i = index;">
+
+                        <td>
+                          <c-form-check>
+                            <input cFormCheckInput id="{{question.id}}" type="checkbox" [value]="question.id"
+                              [checked]="findIndexID(question.id)" (change)="onChange($event)" />
+                            <label cFormCheckLabel for="{{question.id}}">{{question.id}}</label>
+                          </c-form-check>
+                        </td>
+                        <td>
+                          {{question.question}}
+                        </td>
+
+                      </tr>
+                    </tbody>
+                  </table>
+
+                  <div class="col-md-12">
+                    <pagination-controls previousLabel="{{'PREV' }}" nextLabel="{{'NEXT'}}" [responsive]="true"
+                      (pageChange)="handlePageChange($event)"></pagination-controls>
+                  </div>
+                </div>
+
+
                 <div class="d-grid">
-                  <button cButton color="success" (click)="updateExam()">Update Exam</button>
+                  <button cButton color="success" (click)="updateExam()">更新</button>
                 </div>
               </form>
           </c-card-body>

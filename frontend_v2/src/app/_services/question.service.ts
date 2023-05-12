@@ -2,7 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { Question } from 'src/app/entity/Question';
+import { Question, QuestionFillWord } from 'src/app/entity/Question';
 
 @Injectable({
   providedIn: 'root'
@@ -10,12 +10,18 @@ import { Question } from 'src/app/entity/Question';
 export class QuestionService {
 
   private Question_URL = environment.apiUrl +'/api/question/';
+  private QuestionFillWord_URL = environment.apiUrl +'/api/questionfillword/';
   constructor(private httpClient: HttpClient) { }
 
 
   getAllQuestion(): Observable<Question[]> {
     return this.httpClient.get<Question[]>(`${this.Question_URL + 'list'}`);
   }
+
+  getAllQuestionFillWord(): Observable<QuestionFillWord[]> {
+    return this.httpClient.get<QuestionFillWord[]>(`${this.QuestionFillWord_URL + 'list'}`);
+  }
+
   addQuestion(Question: Question): Observable<Object> {
     return this.httpClient.post<Question>(`${this.Question_URL + 'create'}`, Question);
   }
@@ -33,6 +39,13 @@ export class QuestionService {
 
     let terms = new HttpParams().set('term', term);
     return this.httpClient.get<Question[]>(`${this.Question_URL + 'search'}`,{ params: terms } );
+  }
+
+
+  getAllQuestionFillWordWithPagination(term: string ): Observable<any> {
+
+    let terms = new HttpParams().set('term', term);
+    return this.httpClient.get<Question[]>(`${this.QuestionFillWord_URL + 'search'}`,{ params: terms } );
   }
 
 }
