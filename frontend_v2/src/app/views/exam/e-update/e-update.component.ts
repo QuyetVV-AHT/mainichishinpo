@@ -19,6 +19,7 @@ export class EUpdateComponent {
   exam = new Exam();
   examFillWord = new ExamFillWord;
   listQuestion: any;
+  listQuestionFillWord: any;
   question: Question |undefined;
   pageSize = PAGESIZE;
   page = PAGE;
@@ -45,6 +46,7 @@ export class EUpdateComponent {
     this.listID = [];
     this.getAllQuestion();
     this.retrieveQuestion(this.term);
+    this.retrieveQuestionFillWord(this.term);
     this.formGroup = this.fb.group({
       exam_name: ['', Validators.required],
       note: ['', Validators.required],
@@ -128,17 +130,37 @@ export class EUpdateComponent {
   }
 
   private getAllQuestion() {
-    this.questionService.getAllQuestion().subscribe(data => {
-      this.listQuestion = data;
-    });
+    if(this.type === 'normal'){
+      this.questionService.getAllQuestion().subscribe(data => {
+        this.listQuestion = data;
+      });
+    }
+    if(this.type === 'fillword'){
+      this.questionService.getAllQuestionFillWord().subscribe(data =>{
+        this.listQuestionFillWord =data;
+      })
+    }
+
   }
   handlePageChange(event: number): void {
     this.page = event;
-    this.retrieveQuestion(this.term);
+    if(this.type === 'normal'){
+      this.retrieveQuestion(this.term);
+    }
+    if(this.type === 'fillword'){
+      this.retrieveQuestionFillWord(this.term);
+    }
   }
   retrieveQuestion(term: string){
     this.questionService.getAllQuestionrWithPagination(term).subscribe(res =>{
       this.listQuestion = res.content;
+      this.count = res.totalElements;
+    });
+  };
+
+  retrieveQuestionFillWord(term: string){
+    this.questionService.getAllQuestionFillWordWithPagination(term).subscribe(res =>{
+      this.listQuestionFillWord = res.content;
       this.count = res.totalElements;
     });
   };
