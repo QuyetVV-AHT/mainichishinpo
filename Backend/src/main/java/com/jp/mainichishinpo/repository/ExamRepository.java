@@ -24,4 +24,7 @@ public interface ExamRepository extends JpaRepository<Exam, Long> {
     List<Exam> getListExamActive();
     @Query(value = "SELECT * FROM exam WHERE active = true and exam_name LIKE %:term% ORDER BY id DESC" , nativeQuery = true)
     Page<Exam> searchByKeywordWithActive(String term, Pageable paging);
+
+    @Query(value = "SELECT * FROM exam WHERE id=:id and exam_name LIKE %:examname% ORDER BY id DESC" , nativeQuery = true)
+    Exam findByIdAndExamname(Long id, String examname);
 }

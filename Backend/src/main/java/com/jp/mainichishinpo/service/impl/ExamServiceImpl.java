@@ -64,6 +64,7 @@ public class ExamServiceImpl implements ExamService {
         }
         exam.setQuestions(questionSet);
         exam.setActive(false);
+        exam.setType("normal");
         examRepository.save(exam);
         return exam;
     }
@@ -83,5 +84,10 @@ public class ExamServiceImpl implements ExamService {
     public Page<Exam> searchByKeywordWithActive(String term, Pageable paging) {
         Page<Exam> res = examRepository.searchByKeywordWithActive(term, paging);
         return res;
+    }
+
+    @Override
+    public Exam findByIdAndExamName(Long id, String examname) {
+        return examRepository.findByIdAndExamname(id, examname);
     }
 }

@@ -1,9 +1,7 @@
 package com.jp.mainichishinpo.controller;
 
-import com.jp.mainichishinpo.entity.Exam;
-import com.jp.mainichishinpo.entity.Question;
-import com.jp.mainichishinpo.entity.Result;
-import com.jp.mainichishinpo.entity.User;
+import com.jp.mainichishinpo.entity.*;
+import com.jp.mainichishinpo.payload.dto.ExamDto;
 import com.jp.mainichishinpo.payload.request.ExamRequest;
 import com.jp.mainichishinpo.payload.response.MessageResponse;
 import com.jp.mainichishinpo.security.services.UserDetailsImpl;
@@ -13,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -26,10 +25,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.security.Principal;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -51,6 +47,8 @@ public class ExamController {
     private ResultService resultService;
     @Autowired
     FilesStorageService storageService;
+    @Autowired
+    private ExamFillWordService examFillWordService;
 
     @GetMapping("/list")
     public List<Exam> getAllExam() {
@@ -58,8 +56,38 @@ public class ExamController {
         return examList;
     }
 
+    @GetMapping("/listAll")
+    public List<ExamDto> getListAllExam() {
+        List<ExamDto> rs =  new ArrayList<>();
+        List<Exam> examList = examService.getAllExam();
+        List<ExamFillWord> examFillWordList = examFillWordService.getAllExam();
+        for (Exam exam: examList
+             ) {
+            ExamDto tmp = new ExamDto();
+            tmp.setId(exam.getId());
+            tmp.setExam_name(exam.getExam_name());
+            tmp.setNote(exam.getNote());
+            tmp.setActive(exam.getActive());
+            tmp.setQuestionTotal((long) exam.getQuestions().size());
+            tmp.setType(exam.getType());
+            rs.add(tmp);
+        }
+        for (ExamFillWord examFillWord: examFillWordList
+        ) {
+            ExamDto tmp = new ExamDto();
+            tmp.setId(examFillWord.getId());
+            tmp.setExam_name(examFillWord.getExam_name());
+            tmp.setNote(examFillWord.getNote());
+            tmp.setActive(examFillWord.getActive());
+            tmp.setQuestionTotal((long) examFillWord.getQuestionFillWords().size());
+            tmp.setType(examFillWord.getType());
+            rs.add(tmp);
+        }
+        return rs;
+    }
+
     @GetMapping("/search")
-    public ResponseEntity<Page<Exam>>  search(
+    public ResponseEntity<Page<ExamDto>>  search(
             @RequestParam(name = PAGE, required = true, defaultValue = "0") int page,
             @RequestParam(name = PAGE_SIZE, required = true, defaultValue = Integer.MAX_VALUE + "") int size,
             @RequestParam(name = TERM, required = true, defaultValue = "") String term
@@ -70,15 +98,48 @@ public class ExamController {
         if (term != null)
             term = term.trim();
 
-        Page<Exam> resdto = examService.searchByKeyword(term, paging);
-        return ResponseEntity.ok(resdto);
+        Page<Exam> exams = examService.searchByKeyword(term, paging);
+        Page<ExamFillWord> examFillWords = examFillWordService.searchByKeyword(term, paging);
+        List<ExamDto> rs =  new ArrayList<>();
+
+        for (Exam exam: exams
+        ) {
+            ExamDto tmp = new ExamDto();
+            tmp.setId(exam.getId());
+            tmp.setExam_name(exam.getExam_name());
+            tmp.setNote(exam.getNote());
+            tmp.setActive(exam.getActive());
+            tmp.setQuestionTotal((long) exam.getQuestions().size());
+            tmp.setType(exam.getType());
+            rs.add(tmp);
+        }
+        for (ExamFillWord examFillWord: examFillWords
+        ) {
+            ExamDto tmp = new ExamDto();
+            tmp.setId(examFillWord.getId());
+            tmp.setExam_name(examFillWord.getExam_name());
+            tmp.setNote(examFillWord.getNote());
+            tmp.setActive(examFillWord.getActive());
+            tmp.setQuestionTotal((long) examFillWord.getQuestionFillWords().size());
+            tmp.setType(examFillWord.getType());
+            rs.add(tmp);
+        }
+        Page<ExamDto> result = new PageImpl<>(rs);
+        return ResponseEntity.ok(result);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/{id}/{examname}/{type}")
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<Optional<Exam>> getExamById(@PathVariable Long id) {
-        Optional<Exam> result = examService.findById(id);
-        return ResponseEntity.ok(result);
+    public ResponseEntity<?> getExamByIdAndExamName(@PathVariable Long id,@PathVariable String examname, @PathVariable String type) {
+        if(type.equals("normal")){
+            Exam result = examService.findByIdAndExamName(id,examname);
+            return ResponseEntity.ok(result);
+        }
+        if(type.equals("fillword")){
+            ExamFillWord result =  examFillWordService.findByIdAndExamName(id, examname);
+            return ResponseEntity.ok(result);
+        }
+        return ResponseEntity.badRequest().body(new MessageResponse("Error: Exam not exist!"));
     }
 
 
@@ -113,9 +174,16 @@ public class ExamController {
         return ResponseEntity.ok(exam);
     }
 
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<?> deleteExam(@PathVariable Long id) {
-        examService.delete(id);
+    @DeleteMapping("/delete/{id}/{examname}")
+    public ResponseEntity<?> deleteExam(@PathVariable Long id, @PathVariable String examname) {
+        if(examService.findByIdAndExamName(id, examname) != null){
+            examService.delete(id);
+        }
+
+        if(examFillWordService.findByIdAndExamName(id, examname) != null){
+            examFillWordService.delete(id);
+        }
+
         return ResponseEntity.ok(new MessageResponse("Exam delete successfully!"));
     }
 
@@ -180,6 +248,7 @@ public class ExamController {
             }
             exam.setQuestions(questionsListForExam);
             exam.setActive(false);
+            exam.setType("normal");
             examService.save(exam);
 
             message = "Uploaded the file successfully: " + file.getOriginalFilename() + " and create " + exam.getExam_name() + " exam";

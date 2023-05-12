@@ -1,8 +1,11 @@
 package com.jp.mainichishinpo.controller;
 
 import com.jp.mainichishinpo.entity.Exam;
+import com.jp.mainichishinpo.entity.ExamFillWord;
 import com.jp.mainichishinpo.entity.Post;
 import com.jp.mainichishinpo.entity.Result;
+import com.jp.mainichishinpo.payload.dto.ExamDto;
+import com.jp.mainichishinpo.service.ExamFillWordService;
 import com.jp.mainichishinpo.service.ExamService;
 import com.jp.mainichishinpo.service.PostsService;
 import com.jp.mainichishinpo.service.ResultService;
@@ -14,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.jp.mainichishinpo.util.ParamKey.*;
@@ -29,6 +33,8 @@ public class PublicController {
     private PostsService postsService;
     @Autowired
     private ResultService resultService;
+    @Autowired
+    private ExamFillWordService examFillWordService;
 
     @GetMapping("/all")
     public ResponseEntity<List<Post>> allPostIsActive() {
@@ -39,9 +45,34 @@ public class PublicController {
 
     @GetMapping("/all-exam")
     @PreAuthorize("hasRole('USER')")
-    public List<Exam> allExam(){
-        List<Exam> list = examService.getAllExamActive();
-        return list;
+    public List<ExamDto> allExam(){
+
+        List<ExamDto> rs =  new ArrayList<>();
+        List<Exam> examList = examService.getAllExamActive();
+        List<ExamFillWord> examFillWordList = examFillWordService.getAllExamActive();
+        for (Exam exam: examList
+        ) {
+            ExamDto tmp = new ExamDto();
+            tmp.setId(exam.getId());
+            tmp.setExam_name(exam.getExam_name());
+            tmp.setNote(exam.getNote());
+            tmp.setActive(exam.getActive());
+            tmp.setQuestionTotal((long) exam.getQuestions().size());
+            tmp.setType(exam.getType());
+            rs.add(tmp);
+        }
+        for (ExamFillWord examFillWord: examFillWordList
+        ) {
+            ExamDto tmp = new ExamDto();
+            tmp.setId(examFillWord.getId());
+            tmp.setExam_name(examFillWord.getExam_name());
+            tmp.setNote(examFillWord.getNote());
+            tmp.setActive(examFillWord.getActive());
+            tmp.setQuestionTotal((long) examFillWord.getQuestionFillWords().size());
+            tmp.setType(examFillWord.getType());
+            rs.add(tmp);
+        }
+        return rs;
     }
 
     @GetMapping("/search")

@@ -18,8 +18,8 @@ import java.util.Set;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "exam")
-public class Exam {
+@Table(name = "examfillword")
+public class ExamFillWord {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,15 +30,15 @@ public class Exam {
     private String exam_name;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.DETACH, CascadeType.REFRESH})
-    @JoinTable(	name = "exam_question",
-            joinColumns = @JoinColumn(name = "exam_id"),
-            inverseJoinColumns = @JoinColumn(name = "question_id"))
-    private Set<Question> questions = new HashSet<>();
+    @JoinTable(	name = "exam_question_fillword",
+            joinColumns = @JoinColumn(name = "examfillword_id"),
+            inverseJoinColumns = @JoinColumn(name = "questionsfillword_id"))
+    private Set<QuestionFillWord> questionFillWords = new HashSet<>();
 
     private String note;
+    private String type;
 
     private Boolean active;
-    private String type;
 
     @OneToMany(mappedBy = "id", cascade = CascadeType.ALL)
     @JsonIgnore

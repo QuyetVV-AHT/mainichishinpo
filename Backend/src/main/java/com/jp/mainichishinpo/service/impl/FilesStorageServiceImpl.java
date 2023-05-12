@@ -2,6 +2,8 @@ package com.jp.mainichishinpo.service.impl;
 
 import com.jp.mainichishinpo.controller.FilesController;
 import com.jp.mainichishinpo.entity.Question;
+import com.jp.mainichishinpo.entity.QuestionFillWord;
+import com.jp.mainichishinpo.repository.QuestionFillWordRepository;
 import com.jp.mainichishinpo.repository.QuestionRepository;
 import com.jp.mainichishinpo.service.FilesStorageService;
 import org.apache.poi.EncryptedDocumentException;
@@ -36,6 +38,8 @@ public class FilesStorageServiceImpl implements FilesStorageService {
     Workbook workbook;
     @Autowired
     private QuestionRepository questionRepository;
+    @Autowired
+    private QuestionFillWordRepository questionFillWordRepository;
 
     @Override
     public void init() {
@@ -165,5 +169,80 @@ public class FilesStorageServiceImpl implements FilesStorageService {
             questionListForExam.add(ques);
         }
         return questionListForExam;
+    }
+
+    @Override
+    public List<QuestionFillWord> getExcelDataAsListForFillWord(String filename) {
+        String FILE_PATH = PATH_EXCEL +"/"+ filename;
+        List<String> list = new ArrayList<String>();
+
+        // Create a DataFormatter to format and get each cell's value as String
+        DataFormatter dataFormatter = new DataFormatter();
+
+        // Create the Workbook
+        try {
+            workbook = WorkbookFactory.create(new File(FILE_PATH));
+            workbook.setMissingCellPolicy(Row.MissingCellPolicy.CREATE_NULL_AS_BLANK);
+        } catch (EncryptedDocumentException | IOException e) {
+            e.printStackTrace();
+        }
+
+        // Getting the Sheet at index zero
+        Sheet sheet = workbook.getSheetAt(0);
+
+        // Getting number of columns in the Sheet
+        int noOfColumns = sheet.getRow(0).getLastCellNum();
+
+        // Using for-each loop to iterate over the rows and columns
+        for (Row row : sheet) {
+            for (Cell cell : row) {
+                String cellValue = dataFormatter.formatCellValue(cell);
+                list.add(cellValue);
+            }
+        }
+
+        // filling excel data and creating list as List<Invoice>
+        List<QuestionFillWord> questionFillWordList = createListFillWord(list, noOfColumns);
+
+        // Closing the workbook
+        try {
+            workbook.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return questionFillWordList;
+    }
+
+    @Override
+    public Set<QuestionFillWord> saveExcelDataFillWord(List<QuestionFillWord> questionFillWordList) {
+        Set<QuestionFillWord> questionFillWords = new HashSet<>();
+        for (QuestionFillWord question: questionFillWordList
+        ) {
+            QuestionFillWord ques= questionFillWordRepository.saveAndFlush(question);
+            questionFillWords.add(ques);
+        }
+        return questionFillWords;
+    }
+
+    private List<QuestionFillWord> createListFillWord(List<String> excelData, int noOfColumns) {
+
+        ArrayList<QuestionFillWord> questionFillWords = new ArrayList<QuestionFillWord>();
+        int i = noOfColumns;
+        do {
+            QuestionFillWord ques = new QuestionFillWord();
+
+            ques.setQuestion(excelData.get(i).toLowerCase());
+            String ansList = excelData.get(i + 1);
+            if(!ansList.endsWith(",")){
+                ansList = ansList + ",";
+            }
+            ques.setAnsList(ansList);
+            ques.setNote(excelData.get(i + 2));
+
+            questionFillWords.add(ques);
+            i = i + (noOfColumns);
+        } while (i < excelData.size());
+        return questionFillWords;
     }
 }

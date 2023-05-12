@@ -74,6 +74,8 @@ public class WebSecurityConfig { // extends WebSecurityConfigurerAdapter {
                 .requestMatchers ("/api/test/**").permitAll()
                 .requestMatchers("/api/user/**").permitAll()
                 .requestMatchers("/api/question/**").permitAll()
+                .requestMatchers("/api/questionfillword/**").permitAll()
+                .requestMatchers("/api/examfillword/**").permitAll()
                 .requestMatchers("/api/exam/**").permitAll()
                 .requestMatchers("/api/public/**").permitAll()
                 .anyRequest().authenticated();

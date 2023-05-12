@@ -1,6 +1,7 @@
 package com.jp.mainichishinpo.service;
 
 import com.jp.mainichishinpo.entity.Question;
+import com.jp.mainichishinpo.entity.QuestionFillWord;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -25,4 +26,8 @@ public interface FilesStorageService {
     List<Question> getExcelDataAsList(String filename);
 
     Set<Question> saveExcelData(List<Question> questionList);
+
+    List<QuestionFillWord> getExcelDataAsListForFillWord(String filename);
+
+    Set<QuestionFillWord> saveExcelDataFillWord(List<QuestionFillWord> questionFillWordList);
 }

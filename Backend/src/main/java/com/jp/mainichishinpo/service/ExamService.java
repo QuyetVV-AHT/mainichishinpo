@@ -1,9 +1,7 @@
 package com.jp.mainichishinpo.service;
 
 import com.jp.mainichishinpo.entity.Exam;
-import com.jp.mainichishinpo.entity.Question;
 import com.jp.mainichishinpo.payload.request.ExamRequest;
-import com.jp.mainichishinpo.payload.request.QuestionRequest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -30,4 +28,6 @@ public interface ExamService {
     List<Exam> getAllExamActive();
 
     Page<Exam> searchByKeywordWithActive(String term, Pageable paging);
+
+    Exam findByIdAndExamName(Long id, String examname);
 }
