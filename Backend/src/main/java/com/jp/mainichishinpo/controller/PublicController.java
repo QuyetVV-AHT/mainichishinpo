@@ -11,6 +11,7 @@ import com.jp.mainichishinpo.service.PostsService;
 import com.jp.mainichishinpo.service.ResultService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -76,7 +77,7 @@ public class PublicController {
     }
 
     @GetMapping("/search")
-    public Page<Exam> search(
+    public Page<ExamDto> search(
             @RequestParam(name = PAGE, required = true, defaultValue = "0") int page,
             @RequestParam(name = PAGE_SIZE, required = true, defaultValue = Integer.MAX_VALUE + "") int size,
             @RequestParam(name = TERM, required = true, defaultValue = "") String term
@@ -87,8 +88,33 @@ public class PublicController {
         if (term != null)
             term = term.trim();
 
-        Page<Exam> resdto = examService.searchByKeywordWithActive(term, paging);
-        return resdto;
+        List<ExamDto> rs =  new ArrayList<>();
+        List<Exam> examList = examService.searchByKeywordWithActive(term, paging);
+        List<ExamFillWord> examFillWordList = examFillWordService.searchByKeywordWithActive(term, paging);
+        for (Exam exam: examList
+        ) {
+            ExamDto tmp = new ExamDto();
+            tmp.setId(exam.getId());
+            tmp.setExam_name(exam.getExam_name());
+            tmp.setNote(exam.getNote());
+            tmp.setActive(exam.getActive());
+            tmp.setQuestionTotal((long) exam.getQuestions().size());
+            tmp.setType(exam.getType());
+            rs.add(tmp);
+        }
+        for (ExamFillWord examFillWord: examFillWordList
+        ) {
+            ExamDto tmp = new ExamDto();
+            tmp.setId(examFillWord.getId());
+            tmp.setExam_name(examFillWord.getExam_name());
+            tmp.setNote(examFillWord.getNote());
+            tmp.setActive(examFillWord.getActive());
+            tmp.setQuestionTotal((long) examFillWord.getQuestionFillWords().size());
+            tmp.setType(examFillWord.getType());
+            rs.add(tmp);
+        }
+        Page<ExamDto> result = new PageImpl<>(rs);
+        return result;
     }
 
     @GetMapping("/result-by-user-id/{id}")

@@ -1,4 +1,18 @@
 <div class="container-fluid dashboard" *ngIf="!isSubmit">
+  <div class="col-lg-3 col-sm-12 mt-5 text-center">
+    <c-card>
+      <h4 cCardTitle>時間</h4>
+      <c-card-body>
+        <h1>{{ getFormattedTime() }}</h1>
+        <c-spinner
+          class="mx-auto"
+          mode="determinate"
+          [value]="(value / 300) * 100"
+        >
+        </c-spinner>
+      </c-card-body>
+    </c-card>
+  </div>
   <div class="row">
     <!-- <div class="col-lg-2 col-sm-12 mt-5">
       <c-card>
@@ -100,20 +114,7 @@
       <button mat-flat-button style="max-width: 30%;" color="primary" (click)="submitQuiz()">送信</button>
     </mat-card>
 
-    <div class="col-lg-3 col-sm-12 mt-5 text-center">
-      <c-card>
-        <h4 cCardTitle>時間</h4>
-        <c-card-body>
-          <h1>{{ getFormattedTime() }}</h1>
-          <c-spinner
-            class="mx-auto"
-            mode="determinate"
-            [value]="(value / 300) * 100"
-          >
-          </c-spinner>
-        </c-card-body>
-      </c-card>
-    </div>
+
   </div>
 </div>
 
@@ -148,8 +149,9 @@
                 <mat-card-header>
                   <mat-card-title>{{i+1}}: {{ques.question}}</mat-card-title>
                 </mat-card-header>
-                <mat-list-item >入力した答え： {{ques.givenAnswer}}</mat-list-item>
-                <mat-list-item>解答： {{ques.ansList}}</mat-list-item>
+                <mat-list-item *ngIf="ques.color" style="background-color: crimson;" >入力した答え： {{ques.givenAnswer}}</mat-list-item>
+                <mat-list-item *ngIf="!ques.color" style="background-color: cornflowerblue;" >入力した答え： {{ques.givenAnswer}}</mat-list-item>
+                <mat-list-item >解答： {{ques.ansList}}</mat-list-item>
                 <mat-list-item>Note: {{ques.note}}</mat-list-item>
               </mat-list>
             </mat-card-content>

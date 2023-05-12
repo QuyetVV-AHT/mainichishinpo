@@ -27,7 +27,7 @@ public interface ExamService {
 
     List<Exam> getAllExamActive();
 
-    Page<Exam> searchByKeywordWithActive(String term, Pageable paging);
+    List<Exam> searchByKeywordWithActive(String term, Pageable paging);
 
     Exam findByIdAndExamName(Long id, String examname);
 }

@@ -44,8 +44,7 @@ export class EUpdateComponent {
 
   ngOnInit(): void {
     this.listID = [];
-    this.getAllQuestion();
-    this.retrieveQuestion(this.term);
+
     this.retrieveQuestionFillWord(this.term);
     this.formGroup = this.fb.group({
       exam_name: ['', Validators.required],
@@ -59,6 +58,14 @@ export class EUpdateComponent {
     this.examId = this.route.snapshot.params['id'];
     this.examname = this.route.snapshot.params['examname'];
     this.type = this.route.snapshot.params['type'];
+    if(this.type === 'normal'){
+      this.getAllQuestion();
+      this.retrieveQuestion(this.term);
+    }
+    if(this.type === 'fillword'){
+
+      this.retrieveQuestionFillWord(this.term);
+    }
     this.examService.getExamByIdAndExamName(this.examId,this.examname,this.type).subscribe(data=>{
       if(this.type === 'normal'){
         this.questionAdded = data.questions;

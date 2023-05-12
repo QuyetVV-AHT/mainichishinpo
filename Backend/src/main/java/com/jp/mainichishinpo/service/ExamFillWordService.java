@@ -22,4 +22,6 @@ public interface ExamFillWordService {
    Optional<ExamFillWord> findById(Long id);
 
     List<ExamFillWord> getAllExamActive();
+
+    List<ExamFillWord> searchByKeywordWithActive(String term, Pageable paging);
 }

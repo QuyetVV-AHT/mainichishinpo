@@ -1,5 +1,6 @@
 package com.jp.mainichishinpo.service.impl;
 
+import com.jp.mainichishinpo.entity.Exam;
 import com.jp.mainichishinpo.entity.ExamFillWord;
 import com.jp.mainichishinpo.repository.ExamFillWordRepository;
 import com.jp.mainichishinpo.service.ExamFillWordService;
@@ -30,7 +31,7 @@ public class ExamFillWordServiceImpl implements ExamFillWordService {
 
     @Override
     public Page<ExamFillWord> searchByKeyword(String term, Pageable paging) {
-        Page<ExamFillWord> res = examFillWordRepository.searchByKeywordWithActive(term, paging);
+        Page<ExamFillWord> res = examFillWordRepository.searchByKeyword(term, paging);
         return res;
     }
 
@@ -52,5 +53,11 @@ public class ExamFillWordServiceImpl implements ExamFillWordService {
     @Override
     public List<ExamFillWord> getAllExamActive() {
         return examFillWordRepository.getListExamActive();
+    }
+
+    @Override
+    public List<ExamFillWord> searchByKeywordWithActive(String term, Pageable paging) {
+        List<ExamFillWord> res = examFillWordRepository.searchByKeywordWithActive(term, paging);
+        return res;
     }
 }

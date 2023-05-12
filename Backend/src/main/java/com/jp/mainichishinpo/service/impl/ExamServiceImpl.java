@@ -81,8 +81,8 @@ public class ExamServiceImpl implements ExamService {
     }
 
     @Override
-    public Page<Exam> searchByKeywordWithActive(String term, Pageable paging) {
-        Page<Exam> res = examRepository.searchByKeywordWithActive(term, paging);
+    public List<Exam> searchByKeywordWithActive(String term, Pageable paging) {
+        List<Exam> res = examRepository.searchByKeywordWithActive(term, paging);
         return res;
     }
 

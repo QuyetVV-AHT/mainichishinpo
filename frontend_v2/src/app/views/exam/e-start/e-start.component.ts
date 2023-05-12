@@ -60,6 +60,7 @@ export class EStartComponent implements OnInit {
           this.title_exam = data.exam_name;
           this.questions.forEach((ques: any) => {
             ques['givenAnswer'] = '';
+            ques['color'] = false;  // Mac dinh cau tra loi sai
           });
           this.startTimer();
         }
@@ -109,15 +110,15 @@ export class EStartComponent implements OnInit {
 
     if(this.type === 'fillword'){
       this.questions.forEach((ques: any) =>{
-        ques.givenAnswer = ques.givenAnswer + ",";
-        if(ques.givenAnswer != '' && ques.ansList.includes(ques.givenAnswer.toString())){
-
+        ques.givenAnswer = ques.givenAnswer + ',';
+        if(ques.givenAnswer !== ',' && ques.ansList.includes(ques.givenAnswer.toString())){
           this.correctAnswer++;
+          ques.color = true;
         }
-        if (ques.givenAnswer.trim() != '') {
+        if (ques.givenAnswer.trim() !== ',') {
           this.attempted++; // Dem so cau tra da tra loi
-          ques.givenAnswer = ques.givenAnswer.slice(0,-1);
         }
+        ques.givenAnswer = ques.givenAnswer.slice(0,-1);
       });
     }
 
