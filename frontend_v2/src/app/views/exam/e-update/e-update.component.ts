@@ -3,7 +3,7 @@ import { FormGroup, FormBuilder, Validators, FormArray, FormControl } from '@ang
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { PAGESIZE, PAGE, COUNT } from 'src/app/const';
-import { Exam } from 'src/app/entity/Exam';
+import { Exam, ExamFillWord } from 'src/app/entity/Exam';
 import { Question } from 'src/app/entity/Question';
 import { ExamService } from 'src/app/_services/exam.service';
 import { QuestionService } from 'src/app/_services/question.service';
@@ -17,6 +17,7 @@ import { UserService } from 'src/app/_services/user.service';
 export class EUpdateComponent {
   formGroup!: FormGroup;
   exam = new Exam();
+  examFillWord = new ExamFillWord;
   listQuestion: any;
   question: Question |undefined;
   pageSize = PAGESIZE;
@@ -25,6 +26,8 @@ export class EUpdateComponent {
   count = COUNT;
   listID!: number[];
   examId!: number;
+  type!: string;
+  examname!:string;
   questionAdded: any;
   questionsAddExam: any;
   isActive: boolean | undefined;
@@ -52,28 +55,57 @@ export class EUpdateComponent {
     )) as FormArray;
 
     this.examId = this.route.snapshot.params['id'];
-    this.examService.getExamById(this.examId).subscribe(data=>{
-      this.questionAdded = data.questions;
-      this.isActive = data.active;
-      this.formGroup.get('exam_name')?.setValue(data.exam_name);
-      this.formGroup.get('note')?.setValue(data.note);
-      this.questionAdded.forEach((item: Question)  => {
-        this.listID?.push(item.id);
-});
+    this.examname = this.route.snapshot.params['examname'];
+    this.type = this.route.snapshot.params['type'];
+    this.examService.getExamByIdAndExamName(this.examId,this.examname,this.type).subscribe(data=>{
+      if(this.type === 'normal'){
+        this.questionAdded = data.questions;
+        this.isActive = data.active;
+        this.formGroup.get('exam_name')?.setValue(data.exam_name);
+        this.formGroup.get('note')?.setValue(data.note);
+        this.questionAdded.forEach((item: Question)  => {
+          this.listID?.push(item.id);
+  });
+      }
+
+      if(this.type === 'fillword'){
+        this.questionAdded = data.questionFillWords;
+        this.isActive = data.active;
+        this.formGroup.get('exam_name')?.setValue(data.exam_name);
+        this.formGroup.get('note')?.setValue(data.note);
+        this.questionAdded.forEach((item: Question)  => {
+          this.listID?.push(item.id);
+  });
+      }
+
     },error => console.log(error));
   }
 
   updateExam(){
     const value = this.formGroup.getRawValue();
-    this.exam.exam_name = value.exam_name;
-    this.exam.note = value.note;
-    this.exam.listQuestionId = this.listID;
+    if(this.type === 'normal'){
+      this.exam.exam_name = value.exam_name;
+      this.exam.note = value.note;
+      this.exam.listQuestionId = this.listID;
 
-    this.examService.updateExam(this.examId, this.exam).subscribe(data =>{
-      this.toastrService.info('Thành công', 'Cập nhật bài thi');
-      this.router.navigate(['exam/list']);
+      this.examService.updateExam(this.examId, this.exam).subscribe(data =>{
+        this.toastrService.info('Thành công', 'Cập nhật bài thi');
+        this.router.navigate(['exam/list']);
 
-    },error => console.log(error));
+      },error => console.log(error));
+    }
+
+    if(this.type === 'fillword'){
+      this.examFillWord.exam_name = value.exam_name;
+      this.examFillWord.note = value.note;
+      this.examFillWord.listQuestionId = this.listID;
+      this.examService.updateExamFillWord(this.examId, this.examFillWord).subscribe(data =>{
+        this.toastrService.info('Thành công', 'Cập nhật bài thi');
+        this.router.navigate(['exam/list']);
+      })
+    }
+
+
   }
 
   onChange(event: any){
@@ -112,10 +144,18 @@ export class EUpdateComponent {
   };
 
   active(value: boolean){
+    if(this.type === 'normal')
     this.examService.activeExam(this.examId, value).subscribe(data =>{
 
       this.toastrService.info('Thành công', 'Cập nhật bài thi');
       this.router.navigate(['exam/list']);
     })
+    if(this.type === 'fillword'){
+      this.examService.activeExamFillWord(this.examId, value).subscribe(data =>{
+
+        this.toastrService.info('Thành công', 'Cập nhật bài thi');
+        this.router.navigate(['exam/list']);
+      })
+    }
   }
 }

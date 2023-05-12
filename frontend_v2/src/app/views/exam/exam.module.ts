@@ -14,6 +14,15 @@ import { EStartComponent } from './e-start/e-start.component';
 import { FormsModule } from '@angular/forms';
 import { ResutlUserComponent } from './resutl-user/resutl-user.component';
 import { TableModule, UtilitiesModule } from '@coreui/angular';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatCardModule} from '@angular/material/card';
+import {MatIconModule} from '@angular/material/icon';
+import {MatListModule} from '@angular/material/list';
+import {MatInputModule} from '@angular/material/input';
+import {MatButtonModule} from '@angular/material/button';
+import {MatDividerModule} from '@angular/material/divider';
+import { NgxMatFileInputModule } from '@angular-material-components/file-input';
+
 @NgModule({
   declarations: [
     ECreateComponent,
@@ -35,7 +44,15 @@ import { TableModule, UtilitiesModule } from '@coreui/angular';
     NgxPaginationModule,
     FormsModule,
     TableModule,
-    UtilitiesModule
+    UtilitiesModule,
+    MatCheckboxModule,
+    MatCardModule,
+    MatIconModule,
+    MatListModule,
+    MatInputModule,
+    MatButtonModule,
+    MatDividerModule,
+    NgxMatFileInputModule
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 })

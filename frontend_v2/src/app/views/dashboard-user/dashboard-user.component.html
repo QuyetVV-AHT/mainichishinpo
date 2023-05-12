@@ -13,6 +13,7 @@
           <th  >試験名</th>
           <th  >ノート</th>
           <th  >問題数</th>
+          <th  >タイプ</th>
           <th  >スタート</th>
         </tr>
       </thead>
@@ -25,10 +26,12 @@
           <td>{{i+1}}</td>
           <td>{{exam?.exam_name}}</td>
           <td>{{exam?.note}}</td>
-          <td>{{exam?.questions?.length}}</td>
+          <td>{{exam?.questionTotal}}</td>
+          <td *ngIf="exam?.type == 'normal'">Trắc nghiêm 4 đáp án</td>
+          <td *ngIf="exam?.type == 'fillword'">Điền từ</td>
 
           <td style="text-align:left">
-            <button cButton  (click)="startExam(exam.id)" color="primary" variant="outline">
+            <button cButton  (click)="startExam(exam.id, exam.exam_name, exam.type)" color="primary" variant="outline">
               <svg cIcon name="cilArrowRight"></svg>
             </button>
           </td>

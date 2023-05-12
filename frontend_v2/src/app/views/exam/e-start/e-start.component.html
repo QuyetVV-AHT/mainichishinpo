@@ -10,7 +10,10 @@
         </ul>
       </c-card>
     </div> -->
-    <div class="col-lg-8 col-sm-12 mt-1">
+
+    <!-- Type normal
+     -->
+    <div *ngIf="type === 'normal'" class="col-lg-8 col-sm-12 mt-1">
       <h1 class="title">{{title_exam}}</h1>
       <c-card *ngFor="let ques of questions; let i = index" class="mb-2">
         <c-card-body>
@@ -82,6 +85,21 @@
         送信
       </button>
     </div>
+    <!-- Type fillword -->
+    <mat-card *ngIf="type === 'fillword'">
+      <mat-card-content *ngFor="let ques of questions; let i = index">
+        <mat-card-header>
+          <mat-card-title>{{i+1}}: {{ques.question}}</mat-card-title>
+        </mat-card-header>
+        <mat-form-field class="example-full-width">
+          <mat-label>答え</mat-label>
+          <input matInput maxlength="256" placeholder="漢字とかひながらを入力してください。。" [(ngModel)]="ques.givenAnswer">
+        </mat-form-field>
+
+      </mat-card-content>
+      <button mat-flat-button style="max-width: 30%;" color="primary" (click)="submitQuiz()">送信</button>
+    </mat-card>
+
     <div class="col-lg-3 col-sm-12 mt-5 text-center">
       <c-card>
         <h4 cCardTitle>時間</h4>
@@ -100,26 +118,45 @@
 </div>
 
 <div class="container text-center mt-4" *ngIf="isSubmit">
-      <c-card>
+      <c-card *ngIf="type === 'normal'">
         <c-card-content class="mt-4">
           <h2>正解数 :{{ correctAnswer }}</h2>
           <h2>回答した質問の数: {{ attempted }}/{{questions.length}}</h2>
         </c-card-content>
+        <c-card *ngFor="let ques of questions; let i = index">
+          <c-card-header style="text-align: left;">{{i+1}}: {{ques.question}}</c-card-header>
+          <ul cListGroup style="list-style-type:none; text-align: left;">
+            <li  [ngStyle]="{'color': getColor(ques.ans_A, ques.givenAnswer, ques.ans_Correct)}">A: {{ques.ans_A}}</li>
+            <li  [ngStyle]="{'color': getColor(ques.ans_B, ques.givenAnswer, ques.ans_Correct)}">B: {{ques.ans_B}}</li>
+            <li  [ngStyle]="{'color': getColor(ques.ans_C, ques.givenAnswer, ques.ans_Correct)}">C: {{ques.ans_C}}</li>
+            <li  [ngStyle]="{'color': getColor(ques.ans_D, ques.givenAnswer, ques.ans_Correct)}">D: {{ques.ans_D}}</li>
+            <li  style="color: tomato;">解答: {{ques.ans_Correct}}</li>
+            <li >Note: {{ques.note}}</li>
+          </ul>
+        </c-card>
+      </c-card>
 
-      </c-card>
-      <c-card *ngFor="let ques of questions; let i = index">
-        <c-card-header style="text-align: left;">{{i+1}}: {{ques.question}}</c-card-header>
-        <ul cListGroup style="list-style-type:none; text-align: left;">
-          <li  [ngStyle]="{'color': getColor(ques.ans_A, ques.givenAnswer, ques.ans_Correct)}">A: {{ques.ans_A}}</li>
-          <li  [ngStyle]="{'color': getColor(ques.ans_B, ques.givenAnswer, ques.ans_Correct)}">B: {{ques.ans_B}}</li>
-          <li  [ngStyle]="{'color': getColor(ques.ans_C, ques.givenAnswer, ques.ans_Correct)}">C: {{ques.ans_C}}</li>
-          <li  [ngStyle]="{'color': getColor(ques.ans_D, ques.givenAnswer, ques.ans_Correct)}">D: {{ques.ans_D}}</li>
-          <li  style="color: tomato;">解答: {{ques.ans_Correct}}</li>
-          <li >Note: {{ques.note}}</li>
-        </ul>
-      </c-card>
+
+
+      <mat-card *ngIf="type === 'fillword'">
+          <mat-card-title>正解数 :{{ correctAnswer }}</mat-card-title>
+          <mat-divider></mat-divider>
+          <mat-card-title>回答した質問の数: {{ attempted }}/{{questions.length}}</mat-card-title>
+            <mat-card-content >
+
+              <mat-list *ngFor="let ques of questions; let i = index" style="text-align: left;">
+                <mat-card-header>
+                  <mat-card-title>{{i+1}}: {{ques.question}}</mat-card-title>
+                </mat-card-header>
+                <mat-list-item >入力した答え： {{ques.givenAnswer}}</mat-list-item>
+                <mat-list-item>解答： {{ques.ansList}}</mat-list-item>
+                <mat-list-item>Note: {{ques.note}}</mat-list-item>
+              </mat-list>
+            </mat-card-content>
+      </mat-card>
+
       <div class="container mt-3">
-        <button cButton mat-raised-button color="success"  (click)="toHome()">
+        <button  mat-flat-button color="primary"  (click)="toHome()">
           ホーム
         </button>
       </div>

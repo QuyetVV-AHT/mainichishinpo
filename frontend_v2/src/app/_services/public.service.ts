@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Post } from '../entity/Post';
-import { Exam } from '../entity/Exam';
+import { Exam, ExamDto } from '../entity/Exam';
 import { Result } from '../entity/Result';
 
 @Injectable({
@@ -18,8 +18,8 @@ export class PublicService {
     return this.httpClient.get<Post[]>(`${this.PUBLIC_URL  + '/all'}`);
   }
 
-  getExamPublic(): Observable<Exam[]> {
-    return this.httpClient.get<Exam[]>(`${this.PUBLIC_URL  + '/all-exam'}`);
+  getExamPublic(): Observable<ExamDto[]> {
+    return this.httpClient.get<ExamDto[]>(`${this.PUBLIC_URL  + '/all-exam'}`);
   }
 
   getAllExamPublicWithPagination(term: string ): Observable<any> {

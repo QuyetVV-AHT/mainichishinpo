@@ -29,7 +29,7 @@ const routes: Routes = [
         },
       },
       {
-        path: 'update/:id',
+        path: 'update/:id/:examname/:type',
         component: EUpdateComponent,
         data: {
           title: 'Chỉnh sửa đề thi',
@@ -43,7 +43,7 @@ const routes: Routes = [
         },
       },
       {
-        path: 'start-exam/:id',
+        path: 'start-exam/:id/:examname/:type',
         component: EStartComponent,
         data: {
           title: '始めて',

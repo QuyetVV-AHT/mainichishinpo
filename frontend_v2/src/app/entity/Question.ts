@@ -22,3 +22,10 @@ export class QuestionRequest{
 export class AddQuestionIntoExam{
   listId: number[] | undefined;
 }
+
+export class QuestionFillWord{
+  id:number = 0;
+  question:string| undefined;
+  ansList:string| undefined;
+  note: string | undefined;
+}

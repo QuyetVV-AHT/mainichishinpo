@@ -12,6 +12,8 @@ import Swal from 'sweetalert2';
 })
 export class EStartComponent implements OnInit {
   examId: any;
+  type!: string;
+  examname!: string;
   questions: any;
   marksGot = 0;
   correctAnswer = 0;
@@ -35,19 +37,33 @@ export class EStartComponent implements OnInit {
 
   ngOnInit(): void {
     this.examId = this.route.snapshot.params['id'];
+    this.examname = this.route.snapshot.params['examname'];
+    this.type = this.route.snapshot.params['type'];
     this.preventBackButton();
     this.loadQuestions();
   }
 
   loadQuestions() {
-    this.examService.getExamById(this.examId).subscribe(
+    this.examService.getExamByIdAndExamName(this.examId, this.examname, this.type).subscribe(
       (data) => {
-        this.questions = data.questions;
-        this.title_exam = data.exam_name;
-        this.questions.forEach((ques: any) => {
-          ques['givenAnswer'] = '';
-        });
-        this.startTimer();
+        if(this.type === 'normal'){
+          this.questions = data.questions;
+          this.title_exam = data.exam_name;
+          this.questions.forEach((ques: any) => {
+            ques['givenAnswer'] = '';
+          });
+          this.startTimer();
+        }
+
+        if(this.type === 'fillword'){
+          this.questions = data.questionFillWords;
+          this.title_exam = data.exam_name;
+          this.questions.forEach((ques: any) => {
+            ques['givenAnswer'] = '';
+          });
+          this.startTimer();
+        }
+
       },
       (error) => {}
     );
@@ -80,14 +96,32 @@ export class EStartComponent implements OnInit {
     this.isSubmit = true;
     this.value = this.timer;
     localStorage.setItem('counter', this.timer);
-    this.questions.forEach((ques: any) => {
-      if (ques.givenAnswer === ques.ans_Correct) {
-        this.correctAnswer++;
-      }
-      if (ques.givenAnswer.trim() != '') {
-        this.attempted++;
-      }
-    });
+    if(this.type === 'normal'){
+      this.questions.forEach((ques: any) => {
+        if (ques.givenAnswer === ques.ans_Correct) {
+          this.correctAnswer++;
+        }
+        if (ques.givenAnswer.trim() != '') {
+          this.attempted++;
+        }
+      });
+    }
+
+    if(this.type === 'fillword'){
+      this.questions.forEach((ques: any) =>{
+        ques.givenAnswer = ques.givenAnswer + ",";
+        if(ques.givenAnswer != '' && ques.ansList.includes(ques.givenAnswer.toString())){
+
+          this.correctAnswer++;
+        }
+        if (ques.givenAnswer.trim() != '') {
+          this.attempted++; // Dem so cau tra da tra loi
+          ques.givenAnswer = ques.givenAnswer.slice(0,-1);
+        }
+      });
+    }
+
+
     let mark= this.correctAnswer+"/"+this.questions.length;
     this.examService.sendResutl(this.examId, mark).subscribe(data=>{
     })

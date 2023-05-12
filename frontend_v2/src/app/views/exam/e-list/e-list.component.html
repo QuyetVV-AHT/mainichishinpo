@@ -6,6 +6,7 @@
         <th  >Tên bài thi</th>
         <th  >Chú thích</th>
         <th  >Số lượng câu hỏi</th>
+        <th  >Thể loại</th>
         <th  >Trạng thái</th>
       </tr>
     </thead>
@@ -18,17 +19,19 @@
         <td>{{i+1}}</td>
         <td>{{exam?.exam_name}}</td>
         <td>{{exam?.note}}</td>
-        <td>{{exam?.questions.length}}</td>
+        <td>{{exam?.questionTotal}}</td>
+        <td *ngIf="exam?.type == 'normal'">Trắc nghiêm 4 đáp án</td>
+        <td *ngIf="exam?.type == 'fillword'">Điền từ</td>
         <td *ngIf="exam?.active == true">Đang kích hoạt</td>
         <td *ngIf="exam?.active == false">Chưa kích hoạt</td>
 
         <td style="text-align:center">
-          <button cButton  (click)="updateExam(exam.id)" color="primary" variant="outline">
+          <button cButton  (click)="updateExam(exam.id,exam.exam_name, exam.type)" color="primary" variant="outline">
             <svg cIcon name="cilPencil"></svg>
           </button>
         </td>
         <td style="text-align:center">
-          <button cButton (click)="deleteExam(exam.id)" color="danger" variant="outline">
+          <button cButton (click)="deleteExam(exam.id, exam.exam_name)" color="danger" variant="outline">
             <svg cIcon name="cilTrash"></svg>
           </button>
         </td>

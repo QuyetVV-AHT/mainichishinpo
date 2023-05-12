@@ -15,6 +15,8 @@ export class ImportExcelComponent implements OnInit{
   exam = new Exam();
   formGroup!: FormGroup;
   file!: File;
+  normal = false;
+  fillword = false;
   constructor(private examService: ExamService,
     private router: Router,
     private toastrService: ToastrService,
@@ -22,7 +24,8 @@ export class ImportExcelComponent implements OnInit{
     private formBuilder: FormBuilder,
     ) { }
   ngOnInit(): void {
-    throw new Error('Method not implemented.');
+    this.normal = false;
+  this.fillword = false;
   }
 
       // On file Select
@@ -39,9 +42,16 @@ export class ImportExcelComponent implements OnInit{
 
     // Store form name as "file" with file data
     formData.append('file', this.file, this.file.name);
-    this.examService.createExamByExcel(formData).subscribe(data =>{
+    if(this.normal){
+      this.examService.createExamByExcel(formData).subscribe(data =>{
       this.router.navigate(['exam/list']);
-    })
+    })};
+    if(this.fillword){
+      this.examService.createExamFillWordByExcel(formData).subscribe(data =>{
+        this.router.navigate(['exam/list']);
+      })
+    }
+
     }
   }
 }

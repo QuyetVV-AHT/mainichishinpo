@@ -34,11 +34,11 @@ export class EListComponent {
     });
   }
 
-  updateExam(id: number) {
-    this.router.navigate(['exam/update', id]);
+  updateExam(id: number, examname:string, type: string) {
+    this.router.navigate(['exam/update', id, examname, type]);
   }
-  deleteExam(id: number) {
-    this.examService.deleteExam(id).subscribe(data => {
+  deleteExam(id: number, examname:string) {
+    this.examService.deleteExam(id, examname).subscribe(data => {
       this.toastrService.success('Thành công', 'Xóa đề thi');
       window.location.reload();
       this.router.navigate(['exam/list']);

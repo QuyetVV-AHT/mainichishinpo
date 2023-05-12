@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { PAGESIZE, PAGE, COUNT } from 'src/app/const';
-import { Exam } from 'src/app/entity/Exam';
+import { Exam, ExamDto } from 'src/app/entity/Exam';
 import { PublicService } from 'src/app/_services/public.service';
 import { ResutlsService } from 'src/app/_services/resutls.service';
 import { TokenStorageService } from 'src/app/_services/token-storage.service';
@@ -15,7 +15,7 @@ import { DashboardChartsData } from '../dashboard/dashboard-charts-data';
 export class DashboardUserComponent implements OnInit{
 
   isAdmin!: boolean;
-  listExamPublic!: Exam[];
+  listExamPublic!: ExamDto[];
   pageSize = PAGESIZE;
   page = PAGE;
   count = COUNT;
@@ -61,8 +61,8 @@ export class DashboardUserComponent implements OnInit{
     });
   };
 
-  startExam(id: number){
-    this.router.navigate(['exam/start-exam/' + id]);
+  startExam(id: number, exam_name: string | undefined, type: string | undefined){
+    this.router.navigate(['exam/start-exam/' + id + '/' + exam_name + '/' + type]);
   }
 
   searchByTerm(){

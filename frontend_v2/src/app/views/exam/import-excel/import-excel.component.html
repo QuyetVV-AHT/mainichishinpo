@@ -1,31 +1,23 @@
 <div class="bg-light min-vh-100 flex-row align-items-center">
-  <c-container>
-    <c-row class="justify-content-center">
-      <c-col >
-        <c-card class="mx-4">
-          <c-card-body class="p-4">
-            <c-input-group>
-              <input aria-describedby="inputGroupFileAddon04"
-                     aria-label="Upload"
-                     cFormControl
-                     id="inputGroupFile04"
-                     (change)="onChange($event)"
-                     type="file">
-              <button cButton
-                      color="info"
-                      id="inputGroupFileAddon04"
-                      type="button"
-                      (click)="onUpload()"
-                      >
-                Tải lên
-              </button>
-            </c-input-group>
+
+      <mat-card>
+        <mat-card-content>
+          <h2 class="example-h2">Dạng đề</h2>
+
+          <section class="example-section">
+            <mat-checkbox class="example-margin" [(ngModel)]="normal">Trắc nghiệm 4 đáp án</mat-checkbox>
+            <mat-checkbox class="example-margin" [(ngModel)]="fillword">Dạng điền từ</mat-checkbox>
+          </section>
+        </mat-card-content>
+        <mat-card-content>
+
+            <input  type="file"  (change)="onChange($event)">
+            <button matSuffix mat-icon-button (click)="onUpload()">
+              <mat-icon>cloud_upload</mat-icon>
+            </button>
 
 
-          </c-card-body>
-        </c-card>
-      </c-col>
-    </c-row>
-  </c-container>
+        </mat-card-content>
+      </mat-card>
 </div>
 

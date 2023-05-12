@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { PAGESIZE, PAGE, COUNT } from 'src/app/const';
-import { Exam } from 'src/app/entity/Exam';
+import { Exam, ExamDto } from 'src/app/entity/Exam';
 import { TokenStorageService } from 'src/app/_services/token-storage.service';
 
 import { DashboardChartsData, IChartProps } from './dashboard-charts-data';
@@ -123,7 +123,7 @@ export class DashboardComponent implements OnInit {
   isLoggedIn = false;
   username?: string;
   isAdmin!: boolean;
-  listExamPublic!: Exam[];
+  listExamPublic!: ExamDto[];
   pageSize = PAGESIZE;
   page = PAGE;
   count = COUNT;
@@ -145,12 +145,6 @@ export class DashboardComponent implements OnInit {
         });
       }
     }
-
-    this.publicService.getExamPublic().subscribe(data=>{
-      this.listExamPublic = data;
-    },error => this.error = true);
-
-
   }
 
   // initCharts(): void {
