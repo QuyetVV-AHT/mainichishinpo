@@ -37,6 +37,8 @@ public class ExamFillWord {
 
     private String note;
     private String type;
+    private Boolean hasAudio;
+    private String url_audio;
 
     private Boolean active;
 

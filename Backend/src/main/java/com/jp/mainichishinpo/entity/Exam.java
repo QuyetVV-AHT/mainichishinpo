@@ -39,6 +39,8 @@ public class Exam {
 
     private Boolean active;
     private String type;
+    private Boolean hasAudio;
+    private String url_audio;
 
     @OneToMany(mappedBy = "id", cascade = CascadeType.ALL)
     @JsonIgnore

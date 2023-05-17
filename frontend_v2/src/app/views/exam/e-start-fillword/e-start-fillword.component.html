@@ -1,0 +1,42 @@
+<mat-card *ngIf="!isSubmit">
+  <app-e-start-audio-fillword></app-e-start-audio-fillword>
+  <mat-card-content *ngFor="let ques of questions; let i = index">
+    <mat-card-header>
+      <mat-card-title>{{i+1}}: {{ques.question}}</mat-card-title>
+    </mat-card-header>
+    <mat-form-field class="example-full-width">
+      <mat-label>答え</mat-label>
+      <input matInput maxlength="256" placeholder="漢字とかひながらを入力してください。。" [(ngModel)]="ques.givenAnswer">
+    </mat-form-field>
+
+  </mat-card-content>
+  <button mat-flat-button style="max-width: 30%;" color="primary" (click)="submitQuiz()">送信</button>
+</mat-card>
+
+<mat-cart *ngIf="isSubmit">
+  <mat-card-title>正解数 :{{ correctAnswer }}</mat-card-title>
+<mat-divider></mat-divider>
+<mat-card-title>回答した質問の数: {{ attempted }}/{{questions.length}}</mat-card-title>
+  <mat-card-content >
+
+    <mat-list *ngFor="let ques of questions; let i = index" style="text-align: left;">
+      <mat-card-header>
+        <mat-card-title>{{i+1}}: {{ques.question}}</mat-card-title>
+      </mat-card-header>
+      <mat-list-item *ngIf="ques.color" style="background-color: crimson;" >入力した答え： {{ques.givenAnswer}}</mat-list-item>
+      <mat-list-item *ngIf="!ques.color" style="background-color: cornflowerblue;" >入力した答え： {{ques.givenAnswer}}</mat-list-item>
+      <mat-list-item >解答： {{ques.ansList}}</mat-list-item>
+      <mat-list-item>Note: {{ques.note}}</mat-list-item>
+      <youtube-player
+      [videoId]="videoId"
+      (ready)="savePlayer($event)"
+      (change)="onStateChange($event)"
+    ></youtube-player>
+    </mat-list>
+  </mat-card-content>
+  <div class="container mt-3">
+    <button  mat-flat-button color="primary"  (click)="toHome()">
+      ホーム
+    </button>
+  </div>
+</mat-cart>

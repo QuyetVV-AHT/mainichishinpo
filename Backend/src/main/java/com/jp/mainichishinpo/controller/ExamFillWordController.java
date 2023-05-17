@@ -1,14 +1,9 @@
 package com.jp.mainichishinpo.controller;
 
-import com.jp.mainichishinpo.entity.Exam;
-import com.jp.mainichishinpo.entity.ExamFillWord;
-import com.jp.mainichishinpo.entity.Question;
-import com.jp.mainichishinpo.entity.QuestionFillWord;
+import com.jp.mainichishinpo.entity.*;
 import com.jp.mainichishinpo.payload.request.ExamRequest;
 import com.jp.mainichishinpo.payload.response.MessageResponse;
-import com.jp.mainichishinpo.service.ExamFillWordService;
-import com.jp.mainichishinpo.service.FilesStorageService;
-import com.jp.mainichishinpo.service.QuestionFillWordService;
+import com.jp.mainichishinpo.service.*;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,6 +35,10 @@ public class ExamFillWordController {
     private QuestionFillWordService questionFillWordService;
     @Autowired
     private ExamFillWordService examFillWordService;
+    @Autowired
+    private UserService userService;
+    @Autowired
+    private ResultService resultService;
 
     @PostMapping("/create-exam-by-excel")
     public ResponseEntity<MessageResponse> uploadFile(@RequestParam("file") MultipartFile file) {
@@ -102,5 +101,54 @@ public class ExamFillWordController {
         exam.setActive(isActive);
         examFillWordService.save(exam);
         return ResponseEntity.ok(new MessageResponse("Active/Deactive success"));
+    }
+
+    @PostMapping("/send_result/{examId}")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<?> sendResult(@PathVariable Long examId, @Valid @RequestBody String mark){
+        User user =  userService.currentUser();
+        resultService.save(examId, user, mark);
+        return ResponseEntity.ok(new MessageResponse("return result"));
+    }
+
+    @PostMapping("/create-exam-with-audio-by-excel")
+    public ResponseEntity<MessageResponse> createExamWithAudioByExcel(@RequestParam("file") MultipartFile file) {
+        String message = "";
+        final String regex = "(.*)(?=\\.)";
+        final Pattern pattern = Pattern.compile(regex, Pattern.MULTILINE);
+        try {
+            if(Files.exists(Paths.get("uploads/" + file.getOriginalFilename()))){
+                Files.delete(Paths.get("uploads/" + file.getOriginalFilename()));
+            }
+//            Luu file vao folder
+            logger.info("Saving file in folder upload");
+            storageService.save(file);
+            List<QuestionFillWord> questionFillWordList = storageService.getExcelDataAsListForFillWord(file.getOriginalFilename());
+
+            // Sau khi da luu cau hoi vao DB
+            Set<QuestionFillWord> questionsFillWordListForExam = storageService.saveExcelDataFillWord(questionFillWordList);
+            ExamFillWord examFillWord = new ExamFillWord();
+            final Matcher matcher = pattern.matcher(file.getOriginalFilename());
+            if(matcher.find()){
+                examFillWord.setExam_name(matcher.group(0));
+            }else {
+                examFillWord.setExam_name(file.getOriginalFilename());
+            }
+            examFillWord.setQuestionFillWords(questionsFillWordListForExam);
+            examFillWord.setActive(false);
+            examFillWord.setType("fillword");
+            examFillWord.setHasAudio(true);
+            examFillWord.setUrl_audio(file.getOriginalFilename().replace(".xlsx", ".mp3"));
+            examFillWordService.save(examFillWord);
+
+            message = "Uploaded the file successfully: " + file.getOriginalFilename() + " and create " + examFillWord.getExam_name() + " exam fillword";
+            logger.info(message);
+
+            return ResponseEntity.status(HttpStatus.OK).body(new MessageResponse(message));
+        } catch (Exception e) {
+            message = "Could not upload the file: " + file.getOriginalFilename() + ". Error: " + e.getMessage();
+            logger.error(message);
+            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new MessageResponse(message));
+        }
     }
 }

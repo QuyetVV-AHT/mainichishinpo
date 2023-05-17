@@ -35,6 +35,11 @@ public class Result {
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Exam exam;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name="exam_fillword_id")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    private ExamFillWord examFillWord;
+
     private LocalDateTime create_at;
 
 }

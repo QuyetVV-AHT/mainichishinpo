@@ -10,7 +10,8 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "postinstall": "ngcc"
   },
   "private": true,
   "dependencies": {
@@ -35,9 +36,11 @@
     "@coreui/utils": "^2.0.1",
     "angular-material-pagination": "^1.0.2",
     "chart.js": "^3.9.1",
+    "ngx-audio-player": "^11.0.4",
     "ngx-pagination": "^6.0.3",
     "ngx-perfect-scrollbar": "^10.1.1",
     "ngx-toastr": "^16.1.1",
+    "ngx-youtube-player": "^12.0.2",
     "rxjs": "~7.8.0",
     "sweetalert2": "^11.7.5",
     "tslib": "^2.3.0",

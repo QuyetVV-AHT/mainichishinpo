@@ -6,11 +6,11 @@ import { QuestionService } from 'src/app/_services/question.service';
 import Swal from 'sweetalert2';
 
 @Component({
-  selector: 'app-e-start',
-  templateUrl: './e-start.component.html',
-  styleUrls: ['./e-start.component.scss']
+  selector: 'app-e-start-fillword',
+  templateUrl: './e-start-fillword.component.html',
+  styleUrls: ['./e-start-fillword.component.scss']
 })
-export class EStartComponent implements OnInit {
+export class EStartFillwordComponent implements OnInit {
   examId: any;
   type!: string;
   examname!: string;
@@ -27,7 +27,7 @@ export class EStartComponent implements OnInit {
   test: number = 0;
   title_exam: string | undefined;
   player: YT.Player | undefined;
-  id: string = 'Ww1xMDOM7oQ';
+  videoId: string = 'Ww1xMDOM7oQ';
   displayedColumns: string[] = ['question', 'ans_A', 'ans_B','ans_C','ans_D','ans_Correct','note'];
   constructor(
     private locationStrategy: LocationStrategy,
@@ -48,15 +48,6 @@ export class EStartComponent implements OnInit {
   loadQuestions() {
     this.examService.getExamByIdAndExamName(this.examId, this.examname, this.type).subscribe(
       (data) => {
-        if(this.type === 'normal'){
-          this.questions = data.questions;
-          this.title_exam = data.exam_name;
-          this.questions.forEach((ques: any) => {
-            ques['givenAnswer'] = '';
-          });
-          this.startTimer();
-        }
-
         if(this.type === 'fillword'){
           this.questions = data.questionFillWords;
           this.title_exam = data.exam_name;
@@ -126,7 +117,7 @@ export class EStartComponent implements OnInit {
 
 
     let mark= this.correctAnswer+"/"+this.questions.length;
-    this.examService.sendResutl(this.examId, mark).subscribe(data=>{
+    this.examService.sendResutlFillWord(this.examId, mark).subscribe(data=>{
     })
   }
   getColor(ans: string, givenAnswer: string, correctAnswer: string){

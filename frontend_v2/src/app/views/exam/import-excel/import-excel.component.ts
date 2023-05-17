@@ -17,6 +17,7 @@ export class ImportExcelComponent implements OnInit{
   file!: File;
   normal = false;
   fillword = false;
+  fillword_audio = false;
   constructor(private examService: ExamService,
     private router: Router,
     private toastrService: ToastrService,
@@ -26,6 +27,7 @@ export class ImportExcelComponent implements OnInit{
   ngOnInit(): void {
     this.normal = false;
   this.fillword = false;
+  this.fillword_audio = false;
   }
 
       // On file Select
@@ -48,6 +50,11 @@ export class ImportExcelComponent implements OnInit{
     })};
     if(this.fillword){
       this.examService.createExamFillWordByExcel(formData).subscribe(data =>{
+        this.router.navigate(['exam/list']);
+      })
+    }
+    if(this.fillword_audio){
+      this.examService.createExamFillWordWithAudioByExcel(formData).subscribe(data =>{
         this.router.navigate(['exam/list']);
       })
     }

@@ -50,6 +50,10 @@ export class ExamService {
     return this.httpClient.post<any>(`${this.Exam_URL + 'send_result'}/${examId}`, mark);
   }
 
+  sendResutlFillWord(examId: number, mark: string): Observable<any>{
+    return this.httpClient.post<any>(`${this.ExamFillWord_URL + 'send_result'}/${examId}`, mark);
+  }
+
   activeExam(examId: number, isActive: any):Observable<any>{
     return this.httpClient.post<any>(`${this.Exam_URL + 'active'}/${examId}`, isActive);
   }
@@ -62,5 +66,9 @@ export class ExamService {
   }
   createExamFillWordByExcel(formData: FormData):Observable<any>{
     return this.httpClient.post<any>(this.ExamFillWord_URL + 'create-exam-by-excel', formData);
+  }
+
+  createExamFillWordWithAudioByExcel(formData: FormData):Observable<any>{
+    return this.httpClient.post<any>(`${this.ExamFillWord_URL + 'create-exam-with-audio-by-excel'}`, formData);
   }
 }
