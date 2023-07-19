@@ -27,11 +27,11 @@
       <mat-list-item *ngIf="!ques.color" style="background-color: cornflowerblue;" >入力した答え： {{ques.givenAnswer}}</mat-list-item>
       <mat-list-item >解答： {{ques.ansList}}</mat-list-item>
       <mat-list-item>Note: {{ques.note}}</mat-list-item>
-      <youtube-player
+      <!-- <youtube-player
       [videoId]="videoId"
       (ready)="savePlayer($event)"
       (change)="onStateChange($event)"
-    ></youtube-player>
+    ></youtube-player> -->
     </mat-list>
   </mat-card-content>
   <div class="container mt-3">

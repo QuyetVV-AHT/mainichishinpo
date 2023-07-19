@@ -28,10 +28,11 @@ import java.security.Principal;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import static com.jp.mainichishinpo.util.ParamKey.*;
 
-@CrossOrigin(origins={"http://localhost:4200","http://ec2-18-224-40-219.us-east-2.compute.amazonaws.com"}, maxAge = 86400, allowCredentials="true")
+@CrossOrigin(origins={"http://localhost:4200","http://ec2-44-204-23-139.compute-1.amazonaws.com"}, maxAge = 86400, allowCredentials="true")
 @RestController
 @RequestMapping("/api/exam")
 @PreAuthorize("hasRole('MODERATOR') or hasRole('ADMIN')")
@@ -133,10 +134,20 @@ public class ExamController {
     public ResponseEntity<?> getExamByIdAndExamName(@PathVariable Long id,@PathVariable String examname, @PathVariable String type) {
         if(type.equals("normal")){
             Exam result = examService.findByIdAndExamName(id,examname);
+            Set<Question> set = result.getQuestions();
+            Set<Question> finalList = set.stream()
+                    .sorted(Comparator.comparingLong(Question::getId)) // sort while streaming
+                    .collect(Collectors.toCollection(LinkedHashSet::new));
+            result.setQuestions(finalList);
             return ResponseEntity.ok(result);
         }
         if(type.equals("fillword")){
             ExamFillWord result =  examFillWordService.findByIdAndExamName(id, examname);
+            Set<QuestionFillWord> setQuestionFillWords = result.getQuestionFillWords();
+            Set<QuestionFillWord> finalList = setQuestionFillWords.stream()
+                    .sorted(Comparator.comparingLong(QuestionFillWord::getId)) // sort while streaming
+                    .collect(Collectors.toCollection(LinkedHashSet::new));
+            result.setQuestionFillWords(finalList);
             return ResponseEntity.ok(result);
         }
         return ResponseEntity.badRequest().body(new MessageResponse("Error: Exam not exist!"));

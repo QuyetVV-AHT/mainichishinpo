@@ -123,11 +123,11 @@
             <li  [ngStyle]="{'color': getColor(ques.ans_D, ques.givenAnswer, ques.ans_Correct)}">D: {{ques.ans_D}}</li>
             <li  style="color: tomato;">解答: {{ques.ans_Correct}}</li>
             <li >Note: {{ques.note}}</li>
-            <youtube-player
-            [videoId]="id"
+            <!-- <youtube-player
+            [videoId]="videoId"
             (ready)="savePlayer($event)"
             (change)="onStateChange($event)"
-          ></youtube-player>
+          ></youtube-player> -->
           </ul>
         </c-card>
       </c-card>

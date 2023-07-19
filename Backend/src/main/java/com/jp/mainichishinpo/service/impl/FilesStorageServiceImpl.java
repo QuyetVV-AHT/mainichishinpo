@@ -24,6 +24,7 @@ import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -150,6 +151,7 @@ public class FilesStorageServiceImpl implements FilesStorageService {
             ques.setAns_D(excelData.get(i + 4));
             ques.setAns_Correct(excelData.get(i + 5));
             ques.setNote(excelData.get(i + 6));
+            ques.setCreate_at(LocalDateTime.now());
 
             questionArrayList.add(ques);
             i = i + (noOfColumns);
@@ -238,6 +240,7 @@ public class FilesStorageServiceImpl implements FilesStorageService {
                 ansList = ansList + ",";
             }
             ques.setAnsList(ansList);
+            ques.setCreate_at(LocalDateTime.now());
             ques.setNote(excelData.get(i + 2));
 
             questionFillWords.add(ques);

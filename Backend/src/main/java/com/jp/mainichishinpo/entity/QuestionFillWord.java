@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -29,4 +30,5 @@ public class QuestionFillWord {
 
     @Column
     private String note;
+    private LocalDateTime create_at;
 }

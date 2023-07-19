@@ -26,7 +26,7 @@ import java.util.Optional;
 
 import static com.jp.mainichishinpo.util.ParamKey.*;
 
-@CrossOrigin(origins={"http://localhost:4200","http://ec2-18-224-40-219.us-east-2.compute.amazonaws.com"}, maxAge = 86400, allowCredentials="true")
+@CrossOrigin(origins={"http://localhost:4200","http://ec2-44-204-23-139.compute-1.amazonaws.com"}, maxAge = 86400, allowCredentials="true")
 @RestController
 @RequestMapping("/api/posts")
 @PreAuthorize("hasRole('MODERATOR') or hasRole('ADMIN')")

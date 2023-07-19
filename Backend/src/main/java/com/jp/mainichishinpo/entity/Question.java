@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Getter
 @Setter
@@ -23,6 +25,7 @@ public class Question {
 
     @Column
     private String ans_A;
+    private LocalDateTime create_at;
 
     @Column
     private String ans_B;

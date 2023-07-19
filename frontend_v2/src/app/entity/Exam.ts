@@ -25,3 +25,4 @@ export class ExamDto{
   questionTotal: number| undefined;
   type: string|undefined;
 }
+

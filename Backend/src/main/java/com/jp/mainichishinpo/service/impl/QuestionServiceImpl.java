@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,6 +33,7 @@ public class QuestionServiceImpl implements QuestionService {
     @Override
     public Question save(Question question) {
         question.setQuestion(question.getQuestion().toLowerCase());
+        question.setCreate_at(LocalDateTime.now());
         return questionRepository.save(question);
     }
 
@@ -56,6 +58,7 @@ public class QuestionServiceImpl implements QuestionService {
         question.setAns_D(questionRequest.getAns_D());
         question.setAns_Correct(questionRequest.getAns_Correct());
         question.setNote(questionRequest.getNote());
+        question.setCreate_at(LocalDateTime.now());
         Long ques_Id = questionRepository.saveAndFlush(question).getId();
         return ques_Id;
     }

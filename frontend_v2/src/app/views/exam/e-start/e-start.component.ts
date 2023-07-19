@@ -27,7 +27,7 @@ export class EStartComponent implements OnInit {
   test: number = 0;
   title_exam: string | undefined;
   player: YT.Player | undefined;
-  id: string = 'Ww1xMDOM7oQ';
+  videoId: string = 'Ww1xMDOM7oQ';
   displayedColumns: string[] = ['question', 'ans_A', 'ans_B','ans_C','ans_D','ans_Correct','note'];
   constructor(
     private locationStrategy: LocationStrategy,
